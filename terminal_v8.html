@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cássia Prompt V8 - God Mode</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --danger: #ef4444;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .hub-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+        .header { text-align: center; margin-bottom: 20px; }
+        .saldo-box {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-align: center;
+            margin: 10px 0;
+            padding: 15px;
+            border-bottom: 2px solid #334155;
+        }
+        .input-area { margin-bottom: 20px; }
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            border: none;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .grid-botoes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        button {
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            color: white;
+        }
+        button:active { transform: scale(0.95); }
+        .btn-cafe { background: #8b4513; }
+        .btn-super { background: #16a34a; }
+        .btn-lazer { background: #9333ea; }
+        .btn-transp { background: #2563eb; }
+        
+        .historico {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .item-gasto {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-bottom: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hub-container">
+    <div class="header">
+        <h2 style="margin:0;">CÁSSIA PROMPT V8</h2>
+        <small>God Mode - Terminal de Lançamento</small>
+    </div>
+
+    <div class="saldo-box" id="saldoDisplay">€ 1.500,00</div>
+
+    <div class="input-area">
+        <input type="number" id="valorInput" placeholder="0,00" step="0.01">
+    </div>
+
+    <div class="grid-botoes">
+        <button class="btn-cafe" onclick="lancar('Café')">☕ Café</button>
+        <button class="btn-super" onclick="lancar('Super')">🛒 Super</button>
+        <button class="btn-lazer" onclick="lancar('Lazer')">🎉 Lazer</button>
+        <button class="btn-transp" onclick="lancar('Transp')">🚗 Transp</button>
+    </div>
+
+    <div class="historico" id="historico">
+        <strong>Últimos Lançamentos:</strong>
+        </div>
+</div>
+
+<script>
+    let saldo = 1500.00;
+
+    function lancar(categoria) {
+        const input = document.getElementById('valorInput');
+        const valor = parseFloat(input.value);
+
+        if (isNaN(valor) || valor <= 0) {
+            alert("Insira um valor válido.");
+            return;
+        }
+
+        // Atualiza Saldo
+        saldo -= valor;
+        document.getElementById('saldoDisplay').innerText = `€ ${saldo.toLocaleString('pt-PT', {minimumFractionDigits: 2})}`;
+
+        // Adiciona ao Histórico
+        const lista = document.getElementById('historico');
+        const hora = new Date().toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'});
+        const novoItem = document.createElement('div');
+        novoItem.className = 'item-gasto';
+        novoItem.innerHTML = `<span>${hora} - ${categoria}</span> <span style="color:#ef4444">-€ ${valor.toFixed(2)}</span>`;
+        
+        lista.insertBefore(novoItem, lista.firstChild.nextSibling);
+
+        // Limpa Input
+        input.value = '';
+    }
+</script>
+
+</body>
+</html>
