@@ -1510,19 +1510,15 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <button class="tab" onclick="openTab('streak')"><span class="tab-icon">🔥</span>Streak</button>
-    <button class="tab active" onclick="openTab('doc')"><span class="tab-icon">📄</span>Documento</button>
-    <button class="tab" onclick="openTab('flash')"><span class="tab-icon">🃏</span>Flashcards</button>
-    <button class="tab" onclick="openTab('rules')"><span class="tab-icon">⚡</span>50 Regras</button>
-    <button class="tab" onclick="openTab('honorarios')"><span class="tab-icon">💰</span>Honorários</button>
-    <button class="tab" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
-    <button class="tab" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
-    <button class="tab" onclick="openTab('mapa')"><span class="tab-icon">🗺️</span>Mapa Mental</button>
-    <button class="tab" onclick="openTab('ia')"><span class="tab-icon">🤖</span>Assistente IA</button>
-    <button class="tab" onclick="openTab('conquistas')"><span class="tab-icon">🏅</span>Conquistas</button>
-    <button class="tab" onclick="openTab('batalha')"><span class="tab-icon">⚔️</span>Batalha</button>
-    <button class="tab" onclick="openTab('plano')"><span class="tab-icon">📅</span>Plano 30d</button>
-    <button class="tab" onclick="openTab('analise')"><span class="tab-icon">📊</span>Análise IA</button>
+    <button class="tab active" id="tab-doc" onclick="openTab('doc')"><span class="tab-icon">📄</span>Documento</button>
+    <button class="tab" id="tab-flash" onclick="openTab('flash')"><span class="tab-icon">🃏</span>Flashcards</button>
+    <button class="tab" id="tab-rules" onclick="openTab('rules')"><span class="tab-icon">⚡</span>50 Regras</button>
+    <button class="tab" id="tab-honorarios" onclick="openTab('honorarios')"><span class="tab-icon">💰</span>Honorários</button>
+    <button class="tab" id="tab-quiz" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
+    <button class="tab" id="tab-desafios" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
+    <button class="tab" id="tab-mapa" onclick="openTab('mapa')"><span class="tab-icon">🗺️</span>Mapa</button>
+    <button class="tab" id="tab-ia" onclick="openTab('ia')"><span class="tab-icon">🤖</span>IA</button>
+    <button class="tab" id="tab-conquistas" onclick="openTab('conquistas')"><span class="tab-icon">🏅</span>Conquistas</button>
   </div>
 </nav>
 
@@ -2594,37 +2590,23 @@ footer {
 //  TAB NAVIGATION
 // ============================================================
 function openTab(id) {
-  // Remove active from all panels and tabs
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-  // Show the panel
-  const panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.add('active');
-
-  // Activate matching tab button
-  document.querySelectorAll('.tab').forEach(t => {
-    if (t.getAttribute('onclick') === "openTab('" + id + "')") t.classList.add('active');
+  // Hide all panels
+  document.querySelectorAll('.panel').forEach(function(p) {
+    p.classList.remove('active');
   });
-
-  // Panel-specific init
-  if (id === 'mapa') setTimeout(initMapa, 80);
-  if (id === 'conquistas') { checkBadges(true); renderConquistas(); }
-  if (id === 'plano') { if (typeof renderPlano === 'function') renderPlano(); }
-  if (id === 'analise') { if (typeof renderAnalise === 'function') renderAnalise(); }
-  if (id === 'streak') { if (typeof renderStreak === 'function') renderStreak(); }
-  if (id === 'batalha') { if (typeof updateBatalhaStats === 'function') updateBatalhaStats(); }
-
-  // Smooth fade-in
-  if (panel) {
-    panel.style.opacity = '0';
-    panel.style.transform = 'translateY(8px)';
-    requestAnimationFrame(() => {
-      panel.style.transition = 'opacity .25s ease, transform .25s ease';
-      panel.style.opacity = '1';
-      panel.style.transform = 'translateY(0)';
-    });
-  }
+  // Deactivate all tabs
+  document.querySelectorAll('.tab').forEach(function(t) {
+    t.classList.remove('active');
+  });
+  // Show target panel
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  // Activate target tab
+  var tabBtn = document.getElementById('tab-' + id);
+  if (tabBtn) tabBtn.classList.add('active');
+  // Special inits
+  if (id === 'mapa') { setTimeout(function(){ if(typeof initMapa==='function') initMapa(); }, 80); }
+  if (id === 'conquistas') { if(typeof checkBadges==='function') checkBadges(true); if(typeof renderConquistas==='function') renderConquistas(); }
 }
 
 // ============================================================
