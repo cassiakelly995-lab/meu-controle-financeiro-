@@ -1888,10 +1888,6 @@ const quizData = [
 ];
 
 // ============================================================
-//  QUIZ ENGINE
-// ============================================================
-let qIdx = 0, qScore = 0, timer = null, timerVal = 45;
-// ============================================================
 //  QUIZ POR FASES
 // ============================================================
 const faseConfig = [
@@ -1930,7 +1926,6 @@ function startQuiz() {
 }
 
 function renderQuestion() {
-  const fase = faseConfig[faseAtual];
   const fase = faseConfig[faseAtual];
   const qGlobal = faseConfig.slice(0, faseAtual).reduce(function(a,f){ return a+f.qtd; }, 0) + qIdxFase;
 
