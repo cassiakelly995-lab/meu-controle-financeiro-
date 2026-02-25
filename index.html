@@ -715,6 +715,201 @@ body.no-3d .flashcard.flipped .fc-back {
   pointer-events:auto;
 }
 
+
+/* ===================================================
+   MAPA MENTAL
+=================================================== */
+#mapa-container { min-height: 520px; cursor: grab; }
+#mapa-container:active { cursor: grabbing; }
+
+/* ===================================================
+   ASSISTENTE IA
+=================================================== */
+.ia-container {
+  max-width: 860px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.ia-suggestions {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+}
+.ia-sug-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--gold); margin-bottom: 10px;
+}
+.ia-sug-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.ia-sug-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text-muted); padding: 8px 12px; border-radius: 8px;
+  font-size: .8rem; text-align: left; cursor: pointer;
+  transition: all .2s; font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+.ia-sug-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--surface3); }
+
+.ia-chat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  min-height: 300px; max-height: 420px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 16px;
+  scroll-behavior: smooth;
+}
+.ia-msg { display: flex; gap: 12px; align-items: flex-start; }
+.ia-msg.ia-msg-user { flex-direction: row-reverse; }
+.ia-avatar {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.ia-msg.ia-msg-user .ia-avatar {
+  background: var(--surface3); border: 1px solid var(--border);
+}
+.ia-bubble {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 12px 16px;
+  font-size: .88rem; line-height: 1.7; color: var(--text);
+  max-width: 82%;
+}
+.ia-msg.ia-msg-user .ia-bubble {
+  background: rgba(201,168,76,.12); border-color: rgba(201,168,76,.3);
+  color: var(--text);
+}
+.ia-bubble strong { color: var(--gold); }
+.ia-bubble em { color: var(--text-muted); }
+.ia-typing { display: flex; gap: 4px; padding: 8px 0; align-items: center; }
+.ia-typing span {
+  width: 7px; height: 7px; background: var(--gold); border-radius: 50%;
+  animation: typing-bounce .9s infinite;
+}
+.ia-typing span:nth-child(2) { animation-delay: .15s; }
+.ia-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+
+.ia-input-row {
+  display: flex; gap: 10px;
+}
+.ia-input {
+  flex: 1; padding: 14px 18px;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 12px; color: var(--text); font-size: .95rem;
+  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color .2s;
+}
+.ia-input:focus { border-color: var(--gold); }
+.ia-send-btn {
+  width: 52px; height: 52px; border-radius: 12px; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--obsidian); font-size: 18px; font-weight: 900;
+  transition: all .2s; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ia-send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(201,168,76,.4); }
+.ia-send-btn:disabled { opacity: .5; transform: none; }
+
+/* ===================================================
+   CONQUISTAS
+=================================================== */
+.conquistas-stats {
+  display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;
+}
+.cq-stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 20px; flex: 1; min-width: 120px;
+  text-align: center;
+}
+.cq-stat strong {
+  display: block; font-size: 2rem; font-weight: 900;
+  color: var(--gold); font-family: 'DM Mono', monospace;
+}
+.cq-stat span { font-size: .8rem; color: var(--text-muted); }
+
+.conquistas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.conquista-card {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 16px; padding: 24px 20px; text-align: center;
+  position: relative; overflow: hidden; transition: all .3s;
+}
+.conquista-card.unlocked {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(201,168,76,.08), var(--surface));
+}
+.conquista-card.unlocked::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright), var(--gold-dark));
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.conquista-card.locked { opacity: .45; filter: grayscale(.7); }
+.cq-badge-icon {
+  font-size: 3rem; margin-bottom: 12px; display: block;
+  transition: transform .3s;
+}
+.conquista-card.unlocked:hover .cq-badge-icon { transform: scale(1.2) rotate(5deg); }
+.cq-badge-name {
+  font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 6px;
+}
+.conquista-card.unlocked .cq-badge-name { color: var(--gold); }
+.cq-badge-desc {
+  font-size: .78rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;
+}
+.cq-badge-status {
+  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  padding: 4px 12px; border-radius: 20px; display: inline-block;
+}
+.conquista-card.unlocked .cq-badge-status {
+  background: rgba(201,168,76,.2); color: var(--gold); border: 1px solid var(--gold);
+}
+.conquista-card.locked .cq-badge-status {
+  background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border);
+}
+.cq-unlock-anim {
+  animation: unlock-pop .5s cubic-bezier(.175,.885,.32,1.275);
+}
+@keyframes unlock-pop {
+  0% { transform: scale(.8); opacity: 0; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Toast notification */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--obsidian); padding: 14px 20px; border-radius: 12px;
+  font-weight: 700; font-size: .9rem; box-shadow: 0 8px 32px rgba(201,168,76,.4);
+  transform: translateY(100px); opacity: 0;
+  transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+  max-width: 320px; display: flex; align-items: center; gap: 10px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+@media(max-width:479px) {
+  .ia-sug-grid { grid-template-columns: 1fr; }
+  .ia-chat { max-height: 320px; }
+  .conquistas-grid { grid-template-columns: repeat(2, 1fr); }
+  .conquista-card { padding: 16px 12px; }
+  .cq-badge-icon { font-size: 2.2rem; }
+  #mapa-container { min-height: 360px; }
+}
+@media(min-width:480px) and (max-width:767px) {
+  .conquistas-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--obsidian); }
@@ -958,6 +1153,9 @@ footer {
     <button class="tab" onclick="openTab('honorarios')"><span class="tab-icon">💰</span>Honorários</button>
     <button class="tab" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
     <button class="tab" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
+    <button class="tab" onclick="openTab('mapa')"><span class="tab-icon">🗺️</span>Mapa Mental</button>
+    <button class="tab" onclick="openTab('ia')"><span class="tab-icon">🤖</span>Assistente IA</button>
+    <button class="tab" onclick="openTab('conquistas')"><span class="tab-icon">🏅</span>Conquistas</button>
   </div>
 </nav>
 
@@ -1789,6 +1987,81 @@ footer {
   <div class="challenges-grid" id="challengesContainer"></div>
 </div>
 
+
+
+<!-- ============================
+     ABA 7: MAPA MENTAL
+============================= -->
+<div id="panel-mapa" class="panel">
+  <div class="section-header">
+    <div class="section-title">Mapa Mental — Convênio 001/2026</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Clique nos nós para explorar cada tema do convênio</div>
+  </div>
+  <div id="mapa-container" style="position:relative; width:100%; overflow:hidden; border-radius:16px; border:1px solid var(--border); background:var(--surface);">
+    <canvas id="mapaCanvas" style="display:block; width:100%;"></canvas>
+    <div id="mapa-tooltip" style="display:none; position:absolute; background:var(--surface2); border:1px solid var(--gold); border-radius:10px; padding:14px 18px; max-width:280px; z-index:10; pointer-events:none; box-shadow:0 8px 32px rgba(0,0,0,.5);">
+      <div id="mapa-tip-title" style="color:var(--gold); font-weight:700; font-family:'Playfair Display',serif; margin-bottom:8px; font-size:.95rem;"></div>
+      <div id="mapa-tip-body" style="color:var(--text-muted); font-size:.8rem; line-height:1.6;"></div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:12px; font-size:11px; color:var(--text-muted);">
+    🖱️ Clique nos nós para ver detalhes • Arraste para navegar • Scroll para zoom
+  </div>
+</div>
+
+<!-- ============================
+     ABA 8: ASSISTENTE IA
+============================= -->
+<div id="panel-ia" class="panel">
+  <div class="section-header">
+    <div class="section-title">Assistente IA — DPE-OAB Expert</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Tire dúvidas sobre qualquer artigo do convênio em linguagem simples</div>
+  </div>
+  <div class="ia-container">
+    <div class="ia-suggestions">
+      <div class="ia-sug-title">💡 Perguntas frequentes:</div>
+      <div class="ia-sug-grid">
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">Quais áreas o convênio NÃO cobre?</button>
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">Como funciona o pagamento de honorários?</button>
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">Quais são as penalidades por infração?</button>
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">Qual o prazo para ajuizar ação cível?</button>
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">Como é o requisito para atuar no Júri?</button>
+        <button class="ia-sug-btn" onclick="sendSuggestion(this)">O que é o ANPP no convênio?</button>
+      </div>
+    </div>
+    <div class="ia-chat" id="iaChat">
+      <div class="ia-msg ia-msg-bot">
+        <div class="ia-avatar">⚖️</div>
+        <div class="ia-bubble">
+          <strong>Olá! Sou o Assistente IA do Convênio DPE-OAB 001/2026.</strong><br><br>
+          Estou aqui para explicar qualquer artigo, regra ou dúvida sobre o convênio em linguagem clara e direta. Pode perguntar! 👇
+        </div>
+      </div>
+    </div>
+    <div class="ia-input-row">
+      <input id="iaInput" class="ia-input" type="text" placeholder="Ex: O que acontece se o advogado cobrar o cliente?" onkeydown="if(event.key==='Enter')sendIA()" />
+      <button class="ia-send-btn" onclick="sendIA()" id="iaSendBtn">
+        <span id="iaSendIcon">➤</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     ABA 9: CONQUISTAS
+============================= -->
+<div id="panel-conquistas" class="panel">
+  <div class="section-header">
+    <div class="section-title">Conquistas & Badges</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">20 conquistas para desbloquear — cada uma celebra um marco de aprendizado</div>
+  </div>
+  <div class="conquistas-stats" id="conquistasStats"></div>
+  <div class="conquistas-grid" id="conquistasGrid"></div>
+</div>
+
 </main>
 
 <footer>
@@ -2518,6 +2791,458 @@ challenges.forEach(c => {
 
 // Init history display
 renderHistory();
+
+
+// ============================================================
+//  TOAST NOTIFICATION
+// ============================================================
+function showToast(msg) {
+  let t = document.querySelector('.toast');
+  if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); }
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ============================================================
+//  CONQUISTAS (20 badges)
+// ============================================================
+const badgesDef = [
+  { id:'first_flash',   icon:'🃏', name:'Primeiro Flip',        desc:'Virou seu primeiro flashcard',                   check: () => flippedCount >= 1 },
+  { id:'ten_flash',     icon:'🔟', name:'Decuplista',           desc:'Virou 10 flashcards',                            check: () => flippedCount >= 10 },
+  { id:'all_flash',     icon:'🎴', name:'Mestre dos Cards',     desc:'Virou todos os 50 flashcards',                   check: () => flippedCount >= 50 },
+  { id:'first_fav',     icon:'❤️', name:'Primeiro Favorito',    desc:'Marcou um flashcard como favorito',              check: () => favorites.size >= 1 },
+  { id:'five_fav',      icon:'💝', name:'Colecionadora',        desc:'Marcou 5 flashcards como favoritos',             check: () => favorites.size >= 5 },
+  { id:'first_star',    icon:'⭐', name:'Primeira Estrela',     desc:'Avaliou um flashcard com 3 estrelas',            check: () => Object.values(masterScores).filter(v=>v===3).length >= 1 },
+  { id:'ten_stars',     icon:'🌟', name:'Céu Estrelado',        desc:'10 flashcards com domínio máximo (⭐⭐⭐)',       check: () => Object.values(masterScores).filter(v=>v===3).length >= 10 },
+  { id:'all_stars',     icon:'✨', name:'Galáxia de Ouro',      desc:'Todos os 50 flashcards com 3 estrelas',          check: () => Object.values(masterScores).filter(v=>v===3).length >= 50 },
+  { id:'read5',         icon:'📖', name:'Leitora Iniciante',    desc:'Leu 5 páginas do convênio',                      check: () => readPages.size >= 5 },
+  { id:'read12',        icon:'📚', name:'Meia Leitora',         desc:'Leu metade do convênio (12 páginas)',            check: () => readPages.size >= 12 },
+  { id:'read24',        icon:'🏛️', name:'Doutora do Convênio',  desc:'Leu todas as 24 páginas',                        check: () => readPages.size >= 24 },
+  { id:'quiz_done',     icon:'🎯', name:'Primeira Prova',       desc:'Completou o quiz pela primeira vez',             check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).length >= 1 },
+  { id:'quiz_60',       icon:'🥉', name:'Aprovada',             desc:'Atingiu ≥60% no quiz',                           check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).some(h=>parseInt(h.pct)>=60) },
+  { id:'quiz_70',       icon:'🥈', name:'Bem Acima da Média',   desc:'Atingiu ≥70% no quiz',                           check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).some(h=>parseInt(h.pct)>=70) },
+  { id:'quiz_80',       icon:'🥇', name:'Especialista Avançada',desc:'Atingiu ≥80% no quiz',                           check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).some(h=>parseInt(h.pct)>=80) },
+  { id:'quiz_90',       icon:'🏆', name:'Elite DPE-OAB',        desc:'Atingiu ≥90% no quiz — domínio total!',          check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).some(h=>parseInt(h.pct)>=90) },
+  { id:'quiz_100',      icon:'💎', name:'Perfeição Absoluta',   desc:'Gabaritou o quiz — 50/50!',                      check: () => (JSON.parse(localStorage.getItem('dpe_quiz_history')||'[]')).some(h=>parseInt(h.pct)===100) },  // fixed: was h.pct>=100 but pct is string
+  { id:'ia_used',       icon:'🤖', name:'Primeira Consulta IA', desc:'Fez sua primeira pergunta ao Assistente IA',     check: () => parseInt(localStorage.getItem('dpe_ia_count')||'0') >= 1 },
+  { id:'ia_power',      icon:'🧠', name:'Pesquisadora',         desc:'Fez 10 perguntas ao Assistente IA',              check: () => parseInt(localStorage.getItem('dpe_ia_count')||'0') >= 10 },
+  { id:'mapa_used',     icon:'🗺️', name:'Cartógrafa Jurídica',  desc:'Explorou o mapa mental do convênio',             check: () => parseInt(localStorage.getItem('dpe_mapa_clicks')||'0') >= 3 },
+];
+
+let unlockedBadges = new Set(JSON.parse(localStorage.getItem('dpe_badges') || '[]'));
+
+function checkBadges(silent=false) {
+  badgesDef.forEach(b => {
+    if (!unlockedBadges.has(b.id) && b.check()) {
+      unlockedBadges.add(b.id);
+      localStorage.setItem('dpe_badges', JSON.stringify([...unlockedBadges]));
+      if (!silent) {
+        showToast('🏅 Conquista desbloqueada: <strong>' + b.name + '</strong> ' + b.icon);
+        setTimeout(() => renderConquistas(), 300);
+      }
+    }
+  });
+}
+
+function renderConquistas() {
+  const grid = document.getElementById('conquistasGrid');
+  const stats = document.getElementById('conquistasStats');
+  if (!grid) return;
+  
+  const total = badgesDef.length;
+  const unlocked = badgesDef.filter(b => unlockedBadges.has(b.id)).length;
+  const pct = Math.round(unlocked/total*100);
+  
+  stats.innerHTML = `
+    <div class="cq-stat"><strong>${unlocked}</strong><span>Desbloqueadas</span></div>
+    <div class="cq-stat"><strong>${total - unlocked}</strong><span>Bloqueadas</span></div>
+    <div class="cq-stat"><strong>${pct}%</strong><span>Progresso</span></div>
+    <div class="cq-stat" style="flex:2; background:var(--surface2);">
+      <div style="height:8px; background:var(--surface3); border-radius:4px; overflow:hidden; margin-bottom:6px;">
+        <div style="height:100%; width:${pct}%; background:linear-gradient(90deg,var(--gold-dark),var(--gold)); border-radius:4px; transition:width .8s;"></div>
+      </div>
+      <span style="font-size:.75rem;">${unlocked} de ${total} conquistas</span>
+    </div>
+  `;
+  
+  grid.innerHTML = '';
+  badgesDef.forEach(b => {
+    const isUnlocked = unlockedBadges.has(b.id);
+    const card = document.createElement('div');
+    card.className = 'conquista-card ' + (isUnlocked ? 'unlocked' : 'locked');
+    if (isUnlocked) card.classList.add('cq-unlock-anim');
+    card.innerHTML = `
+      <span class="cq-badge-icon">${isUnlocked ? b.icon : '🔒'}</span>
+      <div class="cq-badge-name">${b.name}</div>
+      <div class="cq-badge-desc">${b.desc}</div>
+      <span class="cq-badge-status">${isUnlocked ? '✅ Desbloqueada' : 'Bloqueada'}</span>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Check badges on key events (patch existing functions)
+const _origRateStar = rateStar;
+function rateStar(e, idx, stars) {
+  _origRateStar(e, idx, stars);
+  checkBadges();
+}
+
+// ============================================================
+//  ASSISTENTE IA (Claude API)
+// ============================================================
+const IA_CONTEXT = `Você é um assistente especialista no Convênio DPE-OAB/SP nº 001/2026.
+Responda de forma clara, direta e em linguagem simples. Use exemplos práticos quando útil.
+Use negrito para destacar termos-chave e prazos importantes.
+Conheça este conteúdo fundamental:
+- Vigência: 15 meses a partir de 1º/05/2026 | Valor: R$ 250 milhões
+- Áreas cobertas: Cível, Família/Sucessões, Criminal, IJ, Atividades Especiais
+- Áreas EXCLUÍDAS: eleitoral, administrativa, trabalhista, previdenciária
+- Certidões: até dia 25 de cada mês | Pagamento: 1º dia útil do 2º mês subsequente
+- Prazo ajuizamento cível: 30 dias após receber documentação (6 meses para coletar)
+- Honorários criminais: 100% absolutória s/recurso | 70%+30% c/recurso | 30% suspensão
+- Honorários cíveis: 100% procedência total s/recurso | 70%+30% c/recurso
+- Júri: 4 sessões plenárias OU 1 sessão + curso específico
+- Penalidades: advertência, suspensão (máx 18 meses), exclusão de área (24 meses), descredenciamento
+- Descredenciamento obrigatório: cobrar usuário, captar clientes, erro grave, 3ª suspensão
+- Prescrição: 5 anos para infrações e para certidões
+- E-mail obrigatório: @adv.oabsp.org.br
+- Substabelecimento: 1 vez por feito, 1 ato de audiência, sem honorários ao substabelecido
+- Ausência temporária: 60 dias/ano (2 períodos de 30 dias)
+Responda sempre em português brasileiro.`;
+
+let iaHistory = [];
+
+async function sendIA() {
+  const input = document.getElementById('iaInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  
+  const chat = document.getElementById('iaChat');
+  
+  // User message
+  chat.innerHTML += `<div class="ia-msg ia-msg-user">
+    <div class="ia-avatar">👤</div>
+    <div class="ia-bubble">${msg}</div>
+  </div>`;
+  
+  // Typing indicator
+  const typingId = 'typing-' + Date.now();
+  chat.innerHTML += `<div class="ia-msg ia-msg-bot" id="${typingId}">
+    <div class="ia-avatar">⚖️</div>
+    <div class="ia-bubble"><div class="ia-typing"><span></span><span></span><span></span></div></div>
+  </div>`;
+  chat.scrollTop = chat.scrollHeight;
+  
+  document.getElementById('iaSendBtn').disabled = true;
+  iaHistory.push({ role: 'user', content: msg });
+  
+  // Track IA usage for badge
+  const iaCount = parseInt(localStorage.getItem('dpe_ia_count') || '0') + 1;
+  localStorage.setItem('dpe_ia_count', iaCount);
+  
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: IA_CONTEXT,
+        messages: iaHistory
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content?.[0]?.text || 'Desculpe, não consegui processar sua pergunta.';
+    
+    iaHistory.push({ role: 'assistant', content: reply });
+    
+    // Format reply: bold, line breaks
+    const formatted = reply
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/
+/g, '<br>');
+    
+    document.getElementById(typingId).outerHTML = `<div class="ia-msg ia-msg-bot">
+      <div class="ia-avatar">⚖️</div>
+      <div class="ia-bubble">${formatted}</div>
+    </div>`;
+  } catch(e) {
+    document.getElementById(typingId).outerHTML = `<div class="ia-msg ia-msg-bot">
+      <div class="ia-avatar">⚖️</div>
+      <div class="ia-bubble" style="color:var(--red);">❌ Erro ao conectar com a IA. Verifique sua conexão.</div>
+    </div>`;
+  }
+  
+  document.getElementById('iaSendBtn').disabled = false;
+  chat.scrollTop = chat.scrollHeight;
+  checkBadges();
+}
+
+function sendSuggestion(btn) {
+  document.getElementById('iaInput').value = btn.textContent;
+  sendIA();
+}
+
+// ============================================================
+//  MAPA MENTAL (Canvas-based interactive mind map)
+// ============================================================
+const mapaNodes = [
+  { id:0, label:'CONVÊNIO
+001/2026', x:.5, y:.46, r:52, color:'#C9A84C', textColor:'#060810', main:true,
+    info:'<strong>Convênio DPE-OAB/SP 001/2026</strong><br>Assistência judiciária gratuita suplementar<br>Vigência: 15 meses a partir de 01/05/2026<br>Valor: R$ 250.000.000' },
+  { id:1, label:'ÁREAS
+COBERTAS', x:.22, y:.18, r:38, color:'#1C6B3A', textColor:'#fff',
+    info:'<strong>Áreas cobertas:</strong><br>• Cível<br>• Família e Sucessões<br>• Criminal<br>• Infância e Juventude<br>• Atividades Especiais (plantões, precatórias)' },
+  { id:2, label:'EXCLUSÕES', x:.5, y:.1, r:36, color:'#8B1A1A', textColor:'#fff',
+    info:'<strong>Áreas EXCLUÍDAS:</strong><br>• Eleitoral<br>• Administrativa<br>• Trabalhista<br>• Previdenciária<br>(mesmo em competência delegada à Justiça Estadual)' },
+  { id:3, label:'HONORÁRIOS', x:.78, y:.18, r:40, color:'#1A4E8B', textColor:'#fff',
+    info:'<strong>Sistema de honorários:</strong><br>• 100% — vitória total s/recurso<br>• 70%+30% — vitória c/recurso<br>• 60% — parcial/sucumbência<br>• 30% — suspensão, atuação parcial<br>Reajuste anual: IPC/FIPE' },
+  { id:4, label:'PRAZOS', x:.88, y:.46, r:36, color:'#6B3A1A', textColor:'#fff',
+    info:'<strong>Prazos críticos:</strong><br>• Certidões: até dia 25/mês<br>• Ajuizamento cível: 30 dias após docs<br>• Coleta de docs: 6 meses<br>• Protocolo certidão: 1 ano<br>• Prescrição: 5 anos' },
+  { id:5, label:'SANÇÕES', x:.78, y:.74, r:38, color:'#7A2D8B', textColor:'#fff',
+    info:'<strong>Penalidades:</strong><br>• Advertência (1ª falta leve)<br>• Suspensão máx. 18 meses<br>• Exclusão de área: 24 meses<br>• Descredenciamento<br>Nova inscrição: 2 anos após descred.' },
+  { id:6, label:'INSCRIÇÃO', x:.5, y:.82, r:36, color:'#1A6B6B', textColor:'#fff',
+    info:'<strong>Inscrições:</strong><br>• Mínimo 1x/ano | 15 dias de prazo<br>• E-mail: @adv.oabsp.org.br<br>• Não pode PF + Soc. Individual junto<br>• Júri: 4 sessões ou 1 + curso<br>• VD e IJ: curso específico' },
+  { id:7, label:'DEVERES
+ADV.', x:.22, y:.74, r:36, color:'#3A1A6B', textColor:'#fff',
+    info:'<strong>Deveres do advogado:</strong><br>• Atuar até trânsito em julgado<br>• Assistência TOTALMENTE GRATUITA<br>• Substab.: 1x por feito, 1 ato<br>• Ausência: 60 dias/ano<br>• Manter @adv.oabsp.org.br' },
+  { id:8, label:'CRIMINAL', x:.12, y:.46, r:36, color:'#3A6B1A', textColor:'#fff',
+    info:'<strong>Área Criminal:</strong><br>• Indicação: custódia, ANPP ou citação<br>• Nomeado na custódia = resp. por tudo<br>• Réu preso: adotar TODAS medidas de liberdade<br>• Execução penal: apenas hipóteses excepcionais' },
+];
+
+const mapaEdges = [
+  [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8]
+];
+
+let mapaScale = 1, mapaOffX = 0, mapaOffY = 0;
+let mapaDrag = false, mapaDragX = 0, mapaDragY = 0;
+let mapaCanvas, mapaCtx, mapaW, mapaH;
+let hoveredNode = null;
+
+function initMapa() {
+  mapaCanvas = document.getElementById('mapaCanvas');
+  if (!mapaCanvas) return;
+  mapaCtx = mapaCanvas.getContext('2d');
+  
+  function resize() {
+    const container = mapaCanvas.parentElement;
+    mapaW = container.clientWidth;
+    mapaH = Math.max(480, window.innerWidth < 480 ? 360 : 540);
+    mapaCanvas.width = mapaW;
+    mapaCanvas.height = mapaH;
+    mapaCanvas.style.height = mapaH + 'px';
+    drawMapa();
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  
+  // Mouse events
+  mapaCanvas.addEventListener('mousedown', e => {
+    mapaDrag = true;
+    mapaDragX = e.clientX - mapaOffX;
+    mapaDragY = e.clientY - mapaOffY;
+  });
+  mapaCanvas.addEventListener('mousemove', e => {
+    if (mapaDrag) {
+      mapaOffX = e.clientX - mapaDragX;
+      mapaOffY = e.clientY - mapaDragY;
+      drawMapa(); return;
+    }
+    const rect = mapaCanvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left - mapaOffX) / mapaScale;
+    const my = (e.clientY - rect.top - mapaOffY) / mapaScale;
+    const prev = hoveredNode;
+    hoveredNode = getNodeAt(mx, my);
+    if (hoveredNode !== prev) {
+      mapaCanvas.style.cursor = hoveredNode !== null ? 'pointer' : 'grab';
+      drawMapa();
+    }
+    if (hoveredNode !== null) showMapaTip(e, mapaNodes[hoveredNode]);
+    else hideMapaTip();
+  });
+  mapaCanvas.addEventListener('mouseup', e => {
+    if (!mapaDrag || (Math.abs(e.clientX - mapaDragX - mapaOffX) < 3)) {
+      const rect = mapaCanvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left - mapaOffX) / mapaScale;
+      const my = (e.clientY - rect.top - mapaOffY) / mapaScale;
+      const n = getNodeAt(mx, my);
+      if (n !== null) onNodeClick(n);
+    }
+    mapaDrag = false;
+  });
+  mapaCanvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    mapaScale = Math.max(.5, Math.min(2.5, mapaScale - e.deltaY * .001));
+    drawMapa();
+  }, {passive:false});
+  
+  // Touch events
+  let lastTouchDist = 0;
+  mapaCanvas.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      mapaDrag = true;
+      mapaDragX = e.touches[0].clientX - mapaOffX;
+      mapaDragY = e.touches[0].clientY - mapaOffY;
+    } else if (e.touches.length === 2) {
+      lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    }
+  }, {passive:true});
+  mapaCanvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 1 && mapaDrag) {
+      mapaOffX = e.touches[0].clientX - mapaDragX;
+      mapaOffY = e.touches[0].clientY - mapaDragY;
+      drawMapa();
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      mapaScale = Math.max(.5, Math.min(2.5, mapaScale * (dist / lastTouchDist)));
+      lastTouchDist = dist;
+      drawMapa();
+    }
+  }, {passive:false});
+  mapaCanvas.addEventListener('touchend', e => {
+    if (mapaDrag && e.changedTouches.length) {
+      const rect = mapaCanvas.getBoundingClientRect();
+      const t = e.changedTouches[0];
+      const mx = (t.clientX - rect.left - mapaOffX) / mapaScale;
+      const my = (t.clientY - rect.top - mapaOffY) / mapaScale;
+      const n = getNodeAt(mx, my);
+      if (n !== null) onNodeClick(n);
+    }
+    mapaDrag = false;
+  });
+}
+
+function getNodeAt(mx, my) {
+  for (let i = mapaNodes.length - 1; i >= 0; i--) {
+    const n = mapaNodes[i];
+    const nx = n.x * mapaW, ny = n.y * mapaH;
+    if (Math.hypot(mx - nx, my - ny) <= n.r) return i;
+  }
+  return null;
+}
+
+function onNodeClick(idx) {
+  const n = mapaNodes[idx];
+  showMapaTip(null, n, true);
+  // Track for badge
+  const c = parseInt(localStorage.getItem('dpe_mapa_clicks') || '0') + 1;
+  localStorage.setItem('dpe_mapa_clicks', c);
+  checkBadges();
+}
+
+function showMapaTip(e, node, pinned=false) {
+  const tip = document.getElementById('mapa-tooltip');
+  document.getElementById('mapa-tip-title').textContent = node.label.replace('\n', ' ');
+  document.getElementById('mapa-tip-body').innerHTML = node.info;
+  tip.style.display = 'block';
+  if (e) {
+    const rect = mapaCanvas.getBoundingClientRect();
+    let x = e.clientX - rect.left + 12;
+    let y = e.clientY - rect.top - 20;
+    if (x + 300 > mapaW) x = mapaW - 300;
+    if (y + 200 > mapaH) y = mapaH - 200;
+    if (y < 0) y = 0;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  } else {
+    tip.style.left = '50%';
+    tip.style.top = '10px';
+    tip.style.transform = 'translateX(-50%)';
+  }
+}
+
+function hideMapaTip() {
+  document.getElementById('mapa-tooltip').style.display = 'none';
+}
+
+function drawMapa() {
+  if (!mapaCtx) return;
+  mapaCtx.clearRect(0, 0, mapaW, mapaH);
+  mapaCtx.save();
+  mapaCtx.translate(mapaOffX, mapaOffY);
+  mapaCtx.scale(mapaScale, mapaScale);
+  
+  // Draw edges
+  mapaEdges.forEach(([a, b]) => {
+    const na = mapaNodes[a], nb = mapaNodes[b];
+    const ax = na.x * mapaW, ay = na.y * mapaH;
+    const bx = nb.x * mapaW, by = nb.y * mapaH;
+    mapaCtx.beginPath();
+    mapaCtx.moveTo(ax, ay);
+    mapaCtx.lineTo(bx, by);
+    mapaCtx.strokeStyle = 'rgba(201,168,76,0.25)';
+    mapaCtx.lineWidth = 2;
+    mapaCtx.stroke();
+  });
+  
+  // Draw nodes
+  mapaNodes.forEach((n, i) => {
+    const nx = n.x * mapaW, ny = n.y * mapaH;
+    const isHov = hoveredNode === i;
+    const r = isHov ? n.r + 4 : n.r;
+    
+    // Glow
+    if (isHov || n.main) {
+      const glow = mapaCtx.createRadialGradient(nx, ny, r*.3, nx, ny, r*1.6);
+      glow.addColorStop(0, n.color + '44');
+      glow.addColorStop(1, 'transparent');
+      mapaCtx.beginPath();
+      mapaCtx.arc(nx, ny, r * 1.6, 0, Math.PI*2);
+      mapaCtx.fillStyle = glow;
+      mapaCtx.fill();
+    }
+    
+    // Circle
+    const grad = mapaCtx.createRadialGradient(nx-r*.3, ny-r*.3, 0, nx, ny, r);
+    grad.addColorStop(0, n.color + 'DD');
+    grad.addColorStop(1, n.color);
+    mapaCtx.beginPath();
+    mapaCtx.arc(nx, ny, r, 0, Math.PI*2);
+    mapaCtx.fillStyle = grad;
+    mapaCtx.fill();
+    
+    // Border
+    mapaCtx.beginPath();
+    mapaCtx.arc(nx, ny, r, 0, Math.PI*2);
+    mapaCtx.strokeStyle = isHov ? '#F0C860' : 'rgba(255,255,255,0.2)';
+    mapaCtx.lineWidth = isHov ? 3 : 1.5;
+    mapaCtx.stroke();
+    
+    // Label
+    const lines = n.label.split('\n');
+    mapaCtx.fillStyle = n.textColor;
+    mapaCtx.textAlign = 'center';
+    mapaCtx.textBaseline = 'middle';
+    const fs = n.main ? 13 : 10;
+    mapaCtx.font = 'bold ' + fs + 'px DM Sans, sans-serif';
+    const lineH = fs + 3;
+    lines.forEach((line, li) => {
+      const yOff = (li - (lines.length-1)/2) * lineH;
+      mapaCtx.fillText(line, nx, ny + yOff);
+    });
+  });
+  
+  mapaCtx.restore();
+}
+
+// Init mapa when tab opens
+const _origOpenTab = openTab;
+function openTab(id) {
+  _origOpenTab(id);
+  if (id === 'mapa') setTimeout(initMapa, 50);
+  if (id === 'conquistas') { checkBadges(true); renderConquistas(); }
+}
+
+// Init conquistas
+renderConquistas();
+// Check badges silently on load
+setTimeout(() => checkBadges(true), 500);
 
 </script>
 </body>
