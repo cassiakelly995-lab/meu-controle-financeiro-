@@ -539,6 +539,35 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 .hon-table .value { font-family:'DM Mono',monospace; color:var(--green); }
 .hon-table .pct70 { color:#F39C12; font-family:'DM Mono',monospace; }
 
+
+/* ===== ASSISTENTE IA ===== */
+.ia-wrap { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+.ia-sugs { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px; }
+.ia-sug-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--gold); margin-bottom:10px; }
+.ia-sug-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:8px; }
+.ia-sug { background:var(--surface2); border:1px solid var(--border); color:var(--text-muted); padding:8px 12px; border-radius:8px; font-size:.8rem; text-align:left; cursor:pointer; transition:all .2s; font-family:'DM Sans',sans-serif; line-height:1.4; }
+.ia-sug:hover { border-color:var(--gold); color:var(--gold); }
+.ia-chat { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; min-height:280px; max-height:400px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth; }
+.ia-msg { display:flex; gap:10px; align-items:flex-start; }
+.ia-msg.ia-user { flex-direction:row-reverse; }
+.ia-av { width:34px; height:34px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--gold-dark),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:15px; }
+.ia-msg.ia-user .ia-av { background:var(--surface3); border:1px solid var(--border); }
+.ia-bub { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:12px 16px; font-size:.87rem; line-height:1.7; color:var(--text); max-width:84%; }
+.ia-msg.ia-user .ia-bub { background:rgba(201,168,76,.1); border-color:rgba(201,168,76,.25); }
+.ia-bub strong { color:var(--gold); }
+.ia-dots { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.ia-dots span { width:7px; height:7px; background:var(--gold); border-radius:50%; animation:ia-bounce .9s infinite; }
+.ia-dots span:nth-child(2){ animation-delay:.15s; }
+.ia-dots span:nth-child(3){ animation-delay:.3s; }
+@keyframes ia-bounce { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-7px);opacity:1} }
+.ia-input-row { display:flex; gap:8px; }
+.ia-input { flex:1; padding:13px 16px; background:var(--surface); border:2px solid var(--border); border-radius:10px; color:var(--text); font-size:.93rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color .2s; }
+.ia-input:focus { border-color:var(--gold); }
+.ia-send { width:48px; height:48px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--gold-dark),var(--gold)); color:var(--obsidian); font-size:17px; font-weight:900; transition:all .2s; flex-shrink:0; }
+.ia-send:hover { transform:scale(1.05); box-shadow:0 4px 18px rgba(201,168,76,.35); }
+.ia-send:disabled { opacity:.5; transform:none; cursor:default; }
+@media(max-width:600px) { .ia-sug-grid { grid-template-columns:1fr; } .ia-chat { max-height:320px; } }
+
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--obsidian); }
@@ -621,6 +650,7 @@ footer {
     <button class="tab" onclick="openTab('honorarios')"><span class="tab-icon">💰</span>Honorários</button>
     <button class="tab" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
     <button class="tab" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
+    <button class="tab" onclick="openTab('ia')"><span class="tab-icon">🤖</span>Assistente IA</button>
   </div>
 </nav>
 
@@ -1430,6 +1460,38 @@ footer {
   <div class="challenges-grid" id="challengesContainer"></div>
 </div>
 
+<!-- ABA 7: ASSISTENTE IA -->
+<div id="panel-ia" class="panel">
+  <div class="section-header">
+    <div class="section-title">Assistente IA — DPE-OAB Expert</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Tire dúvidas sobre qualquer artigo do convênio em linguagem simples</div>
+  </div>
+  <div class="ia-wrap">
+    <div class="ia-sugs">
+      <p class="ia-sug-label">💡 Perguntas rápidas:</p>
+      <div class="ia-sug-grid">
+        <button class="ia-sug" onclick="useSuggestion(this)">Quais áreas o convênio NÃO cobre?</button>
+        <button class="ia-sug" onclick="useSuggestion(this)">Como funciona o pagamento de honorários?</button>
+        <button class="ia-sug" onclick="useSuggestion(this)">Quais são as penalidades por infração?</button>
+        <button class="ia-sug" onclick="useSuggestion(this)">Qual o prazo para ajuizar ação cível?</button>
+        <button class="ia-sug" onclick="useSuggestion(this)">Requisito para atuar no Tribunal do Júri?</button>
+        <button class="ia-sug" onclick="useSuggestion(this)">O que é o ANPP no convênio?</button>
+      </div>
+    </div>
+    <div class="ia-chat" id="iaChat">
+      <div class="ia-msg ia-bot">
+        <div class="ia-av">⚖️</div>
+        <div class="ia-bub">Olá! Sou o Assistente IA especialista no <strong>Convênio DPE-OAB 001/2026</strong>.<br><br>Pode me perguntar qualquer coisa sobre prazos, honorários, penalidades, áreas de atuação ou qualquer artigo do convênio. Respondo em linguagem clara! 👇</div>
+      </div>
+    </div>
+    <div class="ia-input-row">
+      <input id="iaInput" class="ia-input" type="text" placeholder="Ex: O que acontece se o advogado cobrar o cliente?" onkeydown="if(event.key==='Enter') sendIA()" />
+      <button class="ia-send" onclick="sendIA()" id="iaSendBtn">➤</button>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <footer>
@@ -1898,6 +1960,63 @@ challenges.forEach(c => {
     <div class="ch-stats"><span>${c.progress}/${c.total} concluído</span><span>${c.locked?'🔒 Bloqueado':'✅ Disponível'}</span></div>`;
   challContainer.appendChild(el);
 });
+
+// ============================================================
+//  ASSISTENTE IA
+// ============================================================
+var iaHistory = [];
+var IA_SYSTEM = 'Você é um assistente especialista no Convênio DPE-OAB/SP nº 001/2026. Responda de forma clara e direta em português. Use **negrito** para termos e prazos importantes. Conhecimentos essenciais: Vigência 15 meses a partir de 01/05/2026. Valor R$250 milhões. Áreas cobertas: Cível, Família/Sucessões, Criminal, IJ, Plantões. Áreas EXCLUÍDAS: eleitoral, administrativa, trabalhista, previdenciária. Certidões até dia 25/mês, pagamento no 1º dia útil do 2º mês subsequente. Prazo ajuizamento cível: 30 dias após receber documentação (6 meses para coletar). Criminal: 100% absolutória sem recurso, 70%+30% com recurso. Penalidades: advertência, suspensão máx 18 meses, exclusão área 24 meses, descredenciamento. Descredenciamento: cobrar usuário, captar clientes, erro grave, 3ª suspensão. Prescrição: 5 anos. E-mail obrigatório @adv.oabsp.org.br. Substabelecimento: 1 vez por feito, 1 ato. Ausência: 60 dias/ano.';
+
+function useSuggestion(btn) {
+  document.getElementById('iaInput').value = btn.textContent;
+  sendIA();
+}
+
+function sendIA() {
+  var input = document.getElementById('iaInput');
+  var msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  var chat = document.getElementById('iaChat');
+
+  // Add user message
+  chat.innerHTML += '<div class="ia-msg ia-user"><div class="ia-av">👤</div><div class="ia-bub">' + msg + '</div></div>';
+
+  // Add typing indicator
+  var tid = 'tid' + Date.now();
+  chat.innerHTML += '<div class="ia-msg ia-bot" id="' + tid + '"><div class="ia-av">⚖️</div><div class="ia-bub"><div class="ia-dots"><span></span><span></span><span></span></div></div></div>';
+  chat.scrollTop = chat.scrollHeight;
+
+  document.getElementById('iaSendBtn').disabled = true;
+  iaHistory.push({ role: 'user', content: msg });
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 800,
+      system: IA_SYSTEM,
+      messages: iaHistory
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var reply = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'Não consegui processar sua pergunta.';
+    iaHistory.push({ role: 'assistant', content: reply });
+    var formatted = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+    var el = document.getElementById(tid);
+    if (el) el.outerHTML = '<div class="ia-msg ia-bot"><div class="ia-av">⚖️</div><div class="ia-bub">' + formatted + '</div></div>';
+    chat.scrollTop = chat.scrollHeight;
+    document.getElementById('iaSendBtn').disabled = false;
+  })
+  .catch(function() {
+    var el = document.getElementById(tid);
+    if (el) el.outerHTML = '<div class="ia-msg ia-bot"><div class="ia-av">⚖️</div><div class="ia-bub" style="color:var(--red)">❌ Erro de conexão. Tente novamente.</div></div>';
+    document.getElementById('iaSendBtn').disabled = false;
+  });
+}
 
 </script>
 </body>
