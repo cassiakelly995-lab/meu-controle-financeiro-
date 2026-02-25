@@ -2,297 +2,192 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Painel Interativo Convênio</title>
+<title>Leitor Oficial – Convênio 001/2026</title>
 
 <style>
 :root{
 --bg:#f4f6f9;
 --card:#ffffff;
---text:#000000;
+--text:#000;
 --primary:#1a237e;
 }
 
 .dark{
 --bg:#121212;
---card:#1f1f1f;
---text:#ffffff;
+--card:#1e1e1e;
+--text:#fff;
 }
 
 body{
 margin:0;
 font-family:Segoe UI, sans-serif;
-display:flex;
 background:var(--bg);
 color:var(--text);
 transition:.3s;
 }
 
-.sidebar{
-width:260px;
+header{
 background:var(--primary);
 color:white;
-height:100vh;
-padding:20px;
-position:fixed;
-overflow:auto;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
-.sidebar a{
-display:block;
-color:white;
-text-decoration:none;
-margin:8px 0;
-}
-
-.sidebar button{
-margin-top:15px;
-padding:8px;
+button{
+background:white;
 border:none;
+padding:8px 12px;
 border-radius:6px;
 cursor:pointer;
+margin-left:5px;
 }
 
-.content{
-margin-left:280px;
+.container{
 padding:20px;
-width:100%;
 }
 
-.card{
+.reader{
 background:var(--card);
-padding:20px;
+padding:25px;
 border-radius:12px;
-margin-bottom:20px;
+height:500px;
+overflow-y:auto;
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
+line-height:1.6;
 }
 
-.accordion{
-cursor:pointer;
-padding:12px;
-background:#3949ab;
-color:white;
-border:none;
-width:100%;
-text-align:left;
-border-radius:6px;
-margin-top:8px;
-font-weight:bold;
-}
-
-.panel{
-max-height:0;
-overflow:hidden;
-transition:max-height 0.3s ease;
-background:#e8eaf6;
-padding:0 10px;
-border-radius:6px;
-}
-
-.dark .panel{
-background:#2c2c2c;
-}
-
-.panel p{
-margin:10px 0;
+.highlight{
+background:yellow;
 }
 
 .progress{
-width:100%;
+height:6px;
 background:#ccc;
-height:20px;
-border-radius:10px;
 margin-top:10px;
+border-radius:6px;
 }
 
 .progress-bar{
 height:100%;
 width:0%;
 background:var(--primary);
-border-radius:10px;
-transition:.3s;
-}
-
-.flashcard{
-width:260px;
-height:150px;
-perspective:1000px;
-display:inline-block;
-margin:10px;
-}
-
-.flash-inner{
-width:100%;
-height:100%;
-transition:transform 0.6s;
-transform-style:preserve-3d;
-position:relative;
-}
-
-.flashcard:hover .flash-inner{
-transform:rotateY(180deg);
-}
-
-.flash-front, .flash-back{
-position:absolute;
-width:100%;
-height:100%;
-backface-visibility:hidden;
-border-radius:10px;
-padding:15px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-}
-
-.flash-front{background:#bbdefb;}
-.flash-back{background:#c8e6c9; transform:rotateY(180deg);}
-
-input[type=text]{
-padding:8px;
-width:300px;
+border-radius:6px;
 }
 
 .timer{
 font-size:18px;
 font-weight:bold;
-}
-
-button{
-background:var(--primary);
-color:white;
-border:none;
-padding:8px 12px;
-border-radius:6px;
-cursor:pointer;
+margin-left:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
-<h2>Convênio 001/2026</h2>
-<a href="#t1">Disposições</a>
-<a href="#t2">Obrigações</a>
-<a href="#t3">Indicações</a>
-<a href="#t4">Honorários</a>
-<a href="#quiz">Quiz</a>
-<br>
-<button onclick="toggleModo()">🌙 Alternar Modo</button>
+<header>
+<div>
+<b>Convênio nº 001/2026 – DPESP x OAB/SP</b>
 </div>
 
-<div class="content">
+<div>
+<button onclick="grifar()">🖍️ Grifar</button>
+<button onclick="removerGrifo()">❌ Remover Grifo</button>
+<button onclick="toggleModo()">🌙 Modo</button>
 
-<h1>Painel Interativo</h1>
+<span class="timer" id="timer">00:00</span>
+<button onclick="startTimer()">▶</button>
+<button onclick="pauseTimer()">⏸</button>
+<button onclick="resetTimer()">⟲</button>
+</div>
+</header>
 
-<input type="text" placeholder="Buscar..." onkeyup="buscar(this.value)">
+<div class="container">
 
-<div class="card">
-<h3>Progresso de Leitura</h3>
 <div class="progress">
 <div class="progress-bar" id="barra"></div>
 </div>
-</div>
 
-<div class="card">
-<h3>Cronômetro</h3>
-<div class="timer" id="timer">00:00</div>
-<button onclick="iniciarTimer()">Iniciar</button>
-<button onclick="pararTimer()">Parar</button>
-</div>
+<div class="reader" id="reader">
 
-<div id="t1" class="card">
-<h2>Disposições Gerais</h2>
-<button class="accordion">Objeto</button>
-<div class="panel"><p>Assistência judiciária gratuita suplementar à população hipossuficiente.</p></div>
+<h2>TERMO DE CONVÊNIO Nº 001/2026</h2>
 
-<button class="accordion">Vedações</button>
-<div class="panel"><p>Vedado revisão criminal, eleitoral, trabalhista e previdenciário.</p></div>
-</div>
+<p><b>Objeto:</b> Prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo 3.</p>
 
-<div id="t2" class="card">
-<h2>Obrigações</h2>
-<button class="accordion">Advogado</button>
-<div class="panel"><p>Cumprir prazos, atuar até trânsito em julgado e respeitar LGPD.</p></div>
+<h3>TÍTULO I – DISPOSIÇÕES GERAIS</h3>
 
-<button class="accordion">Defensoria</button>
-<div class="panel"><p>Pagamento das certidões e controle do sistema.</p></div>
-</div>
+<p><b>Cláusula Primeira:</b> Assistência judiciária integral nas áreas:</p>
 
-<div id="t3" class="card">
-<h2>Indicações</h2>
-<button class="accordion">Área Cível</button>
-<div class="panel"><p>30 dias para ajuizar após documentos.</p></div>
+<ul>
+<li>Área Cível – procedimentos ordinários, execuções, possessórias, mandados de segurança.</li>
+<li>Família e Sucessões – alimentos, divórcio, inventário, guarda.</li>
+<li>Área Criminal – ritos ordinário, sumário, júri, execução penal (hipóteses restritas).</li>
+<li>Infância e Juventude.</li>
+<li>Plantões e atividades especiais.</li>
+</ul>
 
-<button class="accordion">Área Criminal</button>
-<div class="panel"><p>Atuação até trânsito em julgado.</p></div>
-</div>
+<p>A execução penal limita-se às hipóteses previstas na Resolução 749/2016 4.</p>
 
-<div id="t4" class="card">
-<h2>Honorários</h2>
-<p>Pagos conforme tabela oficial. Sem vínculo empregatício.</p>
-</div>
+<h3>TÍTULO II – OBRIGAÇÕES</h3>
 
-<div id="quiz" class="card">
-<h2>Quiz</h2>
+<p><b>OAB/SP:</b> Atendimento inicial, triagem socioeconômica, convocação de advogados, gestão de dados conforme LGPD.</p>
 
-1) Prazo para ajuizar:
-<br>
-<input type="radio" name="q1" value="c"> 30 dias<br>
-<input type="radio" name="q1" value="e"> 90 dias<br><br>
+<p><b>Defensoria:</b> Pagamento das certidões, disponibilização de informes de rendimento, fiscalização, sistemas eletrônicos 5.</p>
 
-<button onclick="corrigir()">Corrigir</button>
-<p id="resultado"></p>
+<h3>TÍTULO VII – INFORMATIZAÇÃO</h3>
+
+<p>Advogados devem se adequar ao sistema indicado pela Defensoria 6.</p>
+
+<h3>TÍTULO VIII – DISPOSIÇÕES FINAIS</h3>
+
+<p>Vigência de 15 meses a partir de 1º de maio de 2026, prorrogável 7.</p>
+
+<p>Valor estimado: R$ 250.000.000,00 8.</p>
+
+<p>Foro da Comarca da Capital do Estado de São Paulo 9.</p>
+
+<p><b>Anexos:</b> Anexo I – Honorários e Certidões; Anexo II – Tabela de Honorários.</p>
+
+<p>Documento assinado eletronicamente conforme Lei 14.063/2020 10.</p>
+
 </div>
 
 </div>
 
 <script>
-let accordions=document.querySelectorAll(".accordion");
-let abertas=0;
-
-accordions.forEach(acc=>{
-acc.addEventListener("click",function(){
-let panel=this.nextElementSibling;
-if(panel.style.maxHeight){
-panel.style.maxHeight=null;
-abertas--;
-}else{
-panel.style.maxHeight=panel.scrollHeight+"px";
-abertas++;
-}
-document.getElementById("barra").style.width=(abertas/accordions.length)*100+"%";
-});
-});
-
 function toggleModo(){
 document.body.classList.toggle("dark");
 }
 
-function buscar(texto){
-let cards=document.querySelectorAll(".card");
-cards.forEach(card=>{
-if(card.innerText.toLowerCase().includes(texto.toLowerCase())){
-card.style.display="block";
-}else{
-card.style.display="none";
+function grifar(){
+let selection=window.getSelection();
+if(!selection.rangeCount) return;
+let range=selection.getRangeAt(0);
+let span=document.createElement("span");
+span.className="highlight";
+range.surroundContents(span);
 }
+
+function removerGrifo(){
+document.querySelectorAll(".highlight").forEach(e=>{
+e.outerHTML=e.innerHTML;
 });
 }
 
-function corrigir(){
-let pontos=0;
-if(document.querySelector('input[name="q1"]:checked')?.value=="c") pontos++;
-document.getElementById("resultado").innerText="Pontuação: "+pontos+"/1";
-}
+let reader=document.getElementById("reader");
+reader.addEventListener("scroll",function(){
+let total=reader.scrollHeight-reader.clientHeight;
+let progresso=(reader.scrollTop/total)*100;
+document.getElementById("barra").style.width=progresso+"%";
+});
 
-let intervalo=null;
+let timerInterval=null;
 let segundos=0;
 
-function iniciarTimer(){
-if(intervalo) return;
-intervalo=setInterval(()=>{
+function startTimer(){
+if(timerInterval) return;
+timerInterval=setInterval(()=>{
 segundos++;
 let min=Math.floor(segundos/60);
 let seg=segundos%60;
@@ -301,9 +196,15 @@ document.getElementById("timer").innerText=
 },1000);
 }
 
-function pararTimer(){
-clearInterval(intervalo);
-intervalo=null;
+function pauseTimer(){
+clearInterval(timerInterval);
+timerInterval=null;
+}
+
+function resetTimer(){
+pauseTimer();
+segundos=0;
+document.getElementById("timer").innerText="00:00";
 }
 </script>
 
