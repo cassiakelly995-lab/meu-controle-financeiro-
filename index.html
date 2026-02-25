@@ -539,6 +539,112 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 .hon-table .value { font-family:'DM Mono',monospace; color:var(--green); }
 .hon-table .pct70 { color:#F39C12; font-family:'DM Mono',monospace; }
 
+
+/* ===== BUSCA NO DOCUMENTO ===== */
+.doc-search-bar {
+  display:flex; align-items:center; gap:8px; margin-bottom:12px;
+}
+.doc-search-input {
+  flex:1; padding:10px 16px; background:var(--surface2);
+  border:1px solid var(--border); border-radius:8px;
+  color:var(--text); font-size:13px; outline:none;
+  font-family:'DM Sans',sans-serif; max-width:400px;
+}
+.doc-search-input:focus { border-color:var(--gold); }
+.search-hit { background:#C9A84C55; border-radius:2px; }
+.search-status { font-size:11px; color:var(--text-muted); }
+
+/* ===== PROGRESSO DE LEITURA ===== */
+.reading-progress-bar {
+  height:4px; background:var(--surface2); margin-bottom:20px;
+  border-radius:2px; overflow:hidden;
+}
+.reading-progress-fill {
+  height:100%; background:linear-gradient(90deg, var(--gold-dark), var(--gold));
+  border-radius:2px; transition:width .5s;
+}
+.page-read-indicator {
+  display:inline-block; width:8px; height:8px;
+  background:var(--gold); border-radius:50%;
+  margin-left:6px; opacity:0; transition:.3s;
+}
+.page-read-indicator.read { opacity:1; }
+.reading-summary {
+  font-size:11px; color:var(--gold); font-family:'DM Mono',monospace;
+  padding:4px 10px; background:rgba(201,168,76,.1);
+  border-radius:20px; border:1px solid var(--border);
+}
+
+/* ===== FAVORITOS NOS FLASHCARDS ===== */
+.fc-fav-btn {
+  background:none; border:none; cursor:pointer;
+  font-size:16px; line-height:1; padding:2px;
+  transition:transform .2s;
+  position:absolute; top:10px; right:10px;
+}
+.fc-fav-btn:hover { transform:scale(1.3); }
+.fc-front { position:relative; }
+.cat-btn.fav-active { background:#e74c3c; border-color:#e74c3c; color:#fff; }
+.fc-stat.fav-stat strong { color:#e74c3c; }
+
+/* ===== % ACERTO POR CATEGORIA ===== */
+.cert-cat-breakdown {
+  margin: 20px 0; text-align:left;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:16px 20px;
+  max-width:600px; margin:16px auto;
+}
+.cert-cat-breakdown h4 {
+  font-family:'Playfair Display',serif; color:var(--gold);
+  font-size:.9rem; letter-spacing:1px; margin-bottom:12px;
+  text-align:center; text-transform:uppercase;
+}
+.cat-row {
+  display:flex; align-items:center; gap:10px; margin-bottom:8px;
+}
+.cat-row-label {
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  color:var(--text-muted); min-width:90px; letter-spacing:.5px;
+}
+.cat-row-bar {
+  flex:1; height:8px; background:var(--surface3); border-radius:4px; overflow:hidden;
+}
+.cat-row-fill {
+  height:100%; border-radius:4px;
+  background:linear-gradient(90deg, var(--gold-dark), var(--gold));
+  transition:width .8s;
+}
+.cat-row-fill.low { background:linear-gradient(90deg, #c0392b, #e74c3c); }
+.cat-row-fill.mid { background:linear-gradient(90deg, #e67e22, #f39c12); }
+.cat-row-pct {
+  font-family:'DM Mono',monospace; font-size:11px;
+  font-weight:700; color:var(--gold); min-width:38px; text-align:right;
+}
+
+/* ===== HISTÓRICO DE TENTATIVAS ===== */
+.history-section {
+  margin-top:20px; max-width:600px; margin:20px auto;
+}
+.history-title {
+  font-family:'Playfair Display',serif; font-size:.85rem;
+  color:var(--gold); text-transform:uppercase; letter-spacing:1px;
+  margin-bottom:10px; text-align:center;
+}
+.history-list {
+  display:flex; flex-direction:column; gap:6px;
+}
+.history-item {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:10px 16px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:12px;
+}
+.history-item .h-name { color:var(--text); font-weight:600; max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.history-item .h-score { font-family:'DM Mono',monospace; color:var(--gold); font-weight:700; }
+.history-item .h-date { color:var(--text-muted); font-size:10px; }
+.history-item .h-stars { font-size:10px; }
+.history-empty { text-align:center; color:var(--text-muted); font-size:12px; font-style:italic; padding:10px; }
+
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--obsidian); }
@@ -636,6 +742,17 @@ footer {
     <div class="section-subtitle">Documento completo — 24 folhas com audiobook integrado</div>
   </div>
 
+  <!-- Barra de leitura -->
+  <div class="reading-progress-bar">
+    <div class="reading-progress-fill" id="readProgressFill" style="width:0%"></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
+    <div class="doc-search-bar" style="flex:1">
+      <input class="doc-search-input" id="docSearchInput" type="text" placeholder="🔍 Buscar palavra no documento..." oninput="searchDoc(this.value)" />
+      <span class="search-status" id="searchStatus"></span>
+    </div>
+    <span class="reading-summary" id="readingSummary">0 / 24 páginas lidas</span>
+  </div>
   <div class="doc-toolbar">
     <div class="audio-controls">
       <button class="audio-btn" id="btnPlay" onclick="audioPlay()" title="Reproduzir">▶</button>
@@ -1249,6 +1366,7 @@ footer {
     <div class="fc-stat"><strong id="fc-total">50</strong>Total</div>
     <div class="fc-stat"><strong id="fc-flipped">0</strong>Virados</div>
     <div class="fc-stat"><strong id="fc-mastered">0</strong>Dominados ⭐⭐⭐</div>
+    <div class="fc-stat fav-stat"><strong id="fc-favs">0</strong>❤️ Favoritos</div>
     <div class="cat-filter">
       <button class="cat-btn active" onclick="filterCards('all',this)">Todos</button>
       <button class="cat-btn" onclick="filterCards('CÍVEL',this)">Cível</button>
@@ -1257,6 +1375,7 @@ footer {
       <button class="cat-btn" onclick="filterCards('PRAZOS',this)">Prazos</button>
       <button class="cat-btn" onclick="filterCards('SANÇÕES',this)">Sanções</button>
       <button class="cat-btn" onclick="filterCards('INSCRIÇÃO',this)">Inscrição</button>
+      <button class="cat-btn" id="favFilterBtn" onclick="filterCards('FAV',this)">❤️ Favoritos</button>
     </div>
   </div>
   <div class="cards-grid" id="flashContainer"></div>
@@ -1415,6 +1534,17 @@ footer {
       <button class="btn-outline" onclick="resetQuiz()">🔄 Refazer Quiz</button>
     </div>
   </div>
+  <!-- Breakdown por categoria -->
+  <div class="cert-cat-breakdown" id="catBreakdown" style="display:none">
+    <h4>📊 Desempenho por Categoria</h4>
+    <div id="catBreakdownRows"></div>
+  </div>
+  <!-- Histórico de tentativas -->
+  <div class="history-section">
+    <div class="history-title">📋 Histórico de Tentativas</div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+  </div>
 </div>
 
 
@@ -1504,13 +1634,94 @@ function audioStop() {
   document.getElementById('audio-status').textContent = 'Audiobook parado.';
 }
 
+// Track read pages
+const readPages = new Set(JSON.parse(localStorage.getItem('dpe_read_pages') || '[]'));
+
+function markPageRead(p) {
+  readPages.add(p);
+  localStorage.setItem('dpe_read_pages', JSON.stringify([...readPages]));
+  updateReadingProgress();
+}
+
+function updateReadingProgress() {
+  const pct = (readPages.size / 24 * 100).toFixed(0);
+  document.getElementById('readProgressFill').style.width = pct + '%';
+  document.getElementById('readingSummary').textContent = readPages.size + ' / 24 páginas lidas';
+}
+
 function changePage(dir) {
+  markPageRead(currentPage);
   const newPage = currentPage + dir;
   if (newPage < 1 || newPage > 24) return;
   document.getElementById('dp'+currentPage).classList.remove('active');
   currentPage = newPage;
   document.getElementById('dp'+currentPage).classList.add('active');
   document.getElementById('pageProgress').textContent = currentPage + ' / 24';
+}
+
+// Init reading progress on load
+updateReadingProgress();
+
+// ============================================================
+//  DOCUMENT SEARCH
+// ============================================================
+let searchTimer = null;
+function searchDoc(query) {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    // Remove previous highlights
+    document.querySelectorAll('.doc-page').forEach(page => {
+      page.querySelectorAll('.search-hit').forEach(el => {
+        el.replaceWith(document.createTextNode(el.textContent));
+      });
+      // Merge adjacent text nodes
+      page.normalize();
+    });
+    
+    const status = document.getElementById('searchStatus');
+    if (!query || query.length < 2) { status.textContent = ''; return; }
+    
+    let total = 0;
+    let firstPage = null;
+    
+    document.querySelectorAll('.doc-page').forEach((page, pidx) => {
+      const walker = document.createTreeWalker(page, NodeFilter.SHOW_TEXT, null, false);
+      const nodes = [];
+      let node;
+      while ((node = walker.nextNode())) nodes.push(node);
+      
+      nodes.forEach(textNode => {
+        const idx = textNode.textContent.toLowerCase().indexOf(query.toLowerCase());
+        if (idx === -1) return;
+        const span = document.createElement('span');
+        span.className = 'search-hit';
+        const before = document.createTextNode(textNode.textContent.substring(0, idx));
+        span.textContent = textNode.textContent.substring(idx, idx + query.length);
+        const after = document.createTextNode(textNode.textContent.substring(idx + query.length));
+        const frag = document.createDocumentFragment();
+        frag.appendChild(before); frag.appendChild(span); frag.appendChild(after);
+        textNode.parentNode.replaceChild(frag, textNode);
+        total++;
+        if (!firstPage) firstPage = pidx + 1;
+      });
+    });
+    
+    if (total > 0) {
+      status.textContent = total + ' resultado(s) — primeira ocorrência: pág. ' + firstPage;
+      // Navigate to first page with result
+      if (firstPage && firstPage !== currentPage) {
+        document.getElementById('dp'+currentPage).classList.remove('active');
+        currentPage = firstPage;
+        document.getElementById('dp'+currentPage).classList.add('active');
+        document.getElementById('pageProgress').textContent = currentPage + ' / 24';
+      }
+      // Scroll to first hit
+      const firstHit = document.querySelector('.search-hit');
+      if (firstHit) firstHit.scrollIntoView({ behavior:'smooth', block:'center' });
+    } else {
+      status.textContent = 'Nenhum resultado para "' + query + '"';
+    }
+  }, 400);
 }
 
 // ============================================================
@@ -1575,17 +1786,80 @@ const flashData = [
 let flippedCount = 0;
 let masterScores = {};
 
+// Sound effects
+const audioCtx = window.AudioContext ? new AudioContext() : null;
+function playSound(type) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  if (type === 'flip') {
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+  } else if (type === 'fav') {
+    osc.frequency.setValueAtTime(660, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+  } else if (type === 'correct') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(784, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.35);
+  } else if (type === 'wrong') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+  }
+}
+
+// Favorites
+const favorites = new Set(JSON.parse(localStorage.getItem('dpe_fc_favs') || '[]'));
+
+function toggleFav(e, idx) {
+  e.stopPropagation();
+  if (favorites.has(idx)) favorites.delete(idx);
+  else favorites.add(idx);
+  localStorage.setItem('dpe_fc_favs', JSON.stringify([...favorites]));
+  document.getElementById('fc-favs').textContent = favorites.size;
+  playSound('fav');
+  renderFlashcards(currentFilter);
+}
+
 function renderFlashcards(filter) {
   const container = document.getElementById('flashContainer');
   container.innerHTML = '';
-  const filtered = filter === 'all' ? flashData : flashData.filter(d => d.cat === filter);
+  let filtered;
+  if (filter === 'FAV') {
+    filtered = flashData.filter((d, i) => favorites.has(i));
+  } else {
+    filtered = filter === 'all' ? flashData : flashData.filter(d => d.cat === filter);
+  }
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:40px;grid-column:1/-1;">Nenhum card encontrado nesta categoria.</div>';
+    return;
+  }
+  
   filtered.forEach((item, i) => {
     const idx = flashData.indexOf(item);
     const stars = masterScores[idx] || 0;
+    const isFav = favorites.has(idx);
     const el = document.createElement('div');
     el.className = 'flashcard'; el.dataset.idx = idx; el.dataset.cat = item.cat;
     el.innerHTML = `<div class="fc-inner">
       <div class="fc-front">
+        <button class="fc-fav-btn" onclick="toggleFav(event,${idx})" title="${isFav?'Remover dos favoritos':'Adicionar aos favoritos'}">${isFav?'❤️':'🤍'}</button>
         <div><div class="fc-cat">${item.cat}</div>
         <div class="fc-question">${item.q}</div></div>
         <div class="fc-stars">${[0,1,2].map(s=>`<span class="fc-star ${stars>s?'lit':''}" data-i="${idx}" data-s="${s+1}" onclick="rateStar(event,${idx},${s+1})">★</span>`).join('')}</div>
@@ -1593,11 +1867,12 @@ function renderFlashcards(filter) {
       <div class="fc-back">
         <div><div class="fc-cat">${item.cat}</div>
         <div class="fc-answer">${item.a}</div></div>
-        <div class="fc-hint">Clique para voltar</div>
+        <div class="fc-hint">Clique para voltar ↩</div>
       </div></div>`;
     el.onclick = (e) => {
-      if (e.target.classList.contains('fc-star')) return;
+      if (e.target.classList.contains('fc-star') || e.target.classList.contains('fc-fav-btn')) return;
       el.classList.toggle('flipped');
+      playSound('flip');
       if (el.classList.contains('flipped')) {
         flippedCount++;
         document.getElementById('fc-flipped').textContent = flippedCount;
@@ -1754,6 +2029,7 @@ const quizData = [
 //  QUIZ ENGINE
 // ============================================================
 let qIdx = 0, qScore = 0, timer = null, timerVal = 45;
+let answerLog = [];
 const shuffled = [...quizData].sort(() => Math.random() - 0.5);
 
 let nomeQuiz = '';
@@ -1767,7 +2043,7 @@ function startQuiz() {
     inputNome.focus();
     return;
   }
-  qIdx = 0; qScore = 0; timerVal = 45;
+  qIdx = 0; qScore = 0; timerVal = 45; answerLog = [];
   document.getElementById('quiz-start-screen').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'block';
   document.getElementById('cert-container').classList.remove('show');
@@ -1821,6 +2097,7 @@ function timeOut() {
   const btns = document.querySelectorAll('.quiz-opt');
   btns[q.correct].classList.add('correct');
   btns.forEach(b => b.disabled = true);
+  answerLog.push({ cat: shuffled[qIdx].cat, correct: false });
   document.getElementById('qExplanation').innerHTML = `<strong>⏱ Tempo esgotado!</strong> ${q.exp}`;
   document.getElementById('qExplanation').classList.add('show');
   document.getElementById('qNext').classList.add('show');
@@ -1830,9 +2107,11 @@ function answerQuestion(chosen, correct, exp) {
   clearInterval(timer);
   const btns = document.querySelectorAll('.quiz-opt');
   btns.forEach(b => b.disabled = true);
+  playSound(chosen === correct ? 'correct' : 'wrong');
   btns[chosen].classList.add(chosen === correct ? 'correct' : 'wrong');
   if (chosen !== correct) btns[correct].classList.add('correct');
   if (chosen === correct) qScore++;
+  answerLog.push({ cat: shuffled[qIdx].cat, correct: chosen === correct });
   document.getElementById('qScore').textContent = qScore;
   document.getElementById('qExplanation').innerHTML = `<strong>${chosen === correct ? '✅ Correto!' : '❌ Errado!'}</strong> ${exp}`;
   document.getElementById('qExplanation').classList.add('show');
@@ -1862,6 +2141,76 @@ function showCert() {
   document.getElementById('certStars').textContent = stars;
   document.getElementById('certLevel').textContent = level;
   document.getElementById('certDate').textContent = 'Emitido em: ' + new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+  
+  // Category breakdown
+  buildCatBreakdown();
+  
+  // Save to history
+  saveHistory(nomeQuiz || 'Participante', qScore, pct, stars);
+  renderHistory();
+}
+
+function buildCatBreakdown() {
+  const cats = {};
+  shuffled.forEach((q, i) => {
+    if (!cats[q.cat]) cats[q.cat] = { correct:0, total:0 };
+    cats[q.cat].total++;
+    // We track per-question results in answerLog
+  });
+  // Use answerLog
+  const rows = document.getElementById('catBreakdownRows');
+  rows.innerHTML = '';
+  const catSummary = {};
+  answerLog.forEach(entry => {
+    if (!catSummary[entry.cat]) catSummary[entry.cat] = { c:0, t:0 };
+    catSummary[entry.cat].t++;
+    if (entry.correct) catSummary[entry.cat].c++;
+  });
+  const sortedCats = Object.keys(catSummary).sort((a,b) => {
+    const pA = catSummary[a].c / catSummary[a].t;
+    const pB = catSummary[b].c / catSummary[b].t;
+    return pB - pA;
+  });
+  sortedCats.forEach(cat => {
+    const d = catSummary[cat];
+    const p = Math.round(d.c / d.t * 100);
+    const colorClass = p >= 70 ? '' : p >= 50 ? 'mid' : 'low';
+    rows.innerHTML += `<div class="cat-row">
+      <span class="cat-row-label">${cat}</span>
+      <div class="cat-row-bar"><div class="cat-row-fill ${colorClass}" style="width:${p}%"></div></div>
+      <span class="cat-row-pct">${p}%</span>
+    </div>`;
+  });
+  document.getElementById('catBreakdown').style.display = 'block';
+}
+
+function saveHistory(name, score, pct, stars) {
+  const history = JSON.parse(localStorage.getItem('dpe_quiz_history') || '[]');
+  history.unshift({
+    name, score, pct,
+    stars: stars.replace(/[^⭐]/g, '').length,
+    date: new Date().toLocaleDateString('pt-BR')
+  });
+  if (history.length > 10) history.pop();
+  localStorage.setItem('dpe_quiz_history', JSON.stringify(history));
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('dpe_quiz_history') || '[]');
+  const list = document.getElementById('historyList');
+  if (!list) return;
+  if (history.length === 0) {
+    list.innerHTML = '<div class="history-empty">Nenhuma tentativa ainda. Complete o quiz!</div>';
+    return;
+  }
+  list.innerHTML = history.map((h, i) => `
+    <div class="history-item">
+      <span class="h-name">${h.name}</span>
+      <span class="h-score">${h.score}/50 (${h.pct}%)</span>
+      <span class="h-stars">${'⭐'.repeat(h.stars)}</span>
+      <span class="h-date">${h.date}</span>
+    </div>
+  `).join('');
 }
 
 function printCert() { window.print(); }
@@ -1898,6 +2247,9 @@ challenges.forEach(c => {
     <div class="ch-stats"><span>${c.progress}/${c.total} concluído</span><span>${c.locked?'🔒 Bloqueado':'✅ Disponível'}</span></div>`;
   challContainer.appendChild(el);
 });
+
+// Init history display
+renderHistory();
 
 </script>
 </body>
