@@ -268,28 +268,46 @@ main { max-width:1400px; margin:0 auto; padding:clamp(12px, 3vw, 24px); position
   gap:16px;
 }
 .flashcard {
-  height:200px; perspective:1200px; cursor:pointer;
+  height:200px; cursor:pointer;
+  /* Perspective no próprio card para melhor compatibilidade mobile */
+  perspective:1000px;
+  -webkit-perspective:1000px;
 }
 .fc-inner {
   width:100%; height:100%;
   transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.4,0,.2,1);
+  -webkit-transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  -webkit-transition:-webkit-transform .6s cubic-bezier(.4,0,.2,1);
   position:relative;
 }
-.flashcard.flipped .fc-inner { transform:rotateY(180deg); }
+.flashcard.flipped .fc-inner {
+  transform:rotateY(180deg);
+  -webkit-transform:rotateY(180deg);
+}
 .fc-front, .fc-back {
   position:absolute; width:100%; height:100%;
-  backface-visibility:hidden; border-radius:12px;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:12px;
   padding:20px; display:flex; flex-direction:column;
   justify-content:space-between;
+  /* Force GPU layer para evitar glitch */
+  -webkit-transform:translateZ(0);
+  will-change:transform;
 }
 .fc-front {
   background:var(--surface);
   border:1px solid var(--border);
+  -webkit-transform:rotateY(0deg);
+  transform:rotateY(0deg);
+  /* fav button positions relative to this */
+  overflow:visible;
 }
 .fc-back {
   background:linear-gradient(135deg, var(--gold-dark), var(--gold));
   color:var(--obsidian);
+  -webkit-transform:rotateY(180deg);
   transform:rotateY(180deg);
 }
 .fc-cat {
@@ -601,7 +619,6 @@ main { max-width:1400px; margin:0 auto; padding:clamp(12px, 3vw, 24px); position
   position:absolute; top:10px; right:10px;
 }
 .fc-fav-btn:hover { transform:scale(1.3); }
-.fc-front { position:relative; }
 .cat-btn.fav-active { background:#e74c3c; border-color:#e74c3c; color:#fff; }
 .fc-stat.fav-stat strong { color:#e74c3c; }
 
@@ -662,6 +679,41 @@ main { max-width:1400px; margin:0 auto; padding:clamp(12px, 3vw, 24px); position
 .history-item .h-date { color:var(--text-muted); font-size:10px; }
 .history-item .h-stars { font-size:10px; }
 .history-empty { text-align:center; color:var(--text-muted); font-size:12px; font-style:italic; padding:10px; }
+
+
+/* ===== FLASHCARD FLIP FALLBACK (para browsers sem preserve-3d perfeito) ===== */
+body.no-3d .fc-inner {
+  transform-style:flat !important;
+  -webkit-transform-style:flat !important;
+  transition:none !important;
+}
+body.no-3d .fc-front,
+body.no-3d .fc-back {
+  transition: opacity .25s, transform .25s;
+  backface-visibility:visible !important;
+  -webkit-backface-visibility:visible !important;
+}
+body.no-3d .fc-back {
+  opacity:0;
+  transform:rotateY(0deg) scale(0.95) !important;
+  -webkit-transform:rotateY(0deg) scale(0.95) !important;
+  pointer-events:none;
+}
+body.no-3d .flashcard.flipped .fc-inner {
+  transform:none !important;
+  -webkit-transform:none !important;
+}
+body.no-3d .flashcard.flipped .fc-front {
+  opacity:0;
+  transform:scale(0.95) !important;
+  pointer-events:none;
+}
+body.no-3d .flashcard.flipped .fc-back {
+  opacity:1;
+  transform:rotateY(0deg) scale(1) !important;
+  -webkit-transform:rotateY(0deg) scale(1) !important;
+  pointer-events:auto;
+}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:6px; }
@@ -1747,6 +1799,27 @@ footer {
 // ============================================================
 //  PARTICLES
 // ============================================================
+// Detect preserve-3d support
+(function detect3D() {
+  const test = document.createElement('div');
+  test.style.cssText = 'transform-style:preserve-3d;-webkit-transform-style:preserve-3d;position:absolute;opacity:0;';
+  document.body.appendChild(test);
+  const style = window.getComputedStyle(test);
+  const supported = style.getPropertyValue('transform-style') === 'preserve-3d' ||
+                    style.getPropertyValue('-webkit-transform-style') === 'preserve-3d';
+  document.body.removeChild(test);
+  
+  // Also check if on Android Chrome which sometimes lies
+  const ua = navigator.userAgent;
+  const isAndroid = /Android/i.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+  
+  // Force fallback on Android or if not supported
+  if (!supported || isAndroid) {
+    document.body.classList.add('no-3d');
+  }
+})();
+
 (function createParticles() {
   const container = document.getElementById('particles');
   const isMobile = window.innerWidth < 768;
@@ -2049,9 +2122,10 @@ function renderFlashcards(filter) {
       </div></div>`;
     el.onclick = (e) => {
       if (e.target.classList.contains('fc-star') || e.target.classList.contains('fc-fav-btn')) return;
+      const wasFlipped = el.classList.contains('flipped');
       el.classList.toggle('flipped');
       playSound('flip');
-      if (el.classList.contains('flipped')) {
+      if (!wasFlipped) {
         flippedCount++;
         document.getElementById('fc-flipped').textContent = flippedCount;
       }
