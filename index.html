@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Leitor Oficial – Convênio 001/2026</title>
+<title>Leitor Premium – Convênio 001/2026</title>
 
 <style>
 :root{
@@ -10,12 +10,13 @@
 --card:#ffffff;
 --text:#000;
 --primary:#1a237e;
+--accent:#3949ab;
 }
 
 .dark{
 --bg:#121212;
 --card:#1e1e1e;
---text:#fff;
+--text:#ffffff;
 }
 
 body{
@@ -33,15 +34,15 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+flex-wrap:wrap;
 }
 
-button{
-background:white;
+.controls button, select{
+margin:3px;
+padding:8px 10px;
 border:none;
-padding:8px 12px;
 border-radius:6px;
 cursor:pointer;
-margin-left:5px;
 }
 
 .container{
@@ -50,36 +51,42 @@ padding:20px;
 
 .reader{
 background:var(--card);
-padding:25px;
+padding:30px;
 border-radius:12px;
 height:500px;
 overflow-y:auto;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-line-height:1.6;
+box-shadow:0 6px 18px rgba(0,0,0,0.15);
+line-height:1.7;
+font-size:16px;
 }
 
 .highlight{
 background:yellow;
 }
 
+.speaking{
+background:#c5cae9;
+transition:.3s;
+}
+
 .progress{
 height:6px;
 background:#ccc;
-margin-top:10px;
+margin:15px 0;
 border-radius:6px;
 }
 
 .progress-bar{
 height:100%;
 width:0%;
-background:var(--primary);
+background:var(--accent);
 border-radius:6px;
+transition:.2s;
 }
 
 .timer{
-font-size:18px;
 font-weight:bold;
-margin-left:15px;
+margin-left:10px;
 }
 </style>
 </head>
@@ -87,14 +94,23 @@ margin-left:15px;
 <body>
 
 <header>
-<div>
-<b>Convênio nº 001/2026 – DPESP x OAB/SP</b>
-</div>
+<div><b>Convênio nº 001/2026 – Leitor Premium</b></div>
 
-<div>
+<div class="controls">
 <button onclick="grifar()">🖍️ Grifar</button>
-<button onclick="removerGrifo()">❌ Remover Grifo</button>
+<button onclick="removerGrifo()">❌ Limpar</button>
 <button onclick="toggleModo()">🌙 Modo</button>
+
+<select id="velocidade">
+<option value="0.8">0.8x</option>
+<option value="1" selected>1x</option>
+<option value="1.2">1.2x</option>
+<option value="1.5">1.5x</option>
+</select>
+
+<button onclick="lerTexto()">🔊 Ler</button>
+<button onclick="pausarAudio()">⏸ Pausar</button>
+<button onclick="pararAudio()">⏹ Parar</button>
 
 <span class="timer" id="timer">00:00</span>
 <button onclick="startTimer()">▶</button>
@@ -113,53 +129,31 @@ margin-left:15px;
 
 <h2>TERMO DE CONVÊNIO Nº 001/2026</h2>
 
-<p><b>Objeto:</b> Prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo 3.</p>
+<p>Objeto: Prestação de assistência judiciária gratuita suplementar à população hipossuficiente do Estado de São Paulo.</p>
 
 <h3>TÍTULO I – DISPOSIÇÕES GERAIS</h3>
-
-<p><b>Cláusula Primeira:</b> Assistência judiciária integral nas áreas:</p>
-
-<ul>
-<li>Área Cível – procedimentos ordinários, execuções, possessórias, mandados de segurança.</li>
-<li>Família e Sucessões – alimentos, divórcio, inventário, guarda.</li>
-<li>Área Criminal – ritos ordinário, sumário, júri, execução penal (hipóteses restritas).</li>
-<li>Infância e Juventude.</li>
-<li>Plantões e atividades especiais.</li>
-</ul>
-
-<p>A execução penal limita-se às hipóteses previstas na Resolução 749/2016 4.</p>
+<p>Assistência nas áreas cível, família, sucessões, criminal, infância e juventude.</p>
 
 <h3>TÍTULO II – OBRIGAÇÕES</h3>
+<p>Advogado deve atuar até trânsito em julgado, respeitar prazos e sistema eletrônico.</p>
 
-<p><b>OAB/SP:</b> Atendimento inicial, triagem socioeconômica, convocação de advogados, gestão de dados conforme LGPD.</p>
+<h3>HONORÁRIOS</h3>
+<p>Pagos conforme tabela oficial, sem vínculo empregatício.</p>
 
-<p><b>Defensoria:</b> Pagamento das certidões, disponibilização de informes de rendimento, fiscalização, sistemas eletrônicos 5.</p>
-
-<h3>TÍTULO VII – INFORMATIZAÇÃO</h3>
-
-<p>Advogados devem se adequar ao sistema indicado pela Defensoria 6.</p>
-
-<h3>TÍTULO VIII – DISPOSIÇÕES FINAIS</h3>
-
-<p>Vigência de 15 meses a partir de 1º de maio de 2026, prorrogável 7.</p>
-
-<p>Valor estimado: R$ 250.000.000,00 8.</p>
-
-<p>Foro da Comarca da Capital do Estado de São Paulo 9.</p>
-
-<p><b>Anexos:</b> Anexo I – Honorários e Certidões; Anexo II – Tabela de Honorários.</p>
-
-<p>Documento assinado eletronicamente conforme Lei 14.063/2020 10.</p>
+<h3>VIGÊNCIA</h3>
+<p>15 meses a partir de 1º de maio de 2026, prorrogável.</p>
 
 </div>
 
 </div>
 
 <script>
+/* ===== MODO ESCURO ===== */
 function toggleModo(){
 document.body.classList.toggle("dark");
 }
 
+/* ===== GRIFO ===== */
 function grifar(){
 let selection=window.getSelection();
 if(!selection.rangeCount) return;
@@ -175,6 +169,7 @@ e.outerHTML=e.innerHTML;
 });
 }
 
+/* ===== PROGRESSO DE ROLAGEM ===== */
 let reader=document.getElementById("reader");
 reader.addEventListener("scroll",function(){
 let total=reader.scrollHeight-reader.clientHeight;
@@ -182,6 +177,30 @@ let progresso=(reader.scrollTop/total)*100;
 document.getElementById("barra").style.width=progresso+"%";
 });
 
+/* ===== AUDIOBOOK ===== */
+let speech=null;
+
+function lerTexto(){
+pararAudio();
+let texto=document.getElementById("reader").innerText;
+speech=new SpeechSynthesisUtterance(texto);
+speech.lang="pt-BR";
+speech.rate=parseFloat(document.getElementById("velocidade").value);
+speech.onstart=()=>reader.classList.add("speaking");
+speech.onend=()=>reader.classList.remove("speaking");
+window.speechSynthesis.speak(speech);
+}
+
+function pausarAudio(){
+window.speechSynthesis.pause();
+}
+
+function pararAudio(){
+window.speechSynthesis.cancel();
+reader.classList.remove("speaking");
+}
+
+/* ===== CRONÔMETRO ===== */
 let timerInterval=null;
 let segundos=0;
 
