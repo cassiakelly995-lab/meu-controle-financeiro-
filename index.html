@@ -1,319 +1,1886 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cássia Prompt V8 - Elite Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-gold: #aa8c2c;
-            --black: #0a0a0a;
-            --gray: #1a1a1a;
-            --text: #e0e0e0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONVÊNIO DPE-OAB 001/2026 | PAINEL ELITE - CÁSSIA KELLY</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-bright: #F0C860;
+  --gold-dark: #8B6914;
+  --obsidian: #060810;
+  --deep: #0C1120;
+  --surface: #111827;
+  --surface2: #1C2536;
+  --surface3: #253047;
+  --text: #E8EDF5;
+  --text-muted: #8B9AB5;
+  --accent: #4A90D9;
+  --green: #2ECC71;
+  --red: #E74C3C;
+  --border: rgba(201,168,76,0.2);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--obsidian);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        body {
-            margin: 0;
-            background: var(--black);
-            color: var(--text);
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+/* PARTICLE BG */
+#particles {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index:0; overflow:hidden;
+}
+.particle {
+  position: absolute; width:2px; height:2px;
+  background: var(--gold); border-radius:50%; opacity:0;
+  animation: float-up linear infinite;
+}
+@keyframes float-up {
+  0% { transform:translateY(100vh) translateX(0); opacity:0; }
+  10% { opacity:0.4; }
+  90% { opacity:0.2; }
+  100% { transform:translateY(-10vh) translateX(40px); opacity:0; }
+}
 
-        /* HEADER LUXO */
-        header {
-            background: linear-gradient(145deg, #1a1a1a, #000);
-            border-bottom: 2px solid var(--gold);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
-        }
+/* HEADER */
+header {
+  position: sticky; top:0; z-index:100;
+  background: linear-gradient(135deg, rgba(6,8,16,0.98), rgba(12,17,32,0.98));
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  padding: 0 24px;
+}
+.header-inner {
+  max-width: 1400px; margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  height: 64px;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight:700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  display:flex; align-items:center; gap:10px;
+}
+.logo-icon {
+  width:32px; height:32px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-radius: 6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px;
+}
+.badge {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--obsidian);
+  font-size:9px; font-weight:700;
+  padding: 2px 8px; border-radius:20px;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.header-stats {
+  display:flex; gap:20px;
+}
+.hstat {
+  text-align:center;
+  font-size:11px; color: var(--text-muted);
+}
+.hstat strong {
+  display:block;
+  font-size:18px; font-weight:700;
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+}
 
-        .logo {
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-        }
+/* NAV TABS */
+nav {
+  background: var(--deep);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.nav-inner {
+  max-width:1400px; margin:0 auto;
+  display:flex; gap:0; padding:0 16px;
+}
+.tab {
+  background:none; border:none; outline:none;
+  color: var(--text-muted);
+  padding: 14px 20px;
+  font-family:'DM Sans',sans-serif; font-size:12px; font-weight:600;
+  cursor:pointer; text-transform:uppercase; letter-spacing:.8px;
+  border-bottom: 2px solid transparent;
+  transition: all .2s; white-space:nowrap;
+  display:flex; align-items:center; gap:7px;
+}
+.tab:hover { color:var(--gold); }
+.tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+  background: rgba(201,168,76,.05);
+}
+.tab-icon { font-size:14px; }
 
-        /* NAVEGAÇÃO */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            background: var(--gray);
-            gap: 20px;
-            padding: 10px 0;
-        }
+/* MAIN */
+main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index:1; }
+.panel { display:none; }
+.panel.active { display:block; }
 
-        .tab-btn {
-            background: transparent;
-            border: 1px solid var(--dark-gold);
-            color: var(--gold);
-            padding: 10px 25px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: 0.3s;
-            border-radius: 4px;
-        }
+/* SECTION HEADERS */
+.section-header {
+  margin-bottom:28px;
+}
+.section-title {
+  font-family:'Playfair Display',serif;
+  font-size:2rem; font-weight:900;
+  color: var(--gold);
+  line-height:1.1;
+}
+.section-subtitle {
+  color:var(--text-muted); font-size:.9rem; margin-top:6px;
+}
+.gold-line {
+  width:60px; height:3px;
+  background:linear-gradient(90deg, var(--gold), transparent);
+  margin: 10px 0;
+}
 
-        .tab-btn.active {
-            background: var(--gold);
-            color: var(--black);
-        }
+/* ========== ABA 1: DOCUMENTO 24 FOLHAS ========== */
+.doc-toolbar {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:16px 20px;
+  display:flex; align-items:center; gap:12px;
+  margin-bottom:24px; flex-wrap:wrap;
+}
+.audio-controls { display:flex; gap:8px; align-items:center; }
+.audio-btn {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--gold); width:40px; height:40px; border-radius:50%;
+  cursor:pointer; font-size:14px; transition:all .2s;
+  display:flex; align-items:center; justify-content:center;
+}
+.audio-btn:hover { background:var(--gold); color:var(--obsidian); }
+.audio-btn.playing { background:var(--gold); color:var(--obsidian); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.speed-control { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); }
+.speed-select {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--gold); padding:6px 10px; border-radius:6px; font-size:12px;
+}
+.page-nav { display:flex; gap:8px; margin-left:auto; }
+.page-btn {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:8px 14px; border-radius:6px;
+  cursor:pointer; font-size:12px; font-weight:600; transition:.2s;
+}
+.page-btn:hover { border-color:var(--gold); color:var(--gold); }
+.page-progress {
+  font-family:'DM Mono',monospace; font-size:12px;
+  color:var(--gold); padding:8px 14px;
+  background:var(--surface2); border-radius:6px;
+  border:1px solid var(--border);
+}
 
-        /* CONTEÚDO */
-        .content-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 40px;
-            display: none;
-        }
+.doc-pages-container {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; overflow:hidden;
+}
+.doc-page {
+  display:none;
+  padding:50px 60px;
+  background: white;
+  color: #1a1a1a;
+  min-height: 900px;
+  position:relative;
+  line-height:1.8;
+}
+.doc-page.active { display:block; }
+.doc-page h1 { font-size:1.2rem; text-align:center; margin-bottom:8px; }
+.doc-page h2 { font-size:1.05rem; text-align:center; color:#333; margin-bottom:16px; }
+.doc-page h3 { font-size:1rem; margin:20px 0 10px; color:#111; border-bottom:1px solid #e0c060; padding-bottom:4px; }
+.doc-page p { margin-bottom:12px; font-size:13.5px; }
+.doc-page ul { margin:8px 0 12px 20px; }
+.doc-page li { margin-bottom:6px; font-size:13px; }
+.doc-page .page-header {
+  text-align:center; margin-bottom:30px;
+  border-bottom:2px solid #C9A84C; padding-bottom:20px;
+}
+.doc-page .page-num-badge {
+  position:absolute; top:20px; right:30px;
+  background:#C9A84C; color:#000;
+  padding:3px 12px; border-radius:20px;
+  font-size:11px; font-weight:700;
+}
+.doc-page table {
+  width:100%; border-collapse:collapse; margin:16px 0; font-size:12px;
+}
+.doc-page th {
+  background:#C9A84C; color:#000; padding:8px;
+  font-weight:700; text-align:left;
+}
+.doc-page td { padding:7px 8px; border-bottom:1px solid #e0e0e0; }
+.doc-page tr:nth-child(even) td { background:#f9f5e8; }
+.doc-page .highlight { background:#FFF9E6; border-left:4px solid #C9A84C; padding:12px 16px; margin:16px 0; }
+.doc-page .art-num { font-weight:700; color:#8B6914; }
 
-        .content-area.active { display: block; }
+/* ========== ABA 2: FLASHCARDS ========== */
+.flash-controls {
+  display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; align-items:center;
+}
+.fc-stat {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:10px 16px;
+  font-size:12px; color:var(--text-muted);
+}
+.fc-stat strong { display:block; font-size:20px; font-weight:700; color:var(--gold); }
+.cat-filter {
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.cat-btn {
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text-muted); padding:6px 14px; border-radius:20px;
+  cursor:pointer; font-size:11px; font-weight:600; transition:.2s;
+  text-transform:uppercase; letter-spacing:.5px;
+}
+.cat-btn:hover, .cat-btn.active { background:var(--gold); color:var(--obsidian); border-color:var(--gold); }
 
-        /* ESTILO DOCUMENTO 24 FOLHAS */
-        .doc-page {
-            background: #fff;
-            color: #000;
-            width: 800px;
-            min-height: 1100px;
-            margin: 0 auto 40px;
-            padding: 60px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            position: relative;
-            line-height: 1.6;
-            font-size: 14px;
-        }
+.cards-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:16px;
+}
+.flashcard {
+  height:200px; perspective:1200px; cursor:pointer;
+}
+.fc-inner {
+  width:100%; height:100%;
+  transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.flashcard.flipped .fc-inner { transform:rotateY(180deg); }
+.fc-front, .fc-back {
+  position:absolute; width:100%; height:100%;
+  backface-visibility:hidden; border-radius:12px;
+  padding:20px; display:flex; flex-direction:column;
+  justify-content:space-between;
+}
+.fc-front {
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+.fc-back {
+  background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color:var(--obsidian);
+  transform:rotateY(180deg);
+}
+.fc-cat {
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:1px; color:var(--gold); margin-bottom:8px;
+}
+.fc-back .fc-cat { color:rgba(0,0,0,0.5); }
+.fc-question { font-size:.9rem; font-weight:600; color:var(--text); flex:1; display:flex; align-items:center; }
+.fc-back .fc-answer { font-size:.85rem; font-weight:600; flex:1; display:flex; align-items:center; color:var(--obsidian); }
+.fc-hint { font-size:10px; color:var(--text-muted); text-align:right; }
+.fc-back .fc-hint { color:rgba(0,0,0,0.4); }
+.fc-stars {
+  display:flex; gap:3px;
+}
+.fc-star { font-size:12px; color:var(--gold-dark); cursor:pointer; }
+.fc-star.lit { color:var(--gold-bright); }
 
-        .page-num {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-weight: bold;
-            color: var(--dark-gold);
-        }
+/* REGRAS PANEL */
+.rules-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:16px;
+}
+.rule-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:20px;
+  border-left:4px solid var(--gold);
+  transition:all .2s;
+}
+.rule-card:hover { border-left-color:var(--gold-bright); background:var(--surface2); transform:translateY(-2px); }
+.rule-num {
+  font-family:'DM Mono',monospace; font-size:10px;
+  color:var(--gold); font-weight:700; margin-bottom:6px;
+}
+.rule-title { font-weight:700; font-size:.95rem; margin-bottom:8px; color:var(--text); }
+.rule-text { font-size:.82rem; color:var(--text-muted); line-height:1.6; }
+.rule-tag {
+  display:inline-block;
+  background:rgba(201,168,76,.1); border:1px solid var(--border);
+  color:var(--gold); padding:2px 8px; border-radius:10px;
+  font-size:9px; font-weight:700; text-transform:uppercase;
+  margin-top:8px; letter-spacing:.5px;
+}
 
-        /* FLASHCARDS GRID */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
+/* QUIZ */
+.quiz-start {
+  text-align:center; padding:60px 20px;
+}
+.quiz-start h2 {
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem; color:var(--gold); margin-bottom:12px;
+}
+.quiz-start p { color:var(--text-muted); margin-bottom:32px; font-size:1rem; }
+.btn-gold {
+  background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color:var(--obsidian); border:none; padding:14px 36px;
+  border-radius:8px; font-size:1rem; font-weight:700;
+  cursor:pointer; transition:all .2s; letter-spacing:.5px;
+}
+.btn-gold:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,168,76,.3); }
+.btn-outline {
+  background:transparent; border:1px solid var(--gold);
+  color:var(--gold); padding:10px 24px; border-radius:8px;
+  font-size:.9rem; font-weight:600; cursor:pointer; transition:.2s;
+}
+.btn-outline:hover { background:var(--gold); color:var(--obsidian); }
+.quiz-start .stats-row {
+  display:flex; justify-content:center; gap:30px; margin-bottom:40px;
+}
+.quiz-start .stat-box {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:16px 24px; text-align:center;
+}
+.quiz-start .stat-box strong {
+  display:block; font-size:2rem; color:var(--gold);
+  font-family:'DM Mono',monospace;
+}
+.quiz-start .stat-box span { font-size:.8rem; color:var(--text-muted); }
 
-        .card {
-            background: var(--gray);
-            border: 1px solid var(--dark-gold);
-            height: 180px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
+.quiz-container { display:none; }
+.quiz-header {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:16px 20px;
+  display:flex; align-items:center; gap:16px; margin-bottom:24px;
+}
+.quiz-progress-bar {
+  flex:1; height:8px; background:var(--surface2);
+  border-radius:4px; overflow:hidden;
+}
+.quiz-progress-fill {
+  height:100%; background:linear-gradient(90deg, var(--gold-dark), var(--gold));
+  border-radius:4px; transition:width .5s;
+}
+.quiz-num {
+  font-family:'DM Mono',monospace; font-size:13px; color:var(--gold); font-weight:600;
+}
+.quiz-timer {
+  background:var(--surface2); border:1px solid var(--border);
+  padding:6px 14px; border-radius:20px;
+  font-family:'DM Mono',monospace; font-size:14px; font-weight:700;
+  color:var(--gold); min-width:60px; text-align:center;
+}
+.quiz-timer.urgent { color:var(--red); animation:pulse .5s infinite; }
+.quiz-score-live {
+  font-size:13px; color:var(--text-muted);
+}
+.quiz-score-live span { color:var(--green); font-weight:700; }
 
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
+.quiz-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:32px; margin-bottom:24px;
+}
+.quiz-category {
+  font-size:10px; text-transform:uppercase; letter-spacing:1px;
+  color:var(--gold); font-weight:700; margin-bottom:12px;
+}
+.quiz-question {
+  font-size:1.15rem; font-weight:600; line-height:1.6;
+  margin-bottom:28px; color:var(--text);
+}
+.quiz-options {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.quiz-opt {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:14px 18px;
+  cursor:pointer; transition:all .2s;
+  text-align:left; font-size:.9rem; color:var(--text);
+  font-family:'DM Sans',sans-serif;
+}
+.quiz-opt:hover:not(:disabled) { border-color:var(--gold); background:var(--surface3); }
+.quiz-opt.correct { background:rgba(46,204,113,.15); border-color:var(--green); color:var(--green); }
+.quiz-opt.wrong { background:rgba(231,76,60,.15); border-color:var(--red); color:var(--red); }
+.quiz-opt:disabled { cursor:default; }
+.quiz-explanation {
+  display:none;
+  background:rgba(201,168,76,.08); border:1px solid var(--border);
+  border-radius:10px; padding:16px; margin-top:16px;
+  font-size:.85rem; color:var(--text-muted); line-height:1.6;
+}
+.quiz-explanation.show { display:block; }
+.quiz-explanation strong { color:var(--gold); }
+.quiz-next {
+  display:none; margin-top:20px;
+}
+.quiz-next.show { display:flex; justify-content:flex-end; }
 
-        .card.flipped .card-inner { transform: rotateY(180deg); }
+/* CERTIFICATE */
+.cert-container { display:none; text-align:center; padding:40px 20px; }
+.cert-container.show { display:block; }
+.cert-box {
+  background: linear-gradient(135deg, #0C1120, #1C2536);
+  border:2px solid var(--gold);
+  border-radius:16px; padding:60px;
+  max-width:800px; margin:0 auto;
+  position:relative; overflow:hidden;
+}
+.cert-box::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(201,168,76,.05), transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(201,168,76,.05), transparent 50%);
+  pointer-events:none;
+}
+.cert-corner {
+  position:absolute; width:60px; height:60px;
+  border-color:var(--gold); border-style:solid; border-width:0;
+}
+.cert-corner.tl { top:16px; left:16px; border-top-width:2px; border-left-width:2px; }
+.cert-corner.tr { top:16px; right:16px; border-top-width:2px; border-right-width:2px; }
+.cert-corner.bl { bottom:16px; left:16px; border-bottom-width:2px; border-left-width:2px; }
+.cert-corner.br { bottom:16px; right:16px; border-bottom-width:2px; border-right-width:2px; }
+.cert-seal { font-size:64px; margin-bottom:16px; }
+.cert-title {
+  font-family:'Playfair Display',serif; font-size:1rem;
+  color:var(--gold); letter-spacing:3px; text-transform:uppercase;
+  margin-bottom:6px;
+}
+.cert-subtitle {
+  font-family:'Playfair Display',serif; font-size:2.2rem;
+  color:var(--text); margin-bottom:8px; font-weight:700;
+}
+.cert-name {
+  font-family:'Playfair Display',serif; font-size:2.8rem;
+  color:var(--gold); font-weight:900; margin:20px 0;
+}
+.cert-text { color:var(--text-muted); font-size:.95rem; line-height:1.7; margin-bottom:24px; }
+.cert-score {
+  display:inline-block;
+  background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color:var(--obsidian); padding:12px 36px; border-radius:8px;
+  font-size:1.5rem; font-weight:900; margin:16px 0;
+}
+.cert-date { color:var(--text-muted); font-size:.85rem; margin-top:20px; }
+.cert-line { border:none; border-top:1px solid var(--border); margin:24px auto; width:200px; }
+.cert-issued { font-size:.8rem; color:var(--text-muted); font-style:italic; }
+.cert-stars { font-size:24px; margin:12px 0; color:var(--gold); }
+.cert-actions { margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            box-sizing: border-box;
-        }
+/* DESAFIOS */
+.challenges-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
+  gap:20px;
+}
+.challenge-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:24px;
+  position:relative; overflow:hidden;
+  transition:all .3s;
+}
+.challenge-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--gold-dark), var(--gold));
+}
+.challenge-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(201,168,76,.15); }
+.ch-icon { font-size:36px; margin-bottom:12px; }
+.ch-title { font-weight:700; font-size:1rem; margin-bottom:8px; color:var(--text); }
+.ch-desc { font-size:.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:16px; }
+.ch-progress {
+  background:var(--surface2); border-radius:4px;
+  height:6px; overflow:hidden; margin-bottom:8px;
+}
+.ch-fill { height:100%; background:linear-gradient(90deg, var(--gold-dark), var(--gold)); border-radius:4px; }
+.ch-stats { display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); }
+.ch-badge {
+  position:absolute; top:16px; right:16px;
+  background:rgba(201,168,76,.1); border:1px solid var(--border);
+  color:var(--gold); padding:2px 8px; border-radius:10px;
+  font-size:9px; font-weight:700; text-transform:uppercase;
+}
+.ch-locked { opacity:.5; filter:grayscale(.5); }
+.ch-locked::after {
+  content:'🔒';
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:32px; z-index:2;
+}
 
-        .card-front { color: var(--gold); font-weight: bold; font-size: 0.9rem; }
-        .card-back { 
-            background: var(--gold); 
-            color: var(--black); 
-            transform: rotateY(180deg); 
-            font-size: 0.85rem; 
-            font-weight: 500;
-        }
+/* TABELA DE HONORÁRIOS */
+.honorarios-section h3 {
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem; color:var(--gold);
+  margin:28px 0 16px; padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.hon-table {
+  width:100%; border-collapse:collapse; font-size:12px; margin-bottom:8px;
+}
+.hon-table th {
+  background:var(--surface2); padding:10px 12px;
+  text-align:left; color:var(--gold); font-weight:700;
+  font-size:11px; text-transform:uppercase; letter-spacing:.5px;
+  border-bottom:1px solid var(--border);
+}
+.hon-table td {
+  padding:9px 12px; border-bottom:1px solid rgba(255,255,255,.04);
+  color:var(--text);
+}
+.hon-table tr:hover td { background:var(--surface2); }
+.hon-table .code { font-family:'DM Mono',monospace; color:var(--gold); font-weight:600; }
+.hon-table .value { font-family:'DM Mono',monospace; color:var(--green); }
+.hon-table .pct70 { color:#F39C12; font-family:'DM Mono',monospace; }
 
-        /* CONTROLES AUDIO */
-        .audio-bar {
-            display: flex;
-            gap: 15px;
-        }
+/* SCROLLBAR */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--obsidian); }
+::-webkit-scrollbar-thumb { background:var(--gold-dark); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--gold); }
 
-        .audio-btn {
-            background: var(--gold);
-            border: none;
-            color: var(--black);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-        }
+/* FOOTER */
+footer {
+  text-align:center; padding:20px; font-size:11px;
+  color:var(--text-muted); border-top:1px solid var(--border);
+  margin-top:40px; position:relative; z-index:1;
+}
 
-        footer {
-            background: #000;
-            color: #666;
-            text-align: center;
-            padding: 10px;
-            font-size: 11px;
-            border-top: 1px solid #333;
-        }
+/* MODAL */
+.modal-overlay {
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,.85); z-index:1000; align-items:center; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:32px; max-width:500px; width:90%;
+  animation:slide-up .3s;
+}
+@keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal h3 { font-family:'Playfair Display',serif; color:var(--gold); margin-bottom:12px; }
+.modal p { color:var(--text-muted); font-size:.9rem; line-height:1.6; margin-bottom:20px; }
+.modal-actions { display:flex; gap:12px; justify-content:flex-end; }
 
-        hr { border: 0; border-top: 1px solid var(--gold); margin: 20px 0; }
-    </style>
+/* TOOLTIP */
+[data-tip] { position:relative; cursor:help; }
+[data-tip]:hover::after {
+  content:attr(data-tip);
+  position:absolute; bottom:calc(100% + 8px); left:50%;
+  transform:translateX(-50%);
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); padding:8px 12px; border-radius:6px;
+  font-size:11px; white-space:nowrap; z-index:99;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px) {
+  .nav-inner { gap:0; }
+  .tab { padding:12px 12px; font-size:10px; }
+  main { padding:16px; }
+  .quiz-options { grid-template-columns:1fr; }
+  .cert-name { font-size:2rem; }
+  .doc-page { padding:30px 20px; }
+}
+</style>
 </head>
 <body>
 
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- HEADER -->
 <header>
-    <div class="logo">CÁSSIA PROMPT V8 <small>Elite</small></div>
-    <div class="audio-bar">
-        <button class="audio-btn" onclick="speaker('play')">▶</button>
-        <button class="audio-btn" onclick="speaker('pause')">⏸</button>
-        <button class="audio-btn" onclick="speaker('stop')">⏹</button>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">⚖</div>
+      CONVÊNIO DPE/OAB-SP 001/2026
+      <span class="badge">Elite</span>
     </div>
+    <div class="header-stats">
+      <div class="hstat"><strong id="stat-flash">50</strong>Flashcards</div>
+      <div class="hstat"><strong id="stat-quiz">50</strong>Quiz Q.</div>
+      <div class="hstat"><strong id="stat-rules">50</strong>Regras</div>
+      <div class="hstat"><strong id="stat-pages">24</strong>Folhas</div>
+    </div>
+  </div>
 </header>
 
-<nav class="nav-container">
-    <button class="tab-btn active" onclick="openTab(event, 'doc')">Documento (24 Fls)</button>
-    <button class="tab-btn" onclick="openTab(event, 'flash')">30 Flashcards</button>
-    <button class="tab-btn" onclick="openTab(event, 'prazos')">Prazos e Regras</button>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="tab active" onclick="openTab('doc')"><span class="tab-icon">📄</span>Documento</button>
+    <button class="tab" onclick="openTab('flash')"><span class="tab-icon">🃏</span>Flashcards</button>
+    <button class="tab" onclick="openTab('rules')"><span class="tab-icon">⚡</span>50 Regras</button>
+    <button class="tab" onclick="openTab('honorarios')"><span class="tab-icon">💰</span>Honorários</button>
+    <button class="tab" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
+    <button class="tab" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
+  </div>
 </nav>
 
-<section id="doc" class="content-area active">
-    <div class="doc-page">
-        <div class="page-num">PÁG. 01</div>
-        <center>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Bras%C3%A3o_do_estado_de_S%C3%A3o_Paulo.svg/1200px-Bras%C3%A3o_do_estado_de_S%C3%A3o_Paulo.svg.png" width="80"><br>
-            <strong>DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO</strong><br>
-            <strong>CONVÊNIO Nº 001/2026</strong>
-        </center>
-        <hr>
-        <p><strong>PROCESSO SEI Nº 2026/0001363</strong></p>
-        <p>Termo de Convênio que entre si celebram a DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO e a ORDEM DOS ADVOGADOS DO BRASIL - SEÇÃO DE SÃO PAULO, para a prestação de assistência judiciária gratuita suplementar pela advocacia dativa...</p>
-        <p><strong>Cláusula Primeira:</strong> O presente Convênio tem por objeto a prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo, nas áreas Cível, Família, Criminal e Infância.</p>
-        <p><strong>Vigência:</strong> 15 meses a contar de 01/05/2026.</p>
+<main>
+
+<!-- ============================
+     ABA 1: DOCUMENTO
+============================= -->
+<div id="panel-doc" class="panel active">
+  <div class="section-header">
+    <div class="section-title">Convênio DPE-OAB/SP Nº 001/2026</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Documento completo — 24 folhas com audiobook integrado</div>
+  </div>
+
+  <div class="doc-toolbar">
+    <div class="audio-controls">
+      <button class="audio-btn" id="btnPlay" onclick="audioPlay()" title="Reproduzir">▶</button>
+      <button class="audio-btn" onclick="audioPause()" title="Pausar">⏸</button>
+      <button class="audio-btn" onclick="audioStop()" title="Parar">⏹</button>
+    </div>
+    <div class="speed-control">
+      <span>Velocidade:</span>
+      <select class="speed-select" id="speedSelect">
+        <option value="0.8">0.8×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.2">1.2×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+    <div id="audio-status" style="font-size:11px;color:var(--text-muted);">Clique ▶ para iniciar o audiobook desta página</div>
+    <div class="page-nav">
+      <button class="page-btn" onclick="changePage(-1)">◀ Anterior</button>
+      <span class="page-progress" id="pageProgress">1 / 24</span>
+      <button class="page-btn" onclick="changePage(1)">Próxima ▶</button>
+    </div>
+  </div>
+
+  <div class="doc-pages-container">
+
+    <!-- PÁG 1 -->
+    <div class="doc-page active" id="dp1">
+      <span class="page-num-badge">Pág. 1 / 24</span>
+      <div class="page-header">
+        <h1>DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO</h1>
+        <h2>CONVÊNIO Nº 001/2026 — PROCESSO SEI Nº 2026/0001363</h2>
+      </div>
+      <p>Termo de Convênio que entre si celebram a <strong>DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO</strong> e a <strong>ORDEM DOS ADVOGADOS DO BRASIL – SEÇÃO DE SÃO PAULO</strong>, para a prestação de assistência judiciária gratuita suplementar pela advocacia dativa, nos limites deste Convênio, à população carente do Estado de São Paulo.</p>
+      <p><strong>DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO</strong>, CNPJ nº 08.036.157/0001-89, sede: Rua Boa Vista, nº 200, 8º andar, Centro, São Paulo-SP, representada pela Defensora Pública-Geral do Estado, Doutora <strong>LUCIANA JORDÃO DA MOTTA ARMILIATO DE CARVALHO</strong>, CPF nº 005.493.519-90.</p>
+      <p><strong>ORDEM DOS ADVOGADOS DO BRASIL, Seção de São Paulo</strong>, sede: Praça da Sé, nº 385, Centro, São Paulo-SP, CNPJ nº 43.419.613/0001-70, representada pelo Presidente, Doutor <strong>LEONARDO SICA</strong>, CPF nº 265.532.808-60.</p>
+      <p>Celebrado nos termos da <strong>Lei nº 14.133/21</strong> e suas alterações posteriores.</p>
+      <h3>TÍTULO I – DISPOSIÇÕES GERAIS — Seção I – Do Objeto e Âmbito de Aplicação</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA PRIMEIRA</strong> – Constitui objeto deste convênio a prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo, nos termos da Deliberação CSDP nº 89/08.</p>
+      </div>
+      <p><strong>§1º — Áreas abrangidas:</strong></p>
+      <ul>
+        <li><strong>I – Área Cível:</strong> procedimentos ordinários, execuções, ações declaratórias, possessórias, locatícias, mandados de segurança, processos cautelares, curadoria especial e Juizados Especiais Cível e da Fazenda Pública.</li>
+        <li><strong>II – Família e Sucessões:</strong> alimentos, inventários, separação, divórcio, união estável, investigação de paternidade, tutela, curatela e regulamentação de guarda e visitas.</li>
+        <li><strong>III – Área Criminal:</strong> ritos ordinário, sumário e sumaríssimo, Tribunal do Júri, execução penal, violência doméstica, acordos de não persecução penal e atuação como advogado do querelante.</li>
+        <li><strong>IV – Infância e Juventude:</strong> procedimentos nas áreas cível e infracional pertinentes.</li>
+        <li><strong>V – Atividades Especiais:</strong> cartas precatórias, plantões em dias úteis e não úteis.</li>
+      </ul>
     </div>
 
-    <div class="doc-page">
-        <div class="page-num">PÁG. 02</div>
-        <h3>TÍTULO II - DAS OBRIGAÇÕES</h3>
-        <p><strong>Cláusula Sétima:</strong> São obrigações dos advogados inscritos:</p>
-        <ul>
-            <li>I - Manter endereço eletrônico atualizado no domínio @adv.oabsp.org.br;</li>
-            <li>II - Atender o usuário com urbanidade e eficiência;</li>
-            <li>III - Protocolar ações no prazo máximo de 15 dias após a entrega de documentos.</li>
-        </ul>
+    <!-- PÁG 2 -->
+    <div class="doc-page" id="dp2">
+      <span class="page-num-badge">Pág. 2 / 24</span>
+      <h3>§3º — Execução Penal (hipóteses excepcionais — Res. 749/2016 TJ-SP):</h3>
+      <ul>
+        <li>I – Execuções em regime aberto</li>
+        <li>II – Livramento condicional</li>
+        <li>III – Suspensão condicional da pena (sursis)</li>
+        <li>IV – Penas restritivas de direitos</li>
+      </ul>
+      <p><strong>§4º</strong> — Indicação na execução penal somente quando: (I) processo tramitar fora do DEECRIM; (II) houver necessidade de defesa técnica para ato específico; (III) existir prévia solicitação do TJ no Módulo de Indicações; (IV) constar expressa autorização da Assessoria de Convênios.</p>
+      <h3>Seção II – Das Exclusões e Exceções de Atuação</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA SEGUNDA</strong> – Excluem-se da abrangência desse convênio as áreas: <strong>eleitoral, administrativa, trabalhista e previdenciária</strong>, ainda que nos casos de competência delegada à Justiça Estadual.</p>
+      </div>
+      <ul>
+        <li><strong>§1º</strong> — Vedada indicação para propositura/prosseguimento em processos de <strong>revisão criminal</strong>.</li>
+        <li><strong>§2º</strong> — Vedada indicação para defesa de <strong>pessoa jurídica</strong>, salvo curadoria especial.</li>
+        <li><strong>§3º</strong> — Vedada nomeação para defesa de vítima na área criminal, exceto: (I) ação penal privada ou subsidiária; (II) acompanhamento de vítimas/testemunhas em depoimento especial (autorização prévia); (III) acompanhamento de vítimas de racismo em oitiva (autorização prévia).</li>
+      </ul>
+      <h3>TÍTULO II – DAS PARTES CONVENENTES — Seção I – Das Obrigações Da OAB/SP</h3>
+      <p><strong>CLÁUSULA TERCEIRA</strong> – A OAB/SP deverá, entre outras obrigações:</p>
+      <ul>
+        <li><strong>I</strong> – Conferir e atestar regularidade da inscrição do advogado conveniado.</li>
+        <li><strong>II</strong> – Zelar pela regularidade da atuação profissional, informando impedimentos e incompatibilidades.</li>
+        <li><strong>III</strong> – Promover ampla divulgação dos termos do convênio e do edital de inscrições.</li>
+        <li><strong>IV</strong> – Afixar cartazes de identificação do convênio em todos os locais de atendimento.</li>
+        <li><strong>V</strong> – Prestar atendimento inicial nas Subseções indicadas pela DEFENSORIA (vigente enquanto sistema informatizado não estiver em pleno funcionamento).</li>
+      </ul>
     </div>
-    </section>
 
-<section id="flash" class="content-area">
-    <div class="cards-grid" id="cardContainer"></div>
-</section>
-
-<section id="prazos" class="content-area">
-    <div class="doc-page" style="background: #1a1a1a; color: var(--gold); border: 2px solid var(--gold);">
-        <h2>⚖️ RADAR DE PRAZOS CRÍTICOS</h2>
-        <hr>
-        <p><strong>1. PROTOCOLO DE CERTIDÃO:</strong> Até o dia 25 de cada mês.</p>
-        <p><strong>2. CUMPRIMENTO DE SENTENÇA:</strong> Atuar por 12 meses sem nova certidão.</p>
-        <p><strong>3. MANIFESTAÇÃO COMISTA:</strong> 10 dias úteis sob pena de revelia administrativa.</p>
-        <p><strong>4. PROPOSIÇÃO DA AÇÃO:</strong> 15 dias após o recebimento da documentação.</p>
+    <!-- PÁG 3 -->
+    <div class="doc-page" id="dp3">
+      <span class="page-num-badge">Pág. 3 / 24</span>
+      <h3>OAB/SP — Obrigações (continuação)</h3>
+      <ul>
+        <li><strong>VI</strong> – Participar por meio da CAD de reuniões periódicas com a DEFENSORIA.</li>
+        <li><strong>VII</strong> – Adequar-se aos sistemas informatizados utilizados pela DEFENSORIA.</li>
+        <li><strong>VIII</strong> – Disponibilizar aos advogados conveniados extratos de pagamentos em acesso restrito com certificado digital.</li>
+        <li><strong>IX</strong> – Utilizar dados coletados dos bancos da DEFENSORIA exclusivamente na execução do convênio.</li>
+        <li><strong>X</strong> – Cumprir leis de proteção de dados (LGPD) em todo momento.</li>
+        <li><strong>XI</strong> – Comunicar incidentes de segurança de dados o mais breve possível.</li>
+        <li><strong>XII</strong> – Responsabilizar-se por multas impostas por autoridades de proteção de dados.</li>
+        <li><strong>XIII</strong> – Zelar pela economicidade na prestação suplementar, evitando demandas já custeadas por outras fontes.</li>
+      </ul>
+      <p><strong>§1º</strong> — O atendimento inicial compreende: análise do problema, avaliação econômico-financeira, orientação jurídica e indicação de advogado conveniado quando o caso.</p>
+      <p><strong>§2º</strong> — Para fins da avaliação econômico-financeira, a declaração de inexistência de qualquer renda para subsistência deve ser precedida de devida fundamentação.</p>
+      <p><strong>§3º</strong> — Quando o atendimento for realizado nas instalações da OAB/SP, deverá: (I) disponibilizar local específico, adequado e acessível; (II) manter atendimento semanal em dias úteis predefinidos e autorizados pela DEFENSORIA; (III) atender todos os usuários nos dias e horários definidos; (IV) disponibilizar acesso à internet e ao sistema de indicações; (V) dispor de pessoal para atendimento inicial.</p>
+      <p><strong>§4º</strong> — Sempre que realizado o atendimento inicial, será exigido o preenchimento de cadastro do cidadão, de acordo com os critérios definidos pela DEFENSORIA.</p>
+      <p><strong>§5º</strong> — A abertura de novos postos de atendimento deverá ser previamente autorizada pela DEFENSORIA que deverá decidir em até <strong>60 dias</strong>.</p>
     </div>
-</section>
+
+    <!-- PÁG 4 -->
+    <div class="doc-page" id="dp4">
+      <span class="page-num-badge">Pág. 4 / 24</span>
+      <h3>Seção II – Das Obrigações Da Defensoria Pública</h3>
+      <p><strong>CLÁUSULA QUARTA</strong> – A DEFENSORIA obriga-se a:</p>
+      <ul>
+        <li><strong>I</strong> – Processar e efetuar o pagamento das certidões regulares apresentadas pelos advogados conveniados.</li>
+        <li><strong>II</strong> – Disponibilizar ao advogado conveniado, por meio eletrônico, extrato detalhado da certidão de honorários.</li>
+        <li><strong>III</strong> – Disponibilizar, anualmente, os informes de rendimento para declaração do IR.</li>
+        <li><strong>IV</strong> – Manter em seu portal, na internet, espaço reservado para informações relativas ao presente convênio.</li>
+        <li><strong>V</strong> – Desenvolver e implementar sistema informatizado próprio para atendimento inicial aos usuários.</li>
+        <li><strong>VI</strong> – Disponibilizar estrutura física e material para sessões da Comissão Mista Processante.</li>
+        <li><strong>VII</strong> – Recolher a contribuição previdenciária legalmente devida em razão das certidões pagas.</li>
+        <li><strong>VIII</strong> – Analisar e julgar pedidos de renúncia de indicação apresentados pelos advogados.</li>
+        <li><strong>IX</strong> – Realizar reuniões periódicas com a CAD da OAB/SP.</li>
+        <li><strong>X</strong> – Desenvolver sistema eletrônico que permita ao advogado acompanhamento das indicações e envio eletrônico de certidões.</li>
+      </ul>
+      <div class="highlight">
+        <p><strong>§1º</strong> — As certidões regularmente expedidas deverão ser protocolizadas no sistema digital de protocolo de certidões da CAD/OAB-SP, que deverá encaminhar as certidões digitalmente à DEFENSORIA <strong>até o dia 25 de cada mês</strong>, para pagamento no <strong>1º dia útil do segundo mês subsequente</strong>.</p>
+      </div>
+    </div>
+
+    <!-- PÁG 5 -->
+    <div class="doc-page" id="dp5">
+      <span class="page-num-badge">Pág. 5 / 24</span>
+      <h3>Seção III – Das Obrigações Dos Advogados Conveniados</h3>
+      <p><strong>CLÁUSULA QUINTA</strong> — A inscrição representa anuência irrestrita ao regime especial de prestação de serviços e sujeição ao procedimento fiscalizatório.</p>
+      <p><strong>CLÁUSULA SÉTIMA</strong> — O advogado conveniado deve observar:</p>
+      <ul>
+        <li><strong>I</strong> – Manter endereço de e-mail atualizado com extensão <strong>@adv.oabsp.org.br</strong>.</li>
+        <li><strong>II</strong> – Dispor de acesso à internet e certificação digital.</li>
+        <li><strong>III</strong> – Participar de todo atendimento inicial, cumprindo escala de plantão da Subseção.</li>
+        <li><strong>IV</strong> – Manter dados cadastrais atualizados junto à DEFENSORIA e à OAB/SP.</li>
+        <li><strong>V</strong> – Manter instalações adequadas, com espera sentada e acessibilidade.</li>
+        <li><strong>VI</strong> – Atender pessoal e/ou telepresencialmente todos os usuários e familiares com presteza e urbanidade.</li>
+        <li><strong>VII</strong> – Abster-se, em suas petições, do uso de símbolos ou timbres da DEFENSORIA ou da OAB.</li>
+        <li><strong>VIII</strong> – Conversar pessoal e reservadamente com réu preso ou adolescente internado, no mínimo antes do interrogatório.</li>
+        <li><strong>IX</strong> – Documentar todos os atendimentos e orientações efetuados.</li>
+        <li><strong>X</strong> – Enviar à DEFENSORIA, quando solicitado, cópias dos documentos.</li>
+        <li><strong>XI</strong> – Fornecer aos usuários, por escrito, rol de documentos necessários para medidas judiciais.</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 6 -->
+    <div class="doc-page" id="dp6">
+      <span class="page-num-badge">Pág. 6 / 24</span>
+      <h3>Deveres dos Advogados (continuação)</h3>
+      <ul>
+        <li><strong>XII</strong> – Fornecer recibo detalhado de todos os documentos entregues no atendimento.</li>
+        <li><strong>XIII</strong> – Fornecer ao usuário informação atualizada, clara e compreensível sobre os processos.</li>
+        <li><strong>XIV</strong> – Peticionar pelo desarquivamento de processos, extração de cópias e emissão de certidões quando necessário, sem qualquer ônus para o usuário.</li>
+        <li><strong>XV</strong> – Zelar pela economicidade, buscando tutela antecipada e reunião de pedidos na mesma ação.</li>
+        <li><strong>XVI</strong> – Zelar pela busca de solução consensual do conflito, sempre que possível.</li>
+        <li><strong>XVII</strong> – Adotar todas as medidas judiciais cabíveis em todos os graus de jurisdição.</li>
+        <li><strong>XVIII</strong> – Atuar de forma diligente nos feitos, acompanhando-os até o <strong>trânsito em julgado</strong>.</li>
+        <li><strong>XIX</strong> – Observar os prazos para adoção das medidas jurídicas.</li>
+        <li><strong>XX</strong> – Orientar o usuário e adotar medidas para efetivação de averbações e registros, mesmo após recebimento da certidão de honorários.</li>
+        <li><strong>XXI</strong> – Acompanhar intimações publicadas na Imprensa Oficial.</li>
+        <li><strong>XXII</strong> – Conferir o regular preenchimento da certidão de honorários expedida pelo juízo.</li>
+        <li><strong>XXIII</strong> – Solicitar substituição da certidão de honorários em caso de preenchimento em desconformidade com o convênio.</li>
+        <li><strong>XXIV</strong> – Atuar no cumprimento de sentença, quando iniciado em até <strong>12 meses do trânsito em julgado</strong>, sem direito a nova certidão.</li>
+        <li><strong>XXVII</strong> – Comunicar prontamente ao usuário em todos os casos de recusas de indicação.</li>
+        <li><strong>XXX</strong> – Acompanhar todos os feitos sob seu patrocínio, independentemente de ulterior cancelamento de inscrição.</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 7 -->
+    <div class="doc-page" id="dp7">
+      <span class="page-num-badge">Pág. 7 / 24</span>
+      <h3>TÍTULO III – DAS INSCRIÇÕES — Seção I – Da Abertura Das Inscrições</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA OITAVA</strong> – A DEFENSORIA abrirá inscrições <strong>ao menos uma vez ao ano</strong>, na forma e nos prazos estabelecidos em edital.</p>
+      </div>
+      <p><strong>§1º</strong> — O advogado poderá se inscrever como pessoa física ou como sociedade individual, sendo <strong>vedada a participação simultânea</strong> em ambas as qualificações.</p>
+      <p><strong>§3º</strong> — Até que o novo edital produza seus regulares efeitos, permanecerão válidas as inscrições ativas remanescentes do último edital.</p>
+      <div class="highlight">
+        <p><strong>CLÁUSULA NONA</strong> – O Edital de inscrições deverá prever abertura e encerramento em dias úteis, por período <strong>não inferior a 15 dias</strong>, publicado na Imprensa Oficial com antecedência mínima de <strong>10 dias</strong> da data de início.</p>
+      </div>
+      <p><strong>§2º</strong> — A inscrição terá <strong>vigência anual</strong>, devendo sempre ser renovada quando da publicação de novo edital.</p>
+      <h3>Seção II – Dos Requisitos E Documentação</h3>
+      <p><strong>CLÁUSULA DÉCIMA</strong> – Exigências do Edital:</p>
+      <ul>
+        <li><strong>V</strong> – Endereço eletrônico fornecido pela OAB-SP: <strong>@adv.oabsp.org.br</strong></li>
+        <li><strong>VII</strong> – Para atuação no Tribunal do Júri, Infância e Juventude e medidas protetivas de violência doméstica: comprovação de experiência profissional.</li>
+        <li><strong>XI</strong> – Comprovação de adimplemento com os cofres da OAB/SP.</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 8 -->
+    <div class="doc-page" id="dp8">
+      <span class="page-num-badge">Pág. 8 / 24</span>
+      <h3>CLÁUSULA DÉCIMA PRIMEIRA — Requisitos para Inscrição</h3>
+      <ul>
+        <li><strong>I</strong> – Em dia com os cofres da OAB/SP</li>
+        <li><strong>II</strong> – No pleno exercício da profissão</li>
+        <li><strong>III</strong> – Não cumprindo sanção administrativa de descredenciamento ou sanção disciplinar</li>
+        <li><strong>IV</strong> – Não incidindo nas proibições do art. 12, I a III, da Lei nº 8.249/92</li>
+        <li><strong>V</strong> – Não exercendo emprego/função/cargo público com carga horária ≥ 6 horas/dia incompatível com a advocacia</li>
+      </ul>
+      <div class="highlight">
+        <p><strong>§5º</strong> — Inscrição para Tribunal do Júri: comprovar haver atuado em <strong>4 sessões plenárias</strong>, ou em <strong>1 sessão plenária + conclusão de curso específico</strong>.</p>
+        <p><strong>§6º</strong> — Inscrição para medidas protetivas autônomas de violência doméstica e Infância e Juventude: comprovar conclusão de <strong>curso específico</strong>.</p>
+        <p><strong>§7º</strong> — Os cursos devem ser ministrados em conjunto pela <strong>EDEPE</strong> e pela <strong>Escola Superior da Advocacia da OAB/SP</strong>.</p>
+      </div>
+      <p><strong>§11</strong> — Inscrições para área cível divididas em Cível e Família/Sucessões, permitindo ao advogado escolher as áreas de interesse.</p>
+      <h3>SEÇÃO III – Do Cancelamento Da Inscrição</h3>
+      <p><strong>CLÁUSULA DÉCIMA SEGUNDA</strong> – O pedido de cancelamento deve ser realizado em campo específico no portal do advogado.</p>
+      <p><strong>§2º</strong> — Salvo impedimento legal ou renúncia deferida pela DEFENSORIA, o advogado deverá continuar, <strong>até o trânsito em julgado</strong>, no patrocínio das ações para as quais tenha sido indicado.</p>
+    </div>
+
+    <!-- PÁG 9 -->
+    <div class="doc-page" id="dp9">
+      <span class="page-num-badge">Pág. 9 / 24</span>
+      <h3>TÍTULO IV – DAS INDICAÇÕES E ATUAÇÃO — Seção I – Disposições Gerais</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA DÉCIMA TERCEIRA</strong> — A prestação de assistência judiciária ao usuário é <strong>totalmente gratuita</strong>. Vedada qualquer cobrança a título de honorários advocatícios, taxas, emolumentos ou despesas de qualquer natureza, sob pena de <strong>descredenciamento</strong>.</p>
+      </div>
+      <p><strong>CLÁUSULA DÉCIMA QUARTA</strong> — A indicação pressupõe a verificação do estado real de pobreza do usuário, observada a Deliberação CSDP nº 89/08.</p>
+      <p><strong>§4º</strong> — As indicações deverão obedecer à <strong>ordem alfabética crescente</strong>. Após homologação das novas listas, haverá continuidade a partir do último profissional nomeado na lista anterior.</p>
+      <p><strong>§11</strong> — Ausência temporária: o advogado poderá lançar no Módulo de Indicações ausência temporária por <strong>60 dias por ano</strong>, permitido o gozo em dois períodos de 30 dias.</p>
+      <p><strong>§14</strong> — Substabelecimento: permitido <strong>uma única vez em cada feito</strong>, para um único ato de audiência, a outro advogado conveniado, que não fará jus a quaisquer valores. Tem caráter personalíssimo o múnus assumido.</p>
+      <h3>Seção II – Das Indicações Na Área Cível</h3>
+      <p><strong>CLÁUSULA DÉCIMA QUINTA — Prazos para área cível:</strong></p>
+      <ul>
+        <li><strong>§2º — I:</strong> <strong>6 meses</strong> para recebimento da documentação, contados da nomeação.</li>
+        <li><strong>§2º — II:</strong> <strong>30 dias</strong> para o ajuizamento, contados a partir do recebimento da documentação necessária.</li>
+        <li><strong>§3º:</strong> Medidas urgentes devem ser propostas em tempo hábil. Defesa deve ser protocolada dentro do prazo processual.</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 10 -->
+    <div class="doc-page" id="dp10">
+      <span class="page-num-badge">Pág. 10 / 24</span>
+      <h3>Área Cível (continuação)</h3>
+      <p><strong>§4º</strong> — Ações onde haja cumulação de pedidos: advogado receberá <strong>uma única nomeação</strong>, obrigando-se a propor medida judicial concentrando os pleitos em um único processo.</p>
+      <p><strong>§6º</strong> — Separação e divórcio consensuais: será indicado <strong>apenas um advogado para representar ambas as partes</strong>.</p>
+      <p><strong>§7º</strong> — O advogado indicado deverá formular todos os pedidos cabíveis: guarda de filhos, alimentos, regulamentação de visitas, partilha de bens e outros provimentos correlatos.</p>
+      <p><strong>§8º</strong> — Não será permitida indicação de novo advogado para cumprimento de sentença de execução de alimentos em tempo inferior a <strong>60 dias</strong>, contados do pagamento integral ou da suspensão do processo.</p>
+      <h3>Seção III – Das Indicações Na Área Criminal</h3>
+      <p><strong>CLÁUSULA DÉCIMA SEXTA</strong> — A indicação para atuação em favor do réu será feita:</p>
+      <ul>
+        <li><strong>I</strong> – Para a audiência de custódia, se houver.</li>
+        <li><strong>II</strong> – Após apresentação da proposta ou intenção de formulação do ANPP.</li>
+        <li><strong>III</strong> – Após a citação válida do acusado.</li>
+      </ul>
+      <p><strong>§1º</strong> — O advogado nomeado desde a audiência de custódia será responsável por <strong>todos os atos do processo</strong>, inclusive eventual ANPP.</p>
+      <p><strong>§2º</strong> — Recebida indicação para atuação em favor de réu preso, obriga-se o advogado a adotar <strong>todas as medidas para obtenção da liberdade</strong> a partir da ciência da indicação. Não poderão ser expedidas novas indicações para impetração de HC quando esse for necessário.</p>
+      <p><strong>§4º</strong> — Nas ações criminais, o advogado é responsável pela manifestação sobre a <strong>multa</strong> perante o Juízo do Conhecimento, antes do envio ao Juízo de Execuções Criminais.</p>
+    </div>
+
+    <!-- PÁG 11 -->
+    <div class="doc-page" id="dp11">
+      <span class="page-num-badge">Pág. 11 / 24</span>
+      <h3>Subseção II – Tribunal do Júri</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA DÉCIMA SÉTIMA</strong> — A atuação sem o preenchimento dos requisitos exigidos <strong>impede o pagamento das certidões</strong>.</p>
+      </div>
+      <p><strong>§1º</strong> — A nomeação para a 1ª fase (até a pronúncia) permanecerá válida para a 2ª fase (plenário) e eventual segundo plenário.</p>
+      <p><strong>§2º</strong> — Em caso de realização de novo Júri, o advogado que patrocinou a defesa fará jus a <strong>nova certidão de honorários</strong>.</p>
+      <h3>Subseção III – Medidas Protetivas</h3>
+      <p><strong>CLÁUSULA DÉCIMA OITAVA</strong> — Atuação em medidas protetivas pode ocorrer em favor da vítima ou do requerido, exclusivamente em pedidos autônomos.</p>
+      <p><strong>§1º — Nomeação em favor de mulheres vítimas</strong> nas seguintes hipóteses:</p>
+      <ul>
+        <li>I – Recusa da concessão pela autoridade policial em razão da complexidade jurídica da medida</li>
+        <li>II – Necessidade de interposição de recurso contra decisão que indeferiu</li>
+        <li>III – Necessidade de pedido de reconsideração contra decisão desfavorável</li>
+        <li>IV – Necessidade de maior instrução probatória</li>
+      </ul>
+      <p><strong>§2º</strong> — O advogado nomeado ficará vinculado às demandas correlatas da mesma beneficiária pelo período de <strong>12 meses</strong>, contado da primeira decisão.</p>
+      <p><strong>§4º — Nomeação em favor do requerido</strong>: depende de análise socioeconômica e prévia citação/intimação.</p>
+      <p><strong>§5º</strong> — O advogado nomeado para o requerido ficará vinculado pelo período de <strong>12 meses</strong>.</p>
+    </div>
+
+    <!-- PÁG 12 -->
+    <div class="doc-page" id="dp12">
+      <span class="page-num-badge">Pág. 12 / 24</span>
+      <h3>Seção IV – Das Indicações Na Área Da Infância E Juventude</h3>
+      <p><strong>CLÁUSULA DÉCIMA NONA</strong> — Critérios para indicação:</p>
+      <ul>
+        <li><strong>I</strong> – Ações cíveis: somente após <strong>citação da parte</strong> + avaliação socioeconômica</li>
+        <li><strong>II</strong> – Ações infracionais: exclusivamente após <strong>citação para audiência de apresentação</strong></li>
+      </ul>
+      <p><strong>§2º — NÃO haverá indicação</strong> nas seguintes hipóteses:</p>
+      <ul>
+        <li>I – Oitiva informal perante o Ministério Público</li>
+        <li>II – Remissão simples desacompanhada de medida socioeducativa ou protetiva</li>
+      </ul>
+      <p><strong>§4º</strong> — O advogado que atuou na fase de apuração de ato infracional <strong>permanecerá responsável pela execução da medida socioeducativa</strong>, sem direito a nova certidão.</p>
+      <h3>Seção V – Do Aceite, Recusa E Renúncia</h3>
+      <p><strong>CLÁUSULA VIGÉSIMA PRIMEIRA</strong> — O pedido de recusa da indicação ou renúncia somente será deferido caso o advogado comprove:</p>
+      <ul>
+        <li>I – Estar impedido de exercer a advocacia</li>
+        <li>II – Ser procurador constituído pela parte contrária ou ter relações profissionais de interesse atual</li>
+        <li>III – Já haver manifestado por escrito opinião contrária ao direito que o necessitado pretende pleitear</li>
+        <li>V – Quebra na relação de confiança</li>
+        <li>VI – Ausência do estado de carência</li>
+        <li>VII – Manifesto descabimento da medida pretendida</li>
+        <li>VIII – Inconveniência aos interesses da parte</li>
+        <li>XI – Decurso de 30 dias sem que o usuário tenha contatado o advogado</li>
+        <li>XII – Nomeação em concurso público</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 13 -->
+    <div class="doc-page" id="dp13">
+      <span class="page-num-badge">Pág. 13 / 24</span>
+      <h3>Recusa e Renúncia (continuação)</h3>
+      <p><strong>§1º</strong> — RECUSA: ato do advogado que rejeita a indicação <strong>antes da adoção da medida judicial cabível</strong> e previamente à manifestação de aceite no MI.</p>
+      <p><strong>§3º</strong> — O advogado desincumbe-se da obrigação de propor a medida cabível independentemente do deferimento/indeferimento do pedido de recusa.</p>
+      <p><strong>§7º</strong> — RENÚNCIA: ato administrativo praticado pelo advogado que deseja deixar de atuar em processo em andamento.</p>
+      <p><strong>§8º</strong> — Os pedidos de RENÚNCIA serão avaliados e julgados pela DEFENSORIA, sempre que possível, no prazo de <strong>5 dias úteis</strong>.</p>
+      <p><strong>§10</strong> — Autorizada a renúncia, deverá o advogado comunicar ao usuário e juntar o documento comprobatório à petição que formalizará o pedido judicial de renúncia nos autos.</p>
+      <p><strong>§12</strong> — Na eventualidade de pedido fundado no inciso X (cancelamento há mais de 3 anos), fica vedada a inscrição pelo período de <strong>3 anos</strong> a contar da data do deferimento da renúncia.</p>
+      <h3>Seção VI – Da Assunção De Processos</h3>
+      <p><strong>CLÁUSULA VIGÉSIMA SEGUNDA</strong> — Sobrevindo a instalação de unidade da DEFENSORIA no Município, os processos iniciados por indicação do convênio <strong>continuarão sob o patrocínio do advogado conveniado</strong> previamente indicado.</p>
+      <p><strong>§2º</strong> — A DEFENSORIA poderá, a qualquer tempo, em qualquer fase processual, intervir em medida judicial em andamento.</p>
+    </div>
+
+    <!-- PÁG 14 -->
+    <div class="doc-page" id="dp14">
+      <span class="page-num-badge">Pág. 14 / 24</span>
+      <h3>TÍTULO V – DOS PLANTÕES E ATIVIDADES ESPECIAIS</h3>
+      <p><strong>CLÁUSULA VIGÉSIMA TERCEIRA</strong> — A prestação de assistência suplementar poderá abranger: atuação como plantonista em juizados especiais, atuação em cartas precatórias, audiências de custódia, acordos de não persecução penal e outras atividades autorizadas.</p>
+      <p><strong>§2º</strong> — Nas <strong>cartas precatórias criminais</strong>: indicado apenas um advogado, em regime de plantão, com número mínimo de processos pautados (código 701 da tabela).</p>
+      <p><strong>§4º</strong> — Atuação nos <strong>Juizados Especiais</strong>:</p>
+      <ul>
+        <li><strong>I</strong> – Vedada indicação para processos cujo valor <strong>não exceda 20 salários mínimos</strong>, salvo necessária interposição de recurso.</li>
+        <li><strong>IV</strong> – O advogado plantonista deverá permanecer à disposição do juízo para <strong>todas as audiências previstas na pauta</strong>.</li>
+      </ul>
+      <p><strong>§7º</strong> — Plantões em dias não úteis:</p>
+      <ul>
+        <li><strong>I</strong> – Em plantão duplo, obrigatoriamente, quando da ocorrência de <strong>dois dias não úteis consecutivos</strong></li>
+        <li><strong>II</strong> – Em plantão único, quando não for possível a indicação na forma anterior</li>
+      </ul>
+      <p><strong>§8º — IV</strong> — No caso de nomeação para <strong>plantão duplo</strong>: só serão devidos os honorários caso o advogado participe dos <strong>dois dias</strong> não úteis consecutivos. Vedado pagamento parcial.</p>
+      <p><strong>§11</strong> — O advogado será indicado para atuar no ANPP, que abrangerá desde a proposta de acordo até o ato de homologação e extinção da punibilidade.</p>
+    </div>
+
+    <!-- PÁG 15 -->
+    <div class="doc-page" id="dp15">
+      <span class="page-num-badge">Pág. 15 / 24</span>
+      <h3>TÍTULO VI – DOS PAGAMENTOS, HONORÁRIOS E CERTIDÕES</h3>
+      <p><strong>CLÁUSULA VIGÉSIMA QUARTA</strong> — Os honorários serão pagos segundo os valores dos Anexos I e II.</p>
+      <p><strong>§1º</strong> — Somente serão adimplidas as certidões emitidas no <strong>Módulo de Indicações da Defensoria</strong>.</p>
+      <p><strong>§8º</strong> — Não serão pagos honorários em desacordo com a tabela, <strong>ainda que arbitrado valor distinto pelo Juízo</strong>.</p>
+      <p><strong>§9º</strong> — O pagamento de honorários não implicará existência de <strong>vínculo empregatício</strong> com o Estado.</p>
+      <p><strong>§10</strong> — Os honorários terão seus valores ajustados <strong>anualmente</strong> conforme o índice <strong>IPC/FIPE</strong>, tendo como data-base o início da vigência.</p>
+      <h3>TÍTULO VIII – DAS DISPOSIÇÕES FINAIS — Vigência</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA VIGÉSIMA SEXTA</strong> — O prazo de vigência do ajuste será de <strong>15 meses a partir de 1º de maio de 2026</strong>, podendo ser prorrogado por iguais períodos.</p>
+      </div>
+      <h3>Denúncia e Rescisão</h3>
+      <p><strong>CLÁUSULA VIGÉSIMA SÉTIMA</strong> — O convênio poderá ser denunciado por qualquer das partícipes, mediante notificação, com antecedência mínima de <strong>90 dias</strong>, sem qualquer ônus às convenentes.</p>
+      <h3>Valor e Recursos</h3>
+      <div class="highlight">
+        <p><strong>CLÁUSULA VIGÉSIMA OITAVA</strong> — O valor total estimado do presente convênio é de <strong>R$ 250.000.000,00 (duzentos e cinquenta milhões de reais)</strong>, recursos do Fundo de Assistência Judiciária — UG 420030.</p>
+      </div>
+      <p><strong>CLÁUSULA VIGÉSIMA NONA</strong> — Foro: <strong>Comarca da Capital do Estado de São Paulo</strong>.</p>
+    </div>
+
+    <!-- PÁG 16 -->
+    <div class="doc-page" id="dp16">
+      <span class="page-num-badge">Pág. 16 / 24</span>
+      <h3>ANEXO I – DOS HONORÁRIOS E CERTIDÕES</h3>
+      <p><strong>Art. 1º</strong> — Os honorários serão pagos segundo os valores da tabela do Anexo II, na forma prevista no art. 8º da Lei Complementar Estadual nº 988/06.</p>
+      <h3>Processos Criminais — Art. 3º (Juízo Singular)</h3>
+      <ul>
+        <li><strong>I – Sentença absolutória:</strong> 100% com trânsito em julgado; ou 70% após sentença + 30% após trânsito em julgado do acórdão.</li>
+        <li><strong>II – Sentença condenatória:</strong> 70% após sentença + 30% após trânsito em julgado do acórdão.</li>
+        <li><strong>III – Extinção da punibilidade:</strong> 100% do valor previsto na tabela.</li>
+      </ul>
+      <h3>Tribunal do Júri — Art. 4º</h3>
+      <p><strong>1ª Fase:</strong></p>
+      <ul>
+        <li>Impronúncia, desclassificação ou absolvição sumária: 100% (trânsito em julgado); recurso: 70% + 30% depois.</li>
+        <li>Pronúncia: 70% + 30% após acórdão.</li>
+      </ul>
+      <p><strong>2ª Fase:</strong></p>
+      <ul>
+        <li>Absolutória: 100% (trânsito); recurso: 70% + 30%.</li>
+        <li>Condenatória: 70% + 30% após acórdão.</li>
+        <li>Segundo Júri: 60% após trânsito em julgado.</li>
+      </ul>
+      <h3>Art. 5º — Suspensão do Processo (art. 366 CPP)</h3>
+      <p>Pagamento de <strong>30%</strong> do valor previsto na tabela para o respectivo rito processual.</p>
+      <h3>Art. 6º — Suspensão Condicional do Processo (Sursis Processual)</h3>
+      <ul>
+        <li><strong>I</strong> – 30% após a decisão que suspender o processo</li>
+        <li><strong>II</strong> – 70% restantes após cumprimento do período de prova com trânsito em julgado da extinção</li>
+        <li><strong>III</strong> – Em caso de revogação: sentença absolutória s/recurso: 70% com trânsito; c/recurso: 40% + 30%.</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 17 -->
+    <div class="doc-page" id="dp17">
+      <span class="page-num-badge">Pág. 17 / 24</span>
+      <h3>Art. 7º — Execução Penal (hipóteses do §3º da Cláusula Primeira)</h3>
+      <p><strong>30%</strong> do valor previsto na tabela. Em caso de atuação na fase recursal: <strong>nova certidão no mesmo percentual</strong>.</p>
+      <h3>Art. 9º — Processos Cíveis</h3>
+      <p><strong>I – Atuação pela Parte Autora:</strong></p>
+      <ul>
+        <li>Procedência total s/recurso: <strong>100%</strong> com trânsito; c/recurso: <strong>70%</strong> após sentença + <strong>30%</strong> após acórdão.</li>
+        <li>Improcedência/procedência parcial s/recurso: <strong>60%</strong>; c/recurso: <strong>60%</strong> + <strong>40%</strong>.</li>
+      </ul>
+      <p><strong>II – Atuação pela Parte Ré:</strong></p>
+      <ul>
+        <li>Improcedência total s/recurso: <strong>100%</strong>; c/recurso: <strong>70%</strong> + <strong>30%</strong>.</li>
+        <li>Procedência total/parcial s/recurso: <strong>60%</strong>; c/recurso: <strong>60%</strong> + <strong>40%</strong>.</li>
+      </ul>
+      <p><strong>III – Acordo:</strong></p>
+      <ul>
+        <li>Um advogado por parte: <strong>70%</strong> na homologação</li>
+        <li>Um advogado para duas partes: <strong>100%</strong> na homologação</li>
+      </ul>
+      <h3>Art. 10 — Extinção Sem Resolução de Mérito (art. 485 CPC)</h3>
+      <ul>
+        <li>Incisos I e VII: <strong>SEM honorários</strong></li>
+        <li>Incisos II e III: <strong>70%</strong> para ambos os advogados (autor comprova intimação prévia)</li>
+        <li>Incisos IV, V, VI e X: <strong>70%</strong> exclusivamente ao advogado do réu</li>
+        <li>Incisos VIII e IX: <strong>70%</strong> para ambos</li>
+      </ul>
+      <h3>Art. 11 — Certidão de Honorários Parciais (antecipação)</h3>
+      <p>Possível nas seguintes hipóteses (30% da tabela):</p>
+      <ul>
+        <li>I – Suspensão do cumprimento de sentença de alimentos por acordo ou inexistência de bens</li>
+        <li>II – Execuções fiscais: acordo de parcelamento ou arquivamento (art. 40 LEF)</li>
+        <li>III – Execuções de títulos extrajudiciais: embargos procedentes ou acordo</li>
+        <li>IV – Citação por edital (comprovado esgotamento das tentativas de localização)</li>
+      </ul>
+    </div>
+
+    <!-- PÁG 18 -->
+    <div class="doc-page" id="dp18">
+      <span class="page-num-badge">Pág. 18 / 24</span>
+      <h3>Art. 12 — Honorários por Renúncia Autorizada</h3>
+      <p><strong>30%</strong> do valor previsto na tabela.</p>
+      <h3>Art. 13 — Base de Cálculo</h3>
+      <p>O valor pago tomará sempre por base o previsto na <strong>tabela vigente na última data processual constante na certidão</strong>. Para plantões: tabela vigente à época da indicação.</p>
+      <h3>Art. 16 — Atuação Parcial em Processo</h3>
+      <ul>
+        <li><strong>I</strong> – Usuário constitui advogado particular: <strong>30%</strong></li>
+        <li><strong>II</strong> – Extinção por incompetência superveniente (sem culpa do advogado): <strong>30%</strong></li>
+        <li><strong>III</strong> – Advogado nomeado após sentença para fase recursal: <strong>30%</strong></li>
+        <li><strong>IV</strong> – Advogado nomeado para dar continuidade ao processo até sentença: <strong>60%</strong></li>
+      </ul>
+      <p><strong>Parágrafo Único</strong> — O abandono injustificado de ações <strong>não ensejará pagamento de honorários</strong>.</p>
+      <h3>Art. 18 — Prazo para Protocolo de Certidões</h3>
+      <p>A certidão de honorários deverá ser aceita ou protocolizada eletronicamente em até <strong>1 ano da data de sua expedição</strong>.</p>
+      <p><strong>§2º</strong> — As certidões somente serão adimplidas se protocolizadas dentro do prazo prescricional de <strong>5 anos</strong>, contados: (I) do trânsito em julgado; (II) da ocorrência do fato gerador que autorize pagamento parcial.</p>
+    </div>
+
+    <!-- PÁG 19 -->
+    <div class="doc-page" id="dp19">
+      <span class="page-num-badge">Pág. 19 / 24</span>
+      <h3>ANEXO II – TABELA DE HONORÁRIOS (vigente a partir de 01/05/2026)</h3>
+      <table>
+        <tr><th>Código</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
+        <tr><td class="code">101</td><td>Procedimento Ordinário/Comum</td><td class="value">R$ 1.597,69</td><td class="pct70">R$ 1.118,38</td><td>R$ 958,61</td><td>R$ 479,31</td></tr>
+        <tr><td class="code">103</td><td>Execução de Título Extrajudicial</td><td class="value">R$ 1.101,61</td><td class="pct70">R$ 771,13</td><td>R$ 660,97</td><td>R$ 330,48</td></tr>
+        <tr><td class="code">106</td><td>Procedimento Especial</td><td class="value">R$ 1.620,63</td><td class="pct70">R$ 1.134,44</td><td>R$ 972,38</td><td>R$ 486,19</td></tr>
+        <tr><td class="code">115</td><td>Curador Especial</td><td class="value">R$ 838,52</td><td class="pct70">R$ 586,96</td><td>R$ 503,11</td><td>R$ 251,56</td></tr>
+        <tr><td class="code">116</td><td>Juizado Especial Cível e Fazenda</td><td class="value">R$ 436,66</td><td class="pct70">R$ 305,66</td><td>R$ 262,00</td><td>R$ 131,00</td></tr>
+        <tr><td class="code">117</td><td>Medida Protetiva à Mulher Vítima VD</td><td colspan="4" style="color:#C9A84C">R$ 219,55 (valor único)</td></tr>
+        <tr><td class="code">200</td><td>Cumprimento de Sentença - Alimentos</td><td class="value">R$ 523,22</td><td class="pct70">R$ 366,25</td><td>R$ 313,93</td><td>R$ 156,97</td></tr>
+        <tr><td class="code">206</td><td>Alimentos (conhecimento)</td><td class="value">R$ 855,29</td><td class="pct70">R$ 598,70</td><td>R$ 513,17</td><td>R$ 256,59</td></tr>
+        <tr><td class="code">211</td><td>Separação/Divórcio/União Estável</td><td class="value">R$ 1.106,28</td><td class="pct70">R$ 774,40</td><td>R$ 663,77</td><td>R$ 331,88</td></tr>
+        <tr><td class="code">301</td><td>Criminal - Rito Ordinário</td><td class="value">R$ 1.597,69</td><td class="pct70">R$ 1.118,38</td><td>R$ 958,61</td><td>R$ 479,31</td></tr>
+        <tr><td class="code">304</td><td>Defesa Júri da Pronúncia ao Final</td><td class="value">R$ 1.699,24</td><td class="pct70">R$ 1.189,47</td><td>R$ 1.019,54</td><td>R$ 509,77</td></tr>
+        <tr><td class="code">316</td><td>Violência Doméstica</td><td class="value">R$ 900,75</td><td class="pct70">R$ 630,53</td><td>R$ 540,45</td><td>R$ 270,23</td></tr>
+        <tr><td class="code">318</td><td>Acordo de Não Persecução Penal</td><td colspan="4" style="color:#C9A84C">R$ 265,09 (valor único)</td></tr>
+        <tr><td class="code">701</td><td>Plantão (Juizados)</td><td colspan="4" style="color:#2ECC71">R$ 871,96 (100%)</td></tr>
+        <tr><td class="code">801</td><td>Plantão — 1 Dia Não Útil</td><td colspan="4" style="color:#2ECC71">R$ 706,45 (100%)</td></tr>
+        <tr><td class="code">802</td><td>Plantão — 2 Dias Não Úteis Consec.</td><td colspan="4" style="color:#2ECC71">R$ 941,92 (100%)</td></tr>
+      </table>
+    </div>
+
+    <!-- PÁG 20 -->
+    <div class="doc-page" id="dp20">
+      <span class="page-num-badge">Pág. 20 / 24</span>
+      <h3>ANEXO III – NORMAS PROCEDIMENTAIS DE FISCALIZAÇÃO</h3>
+      <h3>Capítulo I – Da Instauração e Instrução dos Procedimentos</h3>
+      <p><strong>Art. 2º</strong> — O procedimento fiscalizatório será instaurado pelo/a Coordenador/a Regional da DEFENSORIA ou pelo/a Presidente da Subseção da OAB/SP, por meio de <strong>portaria</strong>.</p>
+      <p><strong>Art. 5º</strong> — Instaurado o procedimento, o advogado será notificado para apresentar manifestação no prazo improrrogável de <strong>10 dias úteis</strong>.</p>
+      <p><strong>§2º</strong> — Considerar-se-ão válidas as notificações eletrônicas encaminhadas ao e-mail de cadastro do advogado, <strong>independentemente de confirmação de recebimento</strong>.</p>
+      <p><strong>Art. 6º</strong> — Após manifestação ou certificada a ausência de resposta, deverá ser decidido fundamentadamente pelo arquivamento, continuidade ou encaminhamento à Câmara Paritária, em prazo que não exceda <strong>30 dias</strong>.</p>
+      <p><strong>Art. 7º</strong> — Da decisão de arquivamento, caberá recurso do denunciante, no prazo de <strong>10 dias úteis</strong>, ao Defensor Público Assessor de Convênios.</p>
+      <h3>Capítulo II – Das Câmaras Paritárias de Julgamento e Recursal</h3>
+      <p><strong>Art. 9º</strong> — As Câmaras Paritárias de Julgamento são compostas por: <strong>2 Defensores Públicos</strong> (designados por ato da DPG-E) + <strong>2 advogados</strong> (indicados pela OAB/SP).</p>
+      <p><strong>Art. 10</strong> — A Câmara Recursal: <strong>4 Defensores Públicos</strong> + <strong>5 advogados</strong> indicados pela OAB/SP + Defensor Público Assessor de Convênios.</p>
+      <p><strong>Art. 15</strong> — O relator terá <strong>30 dias</strong> do recebimento do feito para relatá-lo e requerer inclusão em pauta, prorrogáveis por igual período.</p>
+    </div>
+
+    <!-- PÁG 21 -->
+    <div class="doc-page" id="dp21">
+      <span class="page-num-badge">Pág. 21 / 24</span>
+      <h3>Art. 19 — Intimação do Advogado Sindicado</h3>
+      <p>O advogado sindicado será intimado por meio eletrônico da sessão de julgamento com antecedência mínima de <strong>10 dias úteis</strong>.</p>
+      <p><strong>Art. 20</strong> — As sessões serão, em regra, realizadas por <strong>videoconferência</strong>.</p>
+      <p><strong>Art. 21</strong> — O advogado poderá fazer sustentação oral pelo tempo improrrogável de <strong>5 minutos</strong>, comunicando a intenção em até <strong>3 dias úteis</strong> anteriores à data da reunião.</p>
+      <p><strong>Art. 26</strong> — Os recursos <strong>não terão efeito suspensivo</strong> e deverão ser protocolizados pelo advogado junto ao SEI.</p>
+      <p><strong>Art. 32</strong> — Das decisões da Câmara Recursal <strong>não cabe recurso</strong>.</p>
+      <h3>Capítulo IV – Das Sanções</h3>
+      <p><strong>Art. 42 — Penalidades:</strong></p>
+      <ul>
+        <li><strong>I</strong> – Advertência</li>
+        <li><strong>II</strong> – Suspensão: prazo máximo de <strong>18 meses</strong></li>
+        <li><strong>III</strong> – Exclusão de área de atuação</li>
+        <li><strong>IV</strong> – Descredenciamento</li>
+      </ul>
+      <p><strong>§7º — Descredenciamento obrigatório</strong> (ainda que primeira violação) quando o advogado:</p>
+      <ul>
+        <li>I – Solicitar, exigir ou receber quaisquer valores do usuário</li>
+        <li>II – Captar clientes</li>
+        <li>III – Incorrer em erro grave na prestação da assistência judiciária</li>
+        <li>IV – Praticar ato passível de suspensão já tendo recebido tal penalidade por duas vezes</li>
+      </ul>
+      <p><strong>§9º</strong> — O advogado descredenciado somente poderá pleitear nova inscrição após <strong>2 anos</strong> contados da ciência da decisão.</p>
+    </div>
+
+    <!-- PÁG 22 -->
+    <div class="doc-page" id="dp22">
+      <span class="page-num-badge">Pág. 22 / 24</span>
+      <h3>Penalidades (continuação)</h3>
+      <p><strong>§5º</strong> — Exclusão de área de atuação: prazo de <strong>24 meses</strong>, cumulável com advertência ou suspensão, para reiterações de condutas atécnicas ou que causem prejuízo numa mesma área.</p>
+      <p><strong>§7º — Advertência</strong> (primeira vez) quando o advogado:</p>
+      <ul>
+        <li>I – Deixar de comparecer ao atendimento inicial (triagem)</li>
+        <li>II – Recusar indicação ou renunciar nomeação em desconformidade com o convênio</li>
+        <li>III – Não propuser a medida judicial no prazo estabelecido sem justo motivo</li>
+        <li>IV – Não apresentar defesa ou concordar com os termos da inicial em curadoria especial</li>
+        <li>VI – Violar outras disposições do convênio</li>
+      </ul>
+      <p><strong>§2º — Suspensão</strong> quando o advogado:</p>
+      <ul>
+        <li>I – Deixar de atualizar endereço profissional ou dados cadastrais</li>
+        <li>II – Deixar de comparecer a atos processuais cuja ausência implique preclusão ou prejuízo ao usuário</li>
+        <li>III – Não comparecer ao plantão de Juizado Especial para o qual tenha sido nomeado</li>
+        <li>IV – Deixar de praticar ato processual que implique preclusão ou prejuízos relevantes</li>
+        <li>VII – Violar qualquer disposição que implique prejuízo ao usuário, ainda que primeira violação</li>
+      </ul>
+      <p><strong>Art. 43 — Suspensão Cautelar</strong>: quando (I) não mantiver dados cadastrais atualizados; (II) manutenção puder causar prejuízo aos usuários.</p>
+      <p><strong>Art. 45</strong> — Prescrição: a punibilidade por infração prescreve em <strong>5 anos</strong> da data do conhecimento do fato.</p>
+    </div>
+
+    <!-- PÁG 23 -->
+    <div class="doc-page" id="dp23">
+      <span class="page-num-badge">Pág. 23 / 24</span>
+      <h3>Capítulo V – Disposições Gerais</h3>
+      <p><strong>Art. 47</strong> — Aplicada a penalidade (exceto advertência), o advogado <strong>não fará jus a quaisquer honorários</strong> nos processos relacionados à causa da sanção. Se já os tiver recebido, será intimado para restituição.</p>
+      <p><strong>Art. 48 — Interrupção da prescrição</strong> (somente uma vez) se dará:</p>
+      <ul>
+        <li>I – Da ciência inequívoca da instauração do procedimento</li>
+        <li>II – Pela apresentação de manifestação nos autos</li>
+        <li>III – Pela propositura de medida judicial impugnando a portaria</li>
+        <li>IV – Da prática de qualquer ato no bojo do procedimento</li>
+      </ul>
+      <p><strong>Art. 49</strong> — A execução da pena aplicada prescreve em <strong>5 anos</strong> contados da data da decisão.</p>
+      <p><strong>Art. 53</strong> — Os procedimentos fiscalizatórios possuem, em regra, <strong>caráter sigiloso</strong>.</p>
+      <h3>CLÁUSULA TRIGÉSIMA — Anexos Integrantes</h3>
+      <ul>
+        <li><strong>Anexo I</strong> – Dos Honorários e Certidões</li>
+        <li><strong>Anexo II</strong> – Tabela de Honorários</li>
+        <li><strong>Anexo III</strong> – Normas Procedimentais de Fiscalização</li>
+        <li><strong>Anexo IV</strong> – Ficha de Atendimento</li>
+        <li><strong>Anexo V</strong> – Recibo de Documentos</li>
+        <li><strong>Anexo VI</strong> – Plano de Trabalho</li>
+      </ul>
+      <div class="highlight">
+        <p><strong>CLÁUSULA TRIGÉSIMA PRIMEIRA</strong> — Até a homologação da lista de advogados inscritos, será utilizada a lista vigente para fins de indicação dos advogados.</p>
+      </div>
+      <p>E por estarem certos e ajustados, firmam as partícipes o presente convênio, <strong>ficando revogados todos os convênios anteriores</strong>.</p>
+    </div>
+
+    <!-- PÁG 24 -->
+    <div class="doc-page" id="dp24">
+      <span class="page-num-badge">Pág. 24 / 24</span>
+      <h3>ANEXO IV – FICHA DE ATENDIMENTO</h3>
+      <div style="border:2px solid #C9A84C; padding:24px; margin:16px 0; min-height:200px;">
+        <p><strong>Relato dos Fatos:</strong></p>
+        <div style="border:1px solid #ccc; min-height:120px; padding:8px; margin:8px 0; background:#fafafa;"></div>
+        <p style="font-size:11px; text-align:center;"><em>Declaro que as informações prestadas são expressões da verdade, responsabilizando-me civil e criminalmente pela integralidade de seu conteúdo.</em></p>
+        <p>Assinatura do Cliente: _________________________________ Data: ____/____/________</p>
+      </div>
+      <h3>ANEXO V – RECIBO DE DOCUMENTOS</h3>
+      <div style="border:2px solid #C9A84C; padding:24px; font-size:12.5px;">
+        <p><strong>RECIBO DE DOCUMENTOS</strong></p>
+        <p>Eu, _________________________, OAB/SP nº _____, advogado(a) inscrito(a) no Convênio firmado pela Defensoria Pública com a OAB/SP para prestação de assistência judiciária gratuita suplementar no Foro _____________________________, tendo sido nomeado para defender os interesses de ________________________________, RG nº ____________________, referente ao ofício de indicação nº ___________, pela presente, declaro haver recebido, nesta data, o(s) documento(s) abaixo relacionado(s), essencial(is) para a defesa dos interesses da parte.</p>
+        <p style="margin-top:20px;">_______________, ___/___/_____ (Local e data)</p>
+        <p>Nome do(a) Advogado(a) – Inscrição na OAB/SP nº ________</p>
+      </div>
+      <p style="text-align:center; margin-top:30px; font-size:11px; color:#666;">Documento assinado eletronicamente por DEFENSORIA PÚBLICA DO ESTADO DE SÃO PAULO e LEONARDO SICA, OAB/SP, em 06/02/2026. Código verificador: 1715918 — CRC: B0425250</p>
+    </div>
+
+  </div><!-- doc-pages-container -->
+</div><!-- panel-doc -->
+
+
+<!-- ============================
+     ABA 2: FLASHCARDS
+============================= -->
+<div id="panel-flash" class="panel">
+  <div class="section-header">
+    <div class="section-title">50 Flashcards — Domínio Total</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Clique para virar • Categorize por área • Monitore seu progresso</div>
+  </div>
+  <div class="flash-controls">
+    <div class="fc-stat"><strong id="fc-total">50</strong>Total</div>
+    <div class="fc-stat"><strong id="fc-flipped">0</strong>Virados</div>
+    <div class="fc-stat"><strong id="fc-mastered">0</strong>Dominados ⭐⭐⭐</div>
+    <div class="cat-filter">
+      <button class="cat-btn active" onclick="filterCards('all',this)">Todos</button>
+      <button class="cat-btn" onclick="filterCards('CÍVEL',this)">Cível</button>
+      <button class="cat-btn" onclick="filterCards('CRIMINAL',this)">Criminal</button>
+      <button class="cat-btn" onclick="filterCards('HONORÁRIOS',this)">Honorários</button>
+      <button class="cat-btn" onclick="filterCards('PRAZOS',this)">Prazos</button>
+      <button class="cat-btn" onclick="filterCards('SANÇÕES',this)">Sanções</button>
+      <button class="cat-btn" onclick="filterCards('INSCRIÇÃO',this)">Inscrição</button>
+    </div>
+  </div>
+  <div class="cards-grid" id="flashContainer"></div>
+</div>
+
+
+<!-- ============================
+     ABA 3: 50 REGRAS
+============================= -->
+<div id="panel-rules" class="panel">
+  <div class="section-header">
+    <div class="section-title">50 Regras Mais Importantes</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">As regras que todo especialista no Convênio DPE-OAB deve dominar</div>
+  </div>
+  <div class="rules-grid" id="rulesContainer"></div>
+</div>
+
+
+<!-- ============================
+     ABA 4: HONORÁRIOS
+============================= -->
+<div id="panel-honorarios" class="panel">
+  <div class="section-header">
+    <div class="section-title">Tabela Completa de Honorários</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Vigente a partir de 01/05/2026 — Reajuste anual pelo IPC/FIPE</div>
+  </div>
+  <div class="honorarios-section">
+    <h3>⚖️ Área Cível</h3>
+    <table class="hon-table">
+      <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
+      <tr><td class="code">101</td><td>Procedimento Ordinário/Comum</td><td class="value">1.597,69</td><td class="pct70">1.118,38</td><td>958,61</td><td>479,31</td></tr>
+      <tr><td class="code">102</td><td>Procedimento Sumário (até 18/03/2016)</td><td class="value">1.080,42</td><td class="pct70">756,29</td><td>648,25</td><td>324,13</td></tr>
+      <tr><td class="code">103</td><td>Execução Extrajudicial e Judicial</td><td class="value">1.101,61</td><td class="pct70">771,13</td><td>660,97</td><td>330,48</td></tr>
+      <tr><td class="code">104</td><td>Declaratórias</td><td class="value">1.101,61</td><td class="pct70">771,13</td><td>660,97</td><td>330,48</td></tr>
+      <tr><td class="code">105</td><td>Embargos de Terceiros</td><td class="value">1.101,61</td><td class="pct70">771,13</td><td>660,97</td><td>330,48</td></tr>
+      <tr><td class="code">106</td><td>Procedimento Especial</td><td class="value">1.620,63</td><td class="pct70">1.134,44</td><td>972,38</td><td>486,19</td></tr>
+      <tr><td class="code">108</td><td>Possessórias (Usucapião)</td><td class="value">1.620,63</td><td class="pct70">1.134,44</td><td>972,38</td><td>486,19</td></tr>
+      <tr><td class="code">113</td><td>Mandado de Segurança</td><td class="value">1.080,42</td><td class="pct70">756,29</td><td>648,25</td><td>324,13</td></tr>
+      <tr><td class="code">115</td><td>Curador Especial</td><td class="value">838,52</td><td class="pct70">586,96</td><td>503,11</td><td>251,56</td></tr>
+      <tr><td class="code">116</td><td>Juizado Especial Cível e Fazenda Pública</td><td class="value">436,66</td><td class="pct70">305,66</td><td>262,00</td><td>131,00</td></tr>
+      <tr><td class="code">117</td><td>Medida Protetiva à Mulher Vítima VD</td><td colspan="4" class="value">219,55 (valor fixo)</td></tr>
+      <tr><td class="code">118</td><td>Defesa em Medida Protetiva Autônoma</td><td colspan="4" class="value">190,92 (valor fixo)</td></tr>
+    </table>
+
+    <h3>👨‍👩‍👧 Família e Sucessões</h3>
+    <table class="hon-table">
+      <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
+      <tr><td class="code">200</td><td>Cumprimento de Sentença - Alimentos</td><td class="value">523,22</td><td class="pct70">366,25</td><td>313,93</td><td>156,97</td></tr>
+      <tr><td class="code">201</td><td>Inventários e Arrolamentos</td><td class="value">1.312,73</td><td class="pct70">918,91</td><td>787,64</td><td>393,82</td></tr>
+      <tr><td class="code">205</td><td>Investigação de Paternidade</td><td class="value">1.560,57</td><td class="pct70">1.092,40</td><td>936,34</td><td>468,17</td></tr>
+      <tr><td class="code">206</td><td>Alimentos (conhecimento)</td><td class="value">855,29</td><td class="pct70">598,70</td><td>513,17</td><td>256,59</td></tr>
+      <tr><td class="code">207</td><td>Tutela e Curatela</td><td class="value">872,06</td><td class="pct70">610,44</td><td>523,24</td><td>261,62</td></tr>
+      <tr><td class="code">210</td><td>Modificação/Regulamentação Guarda/Visitas</td><td class="value">1.147,53</td><td class="pct70">803,27</td><td>688,52</td><td>344,26</td></tr>
+      <tr><td class="code">211</td><td>Separação/Divórcio/União Estável</td><td class="value">1.106,28</td><td class="pct70">774,40</td><td>663,77</td><td>331,88</td></tr>
+    </table>
+
+    <h3>⚖️ Área Criminal</h3>
+    <table class="hon-table">
+      <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
+      <tr><td class="code">301</td><td>Rito Ordinário</td><td class="value">1.597,69</td><td class="pct70">1.118,38</td><td>958,61</td><td>479,31</td></tr>
+      <tr><td class="code">302</td><td>Rito Sumário</td><td class="value">1.472,42</td><td class="pct70">1.030,69</td><td>883,45</td><td>441,73</td></tr>
+      <tr><td class="code">315</td><td>Rito Sumaríssimo</td><td class="value">883,43</td><td class="pct70">618,40</td><td>530,06</td><td>265,03</td></tr>
+      <tr><td class="code">303</td><td>Defesa Júri até Pronúncia</td><td class="value">1.147,53</td><td class="pct70">803,27</td><td>688,52</td><td>344,26</td></tr>
+      <tr><td class="code">304</td><td>Defesa Júri da Pronúncia ao Final</td><td class="value">1.699,24</td><td class="pct70">1.189,47</td><td>1.019,54</td><td>509,77</td></tr>
+      <tr><td class="code">310</td><td>Execução Penal</td><td class="value">675,29</td><td class="pct70">472,70</td><td>405,17</td><td>202,59</td></tr>
+      <tr><td class="code">316</td><td>Violência Doméstica</td><td class="value">900,75</td><td class="pct70">630,53</td><td>540,45</td><td>270,23</td></tr>
+      <tr><td class="code">317</td><td>Depoimento Especial / Oitiva Racismo</td><td colspan="4" class="value">218,47 (valor fixo)</td></tr>
+      <tr><td class="code">318</td><td>Acordo de Não Persecução Penal</td><td colspan="4" class="value">265,09 (valor fixo)</td></tr>
+    </table>
+
+    <h3>👶 Infância e Juventude / Plantões</h3>
+    <table class="hon-table">
+      <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
+      <tr><td class="code">501</td><td>Qualquer Proc. Cível (IJ)</td><td class="value">841,34</td><td class="pct70">588,94</td><td>504,80</td><td>252,40</td></tr>
+      <tr><td class="code">502</td><td>Qualquer Proc. Criminal (IJ)</td><td class="value">794,96</td><td class="pct70">556,47</td><td>476,98</td><td>238,49</td></tr>
+      <tr><td class="code">601</td><td>Carta Precatória</td><td class="value">427,58</td><td class="pct70">299,31</td><td>256,55</td><td>128,27</td></tr>
+      <tr><td class="code">701</td><td>Plantão (Juizados)</td><td colspan="4" class="value">871,96 (100%)</td></tr>
+      <tr><td class="code">801</td><td>Plantão — 1 Dia Não Útil</td><td colspan="4" class="value">706,45 (100%)</td></tr>
+      <tr><td class="code">802</td><td>Plantão — 2 Dias Não Úteis Consecutivos</td><td colspan="4" class="value">941,92 (100%)</td></tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- ============================
+     ABA 5: QUIZ
+============================= -->
+<div id="panel-quiz" class="panel">
+  <div id="quiz-start-screen" class="quiz-start">
+    <div class="section-header" style="margin-bottom:24px;">
+      <div class="section-title">Quiz — 50 Perguntas</div>
+      <div class="gold-line" style="margin:10px auto;"></div>
+      <div class="section-subtitle">Prove seu domínio sobre o Convênio DPE-OAB 001/2026</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><strong>50</strong><span>Perguntas</span></div>
+      <div class="stat-box"><strong>45s</strong><span>Por Questão</span></div>
+      <div class="stat-box"><strong>5</strong><span>Categorias</span></div>
+      <div class="stat-box"><strong>🏆</strong><span>Certificado Final</span></div>
+    </div>
+    <p>Responda todas as 50 perguntas sobre o Convênio.<br>Ao final, receba seu certificado personalizado de Cássia Kelly Lins Reis.</p>
+    <button class="btn-gold" onclick="startQuiz()" style="font-size:1.1rem; padding:16px 48px;">
+      🎯 INICIAR QUIZ
+    </button>
+  </div>
+
+  <div id="quiz-container" class="quiz-container">
+    <div class="quiz-header">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="qProgressFill" style="width:2%"></div></div>
+      <span class="quiz-num" id="qNum">1/50</span>
+      <span class="quiz-timer" id="qTimer">45</span>
+      <span class="quiz-score-live">Acertos: <span id="qScore">0</span></span>
+    </div>
+    <div class="quiz-card">
+      <div class="quiz-category" id="qCat"></div>
+      <div class="quiz-question" id="qQuestion"></div>
+      <div class="quiz-options" id="qOptions"></div>
+      <div class="quiz-explanation" id="qExplanation"></div>
+    </div>
+    <div class="quiz-next" id="qNext">
+      <button class="btn-gold" onclick="nextQuestion()">Próxima ▶</button>
+    </div>
+  </div>
+
+  <div id="cert-container" class="cert-container">
+    <div class="cert-box">
+      <div class="cert-corner tl"></div>
+      <div class="cert-corner tr"></div>
+      <div class="cert-corner bl"></div>
+      <div class="cert-corner br"></div>
+      <div class="cert-seal">🏛️</div>
+      <div class="cert-title">CERTIFICADO DE ESPECIALIZAÇÃO</div>
+      <div class="cert-subtitle">Convênio DPE-OAB/SP 001/2026</div>
+      <hr class="cert-line">
+      <p class="cert-text">Certificamos que</p>
+      <div class="cert-name">CÁSSIA KELLY LINS REIS</div>
+      <p class="cert-text">concluiu com êxito o programa intensivo de domínio completo do<br><strong style="color:var(--gold);">Convênio Nº 001/2026 — Defensoria Pública do Estado de São Paulo / OAB-SP</strong><br>demonstrando conhecimento especializado em assistência judiciária gratuita suplementar,<br>regras de honorários, prazos processuais, indicações e regime disciplinar.</p>
+      <div class="cert-score" id="certScore">0/50</div>
+      <div class="cert-stars" id="certStars">⭐⭐⭐⭐⭐</div>
+      <p class="cert-text" id="certLevel"></p>
+      <hr class="cert-line">
+      <p class="cert-date" id="certDate"></p>
+      <p class="cert-issued">Emitido pelo Painel Elite de Domínio Jurídico DPE-OAB 001/2026</p>
+    </div>
+    <div class="cert-actions">
+      <button class="btn-gold" onclick="printCert()">🖨️ Imprimir Certificado</button>
+      <button class="btn-outline" onclick="resetQuiz()">🔄 Refazer Quiz</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================
+     ABA 6: DESAFIOS
+============================= -->
+<div id="panel-desafios" class="panel">
+  <div class="section-header">
+    <div class="section-title">Desafios de Especialização</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Complete os desafios para atingir o status de Especialista Total no Convênio</div>
+  </div>
+  <div class="challenges-grid" id="challengesContainer"></div>
+</div>
+
+</main>
 
 <footer>
-    A responsabilidade é de quem está usando e o programa apenas gera o prompt. | Antônio - Cássia Prompt V8
+  <strong style="color:var(--gold)">CONVÊNIO Nº 001/2026 — DPE-SP / OAB-SP</strong> | Painel Elite de Domínio Jurídico | Cássia Kelly Lins Reis
 </footer>
 
 <script>
-    /* DADOS DOS 30 FLASHCARDS - ELITE EDITION */
-    const flashData = [
-        { q: "Qual o prazo para protocolo de certidões?", a: "Até o dia 25 de cada mês." },
-        { q: "Prazo para cumprimento de sentença sem nova certidão?", a: "12 meses após o trânsito em julgado." },
-        { q: "Qual o e-mail obrigatório para o advogado?", a: "O e-mail institucional @adv.oabsp.org.br." },
-        { q: "Pode haver cobrança de honorários do cliente?", a: "Não. É falta grave sujeita a descredenciamento." },
-        { q: "Prazo para defesa administrativa (COMISTA)?", a: "10 dias úteis." },
-        { q: "Valor pago por renúncia ou substabelecimento?", a: "30% do valor da tabela, caso tenha atuado." },
-        { q: "A certidão de honorários tem validade?", a: "Sim, deve ser apresentada dentro do prazo prescricional." },
-        { q: "O que é o sistema MIRE?", a: "Sistema de Gerenciamento do Convênio da Defensoria." },
-        { q: "Pode atuar fora da área de inscrição?", a: "Apenas se houver indicação específica e aceite." },
-        { q: "Quantas recusas motivadas são permitidas?", a: "Três recusas, após isso há suspensão temporária." },
-        { q: "Qual a data de início da vigência?", a: "01 de maio de 2026." },
-        { q: "Qual a duração total deste convênio?", a: "15 meses prorrogáveis." },
-        { q: "Onde ocorrem os plantões?", a: "Nas sedes da Defensoria ou fóruns designados." },
-        { q: "Pode atuar em causa própria?", a: "Não no âmbito do convênio." },
-        { q: "Qual o teto de renda para o assistido?", a: "Regulado pela Deliberação CSDP 89/08." },
-        { q: "Como comprovar a hipossuficiência?", a: "Via declaração de pobreza e documentos de renda." },
-        { q: "Plantão gera pagamento se não houver indicação?", a: "Sim, valor fixo de comparecimento (Tabela)." },
-        { q: "O advogado pode substabelecer sem reserva?", a: "Não, sem prévia autorização da OAB/Defensoria." },
-        { q: "Recurso para o Tribunal exige nova indicação?", a: "Não, o acompanhamento é até a última instância." },
-        { q: "Erros na certidão atrasam o pagamento?", a: "Sim, a certidão é devolvida e o prazo reinicia." },
-        { q: "Existe pagamento de diligência (km)?", a: "Não, os honorários são globais." },
-        { q: "Qual a punição para abandono de processo?", a: "Multa e suspensão do convênio por até 2 anos." },
-        { q: "Pode atuar no JEC (Pequenas Causas)?", a: "Apenas se houver decisão judicial específica." },
-        { q: "A vítima pode ser assistida no crime?", a: "Sim, como assistente de acusação em casos específicos." },
-        { q: "O convênio cobre cartas precatórias?", a: "Sim, existe código específico na tabela." },
-        { q: "Quem assina o convênio pela OAB?", a: "O Presidente Leonardo Sica." },
-        { q: "Quem assina pela Defensoria?", a: "A Defensora Geral Luciana Jordão." },
-        { q: "Onde se protocolam as certidões?", a: "No portal eletrônico da OAB/SP." },
-        { q: "Qual o prazo para ajuizar ação?", a: "15 dias após documentação completa." },
-        { q: "Pode haver descredenciamento voluntário?", a: "Sim, a qualquer tempo, mantendo os processos em curso." }
-    ];
+// ============================================================
+//  PARTICLES
+// ============================================================
+(function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;animation-duration:${Math.random()*20+10}s;animation-delay:${Math.random()*20}s;opacity:${Math.random()*0.5}`;
+    container.appendChild(p);
+  }
+})();
 
-    /* GERADOR DINÂMICO DE CARDS */
-    const container = document.getElementById('cardContainer');
-    flashData.forEach(item => {
-        const el = document.createElement('div');
-        el.className = 'card';
-        el.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">${item.q}</div>
-                <div class="card-back">${item.a}</div>
-            </div>`;
-        el.onclick = () => el.classList.toggle('flipped');
-        container.appendChild(el);
-    });
+// ============================================================
+//  TAB NAVIGATION
+// ============================================================
+function openTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
 
-    /* NAVEGAÇÃO */
-    function openTab(evt, tabId) {
-        document.querySelectorAll('.content-area').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        evt.currentTarget.classList.add('active');
+// ============================================================
+//  AUDIOBOOK
+// ============================================================
+let synth = window.speechSynthesis;
+let currentUtterance = null;
+let currentPage = 1;
+
+function getPageText(pageNum) {
+  const el = document.getElementById('dp'+pageNum);
+  return el ? el.innerText : '';
+}
+
+function audioPlay() {
+  synth.cancel();
+  const speed = parseFloat(document.getElementById('speedSelect').value);
+  const text = getPageText(currentPage);
+  currentUtterance = new SpeechSynthesisUtterance(text);
+  currentUtterance.lang = 'pt-BR';
+  currentUtterance.rate = speed;
+  currentUtterance.onstart = () => {
+    document.getElementById('btnPlay').classList.add('playing');
+    document.getElementById('audio-status').textContent = '🔊 Reproduzindo página ' + currentPage + ' de 24...';
+  };
+  currentUtterance.onend = () => {
+    document.getElementById('btnPlay').classList.remove('playing');
+    document.getElementById('audio-status').textContent = '✅ Página ' + currentPage + ' concluída.';
+    if (currentPage < 24) {
+      setTimeout(() => { changePage(1); audioPlay(); }, 1000);
     }
+  };
+  synth.speak(currentUtterance);
+}
 
-    /* AUDIOBOOK EXPERT */
-    let synth = window.speechSynthesis;
-    function speaker(action) {
-        if(action === 'play') {
-            synth.cancel();
-            let text = document.querySelector('.content-area.active').innerText;
-            let msg = new SpeechSynthesisUtterance(text);
-            msg.lang = 'pt-BR';
-            msg.rate = 1.1;
-            synth.speak(msg);
-        } else if(action === 'pause') {
-            synth.pause();
-        } else {
-            synth.cancel();
-        }
+function audioPause() {
+  synth.paused ? synth.resume() : synth.pause();
+  document.getElementById('audio-status').textContent = synth.paused ? '⏸ Pausado' : '🔊 Reproduzindo...';
+}
+
+function audioStop() {
+  synth.cancel();
+  document.getElementById('btnPlay').classList.remove('playing');
+  document.getElementById('audio-status').textContent = 'Audiobook parado.';
+}
+
+function changePage(dir) {
+  const newPage = currentPage + dir;
+  if (newPage < 1 || newPage > 24) return;
+  document.getElementById('dp'+currentPage).classList.remove('active');
+  currentPage = newPage;
+  document.getElementById('dp'+currentPage).classList.add('active');
+  document.getElementById('pageProgress').textContent = currentPage + ' / 24';
+}
+
+// ============================================================
+//  FLASHCARDS DATA (50 cards)
+// ============================================================
+const flashData = [
+  { cat:'GERAL', q:'Qual o número e ano do convênio estudado?', a:'Convênio Nº 001/2026, firmado entre a Defensoria Pública do Estado de São Paulo e a OAB-SP.' },
+  { cat:'GERAL', q:'Qual a vigência do Convênio 001/2026?', a:'15 meses a partir de 1º de maio de 2026, prorrogáveis por iguais períodos.' },
+  { cat:'GERAL', q:'Qual o valor total estimado do convênio?', a:'R$ 250.000.000,00 (duzentos e cinquenta milhões de reais).' },
+  { cat:'GERAL', q:'Quem representa a Defensoria no convênio?', a:'Defensora Pública-Geral Doutora Luciana Jordão da Motta Armiliato de Carvalho.' },
+  { cat:'GERAL', q:'Quem representa a OAB/SP no convênio?', a:'O Presidente Doutor Leonardo Sica.' },
+  { cat:'CÍVEL', q:'Qual o prazo máximo para propositura de ação cível após receber a documentação?', a:'30 dias para o ajuizamento, contados a partir do recebimento da documentação necessária.' },
+  { cat:'CÍVEL', q:'Qual o prazo para o advogado receber a documentação após a nomeação?', a:'6 meses contados da nomeação. Findo este prazo, o advogado deve recusar a nomeação pois perderá a validade.' },
+  { cat:'CÍVEL', q:'Quantos advogados são nomeados para separação/divórcio consensual?', a:'Apenas um advogado para representar ambas as partes.' },
+  { cat:'CÍVEL', q:'O que é o §8º da Cláusula 15 sobre execução de alimentos?', a:'Não será permitida indicação de novo advogado para cumprimento de sentença de alimentos em tempo inferior a 60 dias do pagamento integral ou suspensão do processo.' },
+  { cat:'CRIMINAL', q:'Quando é feita a indicação de advogado em processo criminal?', a:'Para audiência de custódia (se houver); após proposta de ANPP; ou após citação válida do acusado.' },
+  { cat:'CRIMINAL', q:'O advogado nomeado desde a audiência de custódia deve fazer o quê?', a:'Ser responsável por TODOS os atos do processo, inclusive eventual ANPP.' },
+  { cat:'CRIMINAL', q:'No plantão duplo de dias não úteis, quando são devidos honorários?', a:'Somente se o advogado participar DOS DOIS DIAS não úteis consecutivos. É vedado pagamento parcial.' },
+  { cat:'CRIMINAL', q:'Em quais hipóteses é permitida a atuação em execução penal?', a:'Apenas em regime aberto, livramento condicional, sursis (suspensão condicional) e penas restritivas de direitos.' },
+  { cat:'CRIMINAL', q:'O advogado pode atuar em revisão criminal pelo convênio?', a:'NÃO. É vedada a indicação, nomeação, atuação e recebimento de honorários para revisão criminal.' },
+  { cat:'HONORÁRIOS', q:'Certidão de honorários deve ser apresentada em qual prazo?', a:'Em até 1 ano da data de sua expedição, sob pena de ser adimplida somente no exercício financeiro seguinte.' },
+  { cat:'HONORÁRIOS', q:'Qual o prazo prescricional total para certidões de honorários?', a:'5 anos, contados do trânsito em julgado ou da ocorrência do fato gerador.' },
+  { cat:'HONORÁRIOS', q:'Se o usuário constituir advogado particular, quanto recebe o conveniado?', a:'30% do valor da tabela, desde que tenha atuado no processo.' },
+  { cat:'HONORÁRIOS', q:'Quanto recebe o advogado por atuação parcial após sentença (fase recursal)?', a:'30% do valor da tabela.' },
+  { cat:'HONORÁRIOS', q:'Em sentença condenatória criminal, como são pagos os honorários?', a:'70% após a sentença + 30% restantes após trânsito em julgado do acórdão.' },
+  { cat:'HONORÁRIOS', q:'Em processo cível com procedência total, sem recurso, quanto recebe?', a:'100% do valor previsto na tabela, quando certificado o trânsito em julgado.' },
+  { cat:'HONORÁRIOS', q:'Em caso de acordo com dois advogados (um por parte), qual o percentual?', a:'70% na homologação do acordo.' },
+  { cat:'HONORÁRIOS', q:'Em caso de acordo com único advogado para duas partes, qual o percentual?', a:'100% quando da homologação do acordo.' },
+  { cat:'HONORÁRIOS', q:'O que ocorre se o Juízo arbitrar honorários em valor diferente da tabela?', a:'Não serão pagos honorários em desacordo com a tabela, mesmo que o Juízo fixe valor distinto.' },
+  { cat:'HONORÁRIOS', q:'Quando há certidão parcial antecipada de 30%?', a:'Em suspensão de alimentos, execuções fiscais (acordo parcelamento/arquivamento), embargos procedentes ou citação por edital.' },
+  { cat:'PRAZOS', q:'Até que dia as certidões devem ser enviadas pela OAB/SP à Defensoria?', a:'Até o dia 25 de cada mês, para pagamento no 1º dia útil do segundo mês subsequente ao do protocolo.' },
+  { cat:'PRAZOS', q:'Qual o prazo de vigência anual das inscrições?', a:'A inscrição tem vigência anual, devendo ser renovada quando da publicação de novo edital.' },
+  { cat:'PRAZOS', q:'Quanto tempo antes do quiz pode pedir recusa de plantão?', a:'A recusa do plantão deve ser feita com, no mínimo, 3 dias de antecedência via Módulo de Indicação.' },
+  { cat:'PRAZOS', q:'Em quantos dias a Defensoria deve julgar pedidos de renúncia?', a:'Sempre que possível, no prazo de 5 dias úteis.' },
+  { cat:'PRAZOS', q:'O advogado pode ausentar-se por quantos dias no ano sem perder indicações?', a:'60 dias por ano, permitido o gozo em dois períodos de 30 dias.' },
+  { cat:'PRAZOS', q:'Qual o prazo para defesa administrativa no procedimento COMISTA?', a:'10 dias úteis, improrrogáveis.' },
+  { cat:'PRAZOS', q:'Qual o prazo de prescrição por infração aos termos do convênio?', a:'5 anos da data do conhecimento do fato pelo Coordenador Regional ou Presidente da Subseção.' },
+  { cat:'PRAZOS', q:'Quantos dias de antecedência deve ter a publicação do edital?', a:'Mínimo de 10 dias antes da data de início das inscrições.' },
+  { cat:'INSCRIÇÃO', q:'Quantas vezes ao ano a Defensoria abre inscrições?', a:'Ao menos uma vez ao ano, por período não inferior a 15 dias.' },
+  { cat:'INSCRIÇÃO', q:'Qual e-mail é obrigatório para o advogado conveniado?', a:'E-mail fornecido pela OAB-SP com extensão @adv.oabsp.org.br.' },
+  { cat:'INSCRIÇÃO', q:'Pode o advogado se inscrever como PF e como Sociedade Individual simultaneamente?', a:'NÃO. É vedada a participação simultânea em ambas as qualificações.' },
+  { cat:'INSCRIÇÃO', q:'Requisito para inscrição no Tribunal do Júri?', a:'Comprovar atuação em 4 sessões plenárias do Tribunal do Júri, ou 1 sessão plenária + conclusão de curso específico.' },
+  { cat:'INSCRIÇÃO', q:'Quem ministra os cursos para Júri, VD e IJ?', a:'Em conjunto pela EDEPE (Escola da Defensoria) e pela Escola Superior da Advocacia da OAB/SP.' },
+  { cat:'INSCRIÇÃO', q:'Qual o prazo de inscrição para o edital?', a:'Por período não inferior a 15 dias úteis.' },
+  { cat:'SANÇÕES', q:'Quais são as 4 penalidades administrativas do convênio?', a:'(1) Advertência; (2) Suspensão (máx. 18 meses); (3) Exclusão de área de atuação; (4) Descredenciamento.' },
+  { cat:'SANÇÕES', q:'Quando é aplicada a penalidade de descredenciamento obrigatório?', a:'Quando o advogado cobrar do usuário, captar clientes, incorrer em erro grave ou praticar ato de suspensão já tendo sido suspenso duas vezes.' },
+  { cat:'SANÇÕES', q:'Após descredenciamento, quando pode pedir nova inscrição?', a:'Após 2 anos contados da ciência da decisão da Comissão Mista.' },
+  { cat:'SANÇÕES', q:'Qual o prazo máximo de suspensão temporária?', a:'Prazo máximo de 18 meses de suspensão.' },
+  { cat:'SANÇÕES', q:'Por quanto tempo se aplica a exclusão de área de atuação?', a:'24 meses, podendo ser cumulada com advertência ou suspensão.' },
+  { cat:'SANÇÕES', q:'Das decisões da Câmara Recursal cabe recurso?', a:'NÃO. Das decisões da Câmara Recursal não cabe recurso.' },
+  { cat:'SANÇÕES', q:'Aplicada sanção de suspensão, o advogado recebe honorários?', a:'NÃO. Não fará jus a quaisquer honorários nos processos relacionados à causa da sanção. Se já recebeu, deve devolver.' },
+  { cat:'GERAL', q:'O convênio cobre área trabalhista?', a:'NÃO. Excluídas as áreas eleitoral, administrativa, trabalhista e previdenciária.' },
+  { cat:'GERAL', q:'É permitido substabelecimento pelo conveniado?', a:'Sim, uma única vez em cada feito, para um único ato de audiência, a outro advogado conveniado (sem honorários para o substabelecido).' },
+  { cat:'GERAL', q:'O que é a Câmara Paritária de Julgamento (COMISTA)?', a:'Composta por 2 Defensores Públicos + 2 advogados indicados pela OAB/SP, responsável por julgar as infrações ao convênio em primeira instância.' },
+  { cat:'GERAL', q:'Qual o foro para dirimir pendências do convênio?', a:'Comarca da Capital do Estado de São Paulo.' },
+  { cat:'GERAL', q:'O pagamento de honorários gera vínculo empregatício com o Estado?', a:'NÃO. O pagamento não implica vínculo empregatício com o Estado nem direitos assegurados a servidores públicos.' },
+];
+
+// ============================================================
+//  RENDER FLASHCARDS
+// ============================================================
+let flippedCount = 0;
+let masterScores = {};
+
+function renderFlashcards(filter) {
+  const container = document.getElementById('flashContainer');
+  container.innerHTML = '';
+  const filtered = filter === 'all' ? flashData : flashData.filter(d => d.cat === filter);
+  filtered.forEach((item, i) => {
+    const idx = flashData.indexOf(item);
+    const stars = masterScores[idx] || 0;
+    const el = document.createElement('div');
+    el.className = 'flashcard'; el.dataset.idx = idx; el.dataset.cat = item.cat;
+    el.innerHTML = `<div class="fc-inner">
+      <div class="fc-front">
+        <div><div class="fc-cat">${item.cat}</div>
+        <div class="fc-question">${item.q}</div></div>
+        <div class="fc-stars">${[0,1,2].map(s=>`<span class="fc-star ${stars>s?'lit':''}" data-i="${idx}" data-s="${s+1}" onclick="rateStar(event,${idx},${s+1})">★</span>`).join('')}</div>
+      </div>
+      <div class="fc-back">
+        <div><div class="fc-cat">${item.cat}</div>
+        <div class="fc-answer">${item.a}</div></div>
+        <div class="fc-hint">Clique para voltar</div>
+      </div></div>`;
+    el.onclick = (e) => {
+      if (e.target.classList.contains('fc-star')) return;
+      el.classList.toggle('flipped');
+      if (el.classList.contains('flipped')) {
+        flippedCount++;
+        document.getElementById('fc-flipped').textContent = flippedCount;
+      }
+    };
+    container.appendChild(el);
+  });
+}
+
+function rateStar(e, idx, stars) {
+  e.stopPropagation();
+  masterScores[idx] = stars;
+  if (stars === 3) {
+    const dominated = Object.values(masterScores).filter(v=>v===3).length;
+    document.getElementById('fc-mastered').textContent = dominated;
+  }
+  renderFlashcards(currentFilter);
+}
+
+let currentFilter = 'all';
+function filterCards(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlashcards(cat);
+}
+
+renderFlashcards('all');
+
+// ============================================================
+//  50 RULES
+// ============================================================
+const rules = [
+  { num:'REGRA 01', area:'OBJETO', title:'Assistência Suplementar Gratuita', text:'O convênio tem por objeto a prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo, pela advocacia dativa.' },
+  { num:'REGRA 02', area:'VIGÊNCIA', title:'Início e Duração', text:'15 meses a partir de 1º de maio de 2026, prorrogáveis por iguais períodos mediante termo aditivo. Denúncia com 90 dias de antecedência.' },
+  { num:'REGRA 03', area:'ÁREAS', title:'Áreas Abrangidas', text:'Cível, Família e Sucessões, Criminal, Infância e Juventude, Atividades Especiais (cartas precatórias e plantões).' },
+  { num:'REGRA 04', area:'EXCLUSÕES', title:'Áreas Excluídas', text:'Eleitoral, administrativa, trabalhista e previdenciária — mesmo nos casos de competência delegada à Justiça Estadual.' },
+  { num:'REGRA 05', area:'EXCLUSÕES', title:'Vedações Específicas', text:'Vedada indicação para: revisão criminal, defesa de pessoa jurídica (exceto curadoria especial) e defesa de vítima na área criminal (exceto ação penal privada).' },
+  { num:'REGRA 06', area:'ATENDIMENTO', title:'Atendimento Inicial pela OAB/SP', text:'Enquanto o sistema informatizado da Defensoria não estiver em pleno funcionamento, a OAB/SP presta atendimento inicial nas Subseções: avaliação econômico-financeira e análise jurídica.' },
+  { num:'REGRA 07', area:'HONORÁRIOS', title:'Pagamento das Certidões', text:'Certidões devem ser protocolizadas pela OAB/SP à Defensoria até o dia 25 de cada mês. Pagamento no 1º dia útil do segundo mês subsequente ao do protocolo.' },
+  { num:'REGRA 08', area:'HONORÁRIOS', title:'Prazo para Protocolo de Certidão', text:'A certidão de honorários deve ser aceita/protocolizada em até 1 ano de sua expedição. Prazo prescricional total: 5 anos.' },
+  { num:'REGRA 09', area:'HONORÁRIOS', title:'Reajuste Anual', text:'Os honorários têm seus valores ajustados anualmente pelo índice IPC/FIPE, com data-base no início da vigência do termo.' },
+  { num:'REGRA 10', area:'HONORÁRIOS', title:'Sem Vínculo Empregatício', text:'O pagamento de honorários não implica vínculo empregatício com o Estado, não conferindo ao advogado quaisquer direitos assegurados a servidores públicos.' },
+  { num:'REGRA 11', area:'CÍVEL', title:'Prazo para Ajuizamento', text:'30 dias para o ajuizamento, contados do recebimento da documentação necessária. 6 meses para coleta da documentação, contados da nomeação.' },
+  { num:'REGRA 12', area:'CÍVEL', title:'Cumulação de Pedidos', text:'Para ações onde haja cumulação de pedidos, o advogado recebe uma única nomeação, obrigando-se a concentrar todos os pleitos em um único processo.' },
+  { num:'REGRA 13', area:'CÍVEL', title:'Divórcio/Separação Consensual', text:'Será indicado apenas um advogado para representar ambas as partes em separação e divórcio consensuais.' },
+  { num:'REGRA 14', area:'CÍVEL', title:'Cumprimento de Sentença de Alimentos', text:'Vedada nova indicação para cumprimento de sentença de alimentos em prazo inferior a 60 dias do pagamento integral ou da suspensão.' },
+  { num:'REGRA 15', area:'CÍVEL', title:'Atuação até o Trânsito em Julgado', text:'O advogado deve acompanhar o cumprimento de sentença iniciado em até 12 meses do trânsito em julgado, sem direito a nova certidão de honorários.' },
+  { num:'REGRA 16', area:'CRIMINAL', title:'Momento da Indicação Criminal', text:'Para audiência de custódia; ou após proposta de ANPP; ou após citação válida do acusado.' },
+  { num:'REGRA 17', area:'CRIMINAL', title:'Responsabilidade Total no Criminal', text:'O advogado nomeado desde a audiência de custódia é responsável por TODOS os atos do processo, inclusive o ANPP.' },
+  { num:'REGRA 18', area:'CRIMINAL', title:'Réu Preso: Obrigação de HC', text:'Recebida indicação para réu preso, o advogado deve adotar TODAS as medidas para obtenção da liberdade. Não podem ser expedidas novas indicações para HC necessário.' },
+  { num:'REGRA 19', area:'CRIMINAL', title:'Multa no Juízo do Conhecimento', text:'O advogado é responsável pela manifestação sobre a multa perante o Juízo do Conhecimento, antes do envio ao Juízo de Execuções Criminais.' },
+  { num:'REGRA 20', area:'CRIMINAL', title:'Execução Penal: Hipóteses', text:'Atuação na execução penal limitada a: regime aberto, livramento condicional, sursis e penas restritivas de direitos.' },
+  { num:'REGRA 21', area:'JÚRI', title:'Requisito para Atuação no Júri', text:'Comprovar ter atuado em 4 sessões plenárias, ou em 1 sessão plenária cumulada com conclusão de curso específico.' },
+  { num:'REGRA 22', area:'JÚRI', title:'Continuidade da Nomeação no Júri', text:'A nomeação para a 1ª fase (até a pronúncia) permanece válida para a 2ª fase (plenário) e eventual segundo plenário.' },
+  { num:'REGRA 23', area:'JÚRI', title:'Segundo Júri: 60%', text:'Em caso de realização de segundo Júri, o advogado faz jus a 60% dos honorários previstos na tabela.' },
+  { num:'REGRA 24', area:'VD', title:'Medida Protetiva – Vinculação 12 Meses', text:'Advogado nomeado para medida protetiva em favor de vítima fica vinculado às demandas correlatas por 12 meses, contados da primeira decisão.' },
+  { num:'REGRA 25', area:'IJ', title:'Infância e Juventude: Sem Indicação', text:'NÃO haverá indicação para: oitiva informal perante o MP e remissão simples desacompanhada de medida socioeducativa.' },
+  { num:'REGRA 26', area:'IJ', title:'Medida Socioeducativa: Sem Nova Certidão', text:'O advogado que atuou na apuração de ato infracional permanece responsável pela execução da medida socioeducativa aplicada, sem direito a nova certidão.' },
+  { num:'REGRA 27', area:'PLANTÕES', title:'Plantão Duplo: Dias Não Úteis', text:'Em dois dias não úteis consecutivos, o plantão deve ser duplo. Honorários somente devidos se o advogado participar dos DOIS dias. Proibido pagamento parcial.' },
+  { num:'REGRA 28', area:'PLANTÕES', title:'JEC: Limite de Valor', text:'Vedada indicação de advogado conveniado para atuação em processos cujo valor não exceda 20 salários mínimos, salvo necessária interposição de recurso.' },
+  { num:'REGRA 29', area:'RECUSA', title:'Recusa da Indicação', text:'RECUSA: ato do advogado que rejeita a indicação antes da adoção da medida judicial e previamente ao aceite no Módulo de Indicação (MI). Deve ser feita exclusivamente via MI.' },
+  { num:'REGRA 30', area:'RECUSA', title:'Recusa de Plantão', text:'A recusa do plantão deve ser feita via MI com no mínimo 3 dias de antecedência. Deferido ou não, o advogado NÃO deve comparecer ao plantão.' },
+  { num:'REGRA 31', area:'RECUSA', title:'Renúncia Autorizada', text:'Pedidos de RENÚNCIA são avaliados pela Defensoria, sempre que possível em 5 dias úteis. Após autorização, o advogado comunica o usuário e formaliza judicialmente.' },
+  { num:'REGRA 32', area:'INSCRIÇÃO', title:'Frequência das Inscrições', text:'A Defensoria abrirá inscrições ao menos uma vez ao ano, por período não inferior a 15 dias, com edital publicado com antecedência mínima de 10 dias.' },
+  { num:'REGRA 33', area:'INSCRIÇÃO', title:'Vigência Anual', text:'A inscrição tem vigência anual e deve ser renovada quando da publicação de novo edital.' },
+  { num:'REGRA 34', area:'INSCRIÇÃO', title:'Sem Dupla Inscrição', text:'É vedada a participação no convênio como PF e como Sociedade Individual simultaneamente.' },
+  { num:'REGRA 35', area:'INSCRIÇÃO', title:'E-mail Obrigatório', text:'O advogado deve manter endereço de e-mail com extensão @adv.oabsp.org.br para todas as comunicações do convênio.' },
+  { num:'REGRA 36', area:'INSCRIÇÃO', title:'Cursos para VD e IJ', text:'Para inscrição em medidas protetivas autônomas de VD e em Infância e Juventude: comprovação de conclusão de curso específico ministrado pela EDEPE e Escola Superior da Advocacia OAB/SP.' },
+  { num:'REGRA 37', area:'HONORÁRIOS', title:'Sentença Absolutória Criminal: 100%', text:'Sentença absolutória sem recurso: 100% com trânsito em julgado. Com recurso: 70% após sentença + 30% após trânsito em julgado do acórdão.' },
+  { num:'REGRA 38', area:'HONORÁRIOS', title:'Sursis Processual (art. 89)', text:'30% após suspensão do processo + 70% após cumprimento do período de prova com trânsito em julgado da extinção da punibilidade.' },
+  { num:'REGRA 39', area:'HONORÁRIOS', title:'Extinção Sem Mérito (art. 485 CPC)', text:'Incisos I e VII: sem honorários. Incisos II e III: 70% para ambos (autor comprova intimação). IV, V, VI, X: 70% exclusivamente ao advogado do réu.' },
+  { num:'REGRA 40', area:'HONORÁRIOS', title:'Atuação Parcial: 60%', text:'Advogado nomeado para dar continuidade ao processo já em andamento, até a sentença e/ou trânsito em julgado: 60% do valor da tabela.' },
+  { num:'REGRA 41', area:'SANÇÕES', title:'4 Penalidades Administrativas', text:'(1) Advertência; (2) Suspensão máx. 18 meses; (3) Exclusão de área 24 meses; (4) Descredenciamento.' },
+  { num:'REGRA 42', area:'SANÇÕES', title:'Descredenciamento Obrigatório', text:'Cobrança ao usuário, captação de clientes, erro grave e terceira infração passível de suspensão geram descredenciamento obrigatório mesmo na primeira violação.' },
+  { num:'REGRA 43', area:'SANÇÕES', title:'Nova Inscrição Após Descredenciamento', text:'Somente após 2 anos contados da ciência da decisão da Comissão Mista. Para erro grave: nova inscrição condicionada à aprovação pela Comissão Recursal Paritária.' },
+  { num:'REGRA 44', area:'SANÇÕES', title:'Suspensão Cautelar', text:'Aplicada ao advogado que não mantém dados cadastrais atualizados ou cuja manutenção cause prejuízo aos usuários. Revogada quando cessada a causa.' },
+  { num:'REGRA 45', area:'SANÇÕES', title:'Prescrição de Infração', text:'Punibilidade por infração prescreve em 5 anos do conhecimento do fato. Execução da pena prescreve em 5 anos da decisão. Interrupção apenas uma vez.' },
+  { num:'REGRA 46', area:'SANÇÕES', title:'Câmara Paritária: Composição', text:'2 Defensores Públicos + 2 advogados OAB/SP. Câmara Recursal: 4 DPs + 5 advogados + Defensor Assessor de Convênios. Das decisões recursais NÃO cabe recurso.' },
+  { num:'REGRA 47', area:'SANÇÕES', title:'Sustentação Oral: 5 Minutos', text:'O advogado sindicado pode fazer sustentação oral por 5 minutos improrrogáveis, comunicando intenção em até 3 dias úteis antes da sessão.' },
+  { num:'REGRA 48', area:'GERAL', title:'Substabelecimento Restrito', text:'Permitido substabelecer apenas uma vez em cada feito, para único ato de audiência, a outro advogado conveniado, sem direito a honorários para o substabelecido.' },
+  { num:'REGRA 49', area:'GERAL', title:'Gratuidade Total', text:'A prestação de assistência judiciária ao usuário é TOTALMENTE GRATUITA. Qualquer cobrança sujeita a DESCREDENCIAMENTO e responsabilidade penal, civil e administrativa.' },
+  { num:'REGRA 50', area:'GERAL', title:'Continuidade dos Processos', text:'O advogado deve acompanhar TODOS os feitos até o trânsito em julgado, independentemente de cancelamento de inscrição, denúncia ou rescisão do convênio.' },
+];
+
+const rulesContainer = document.getElementById('rulesContainer');
+rules.forEach(r => {
+  const el = document.createElement('div');
+  el.className = 'rule-card';
+  el.innerHTML = `<div class="rule-num">${r.num}</div>
+    <div class="rule-title">${r.title}</div>
+    <div class="rule-text">${r.text}</div>
+    <span class="rule-tag">${r.area}</span>`;
+  rulesContainer.appendChild(el);
+});
+
+// ============================================================
+//  QUIZ DATA (50 questions)
+// ============================================================
+const quizData = [
+  { cat:'OBJETO', q:'Qual é o objeto do Convênio 001/2026?', opts:['Prestação de assistência jurídica trabalhista','Prestação de assistência judiciária gratuita suplementar à população hipossuficiente','Convênio de parceria administrativa entre DPE e OAB','Prestação de serviços advocatícios remunerados'], correct:1, exp:'O objeto é a prestação de assistência judiciária gratuita SUPLEMENTAR pela advocacia dativa à população economicamente hipossuficiente do Estado de São Paulo.' },
+  { cat:'VIGÊNCIA', q:'Qual a vigência do Convênio 001/2026?', opts:['12 meses a partir de 1º de janeiro de 2026','24 meses a partir da assinatura','15 meses a partir de 1º de maio de 2026','10 meses prorrogáveis'], correct:2, exp:'15 meses a partir de 1º de maio de 2026, podendo ser prorrogado por iguais períodos mediante termo aditivo.' },
+  { cat:'VIGÊNCIA', q:'Qual o prazo de antecedência mínima para denúncia do convênio?', opts:['30 dias','60 dias','90 dias','120 dias'], correct:2, exp:'O convênio pode ser denunciado com antecedência mínima de 90 dias, sem qualquer ônus às convenentes.' },
+  { cat:'VALOR', q:'Qual o valor total estimado do Convênio 001/2026?', opts:['R$ 100 milhões','R$ 150 milhões','R$ 200 milhões','R$ 250 milhões'], correct:3, exp:'O valor total estimado é de R$ 250.000.000,00 (duzentos e cinquenta milhões de reais).' },
+  { cat:'ÁREAS', q:'Qual área NÃO está abrangida pelo convênio?', opts:['Área criminal','Família e Sucessões','Área trabalhista','Infância e Juventude'], correct:2, exp:'São excluídas as áreas eleitoral, administrativa, TRABALHISTA e previdenciária, mesmo nos casos de competência delegada à Justiça Estadual.' },
+  { cat:'ÁREAS', q:'A atuação em execução penal pelo convênio é:', opts:['Ilimitada para qualquer tipo de execução','Restrita ao DEECRIM','Permitida apenas em regime aberto, livramento condicional, sursis e penas restritivas','Apenas para crimes hediondos'], correct:2, exp:'A atuação em execução penal limita-se às hipóteses excepcionais previstas na Res. 749/2016 do TJ-SP: regime aberto, livramento condicional, sursis e penas restritivas.' },
+  { cat:'CÍVEL', q:'Qual o prazo máximo para propositura de ação cível após receber os documentos?', opts:['15 dias','30 dias','45 dias','60 dias'], correct:1, exp:'O advogado tem 30 dias para o ajuizamento, contados a partir do recebimento da documentação necessária.' },
+  { cat:'CÍVEL', q:'Em separação e divórcio CONSENSUAL, quantos advogados são indicados?', opts:['Um para cada parte','Apenas um para ambas as partes','Dois obrigatoriamente','Depende da decisão do juiz'], correct:1, exp:'Nas ações de separação e divórcio consensuais, será indicado apenas UM advogado para representar AMBAS as partes.' },
+  { cat:'CÍVEL', q:'Qual o prazo máximo para o advogado cível receber a documentação após a nomeação?', opts:['30 dias','3 meses','6 meses','1 ano'], correct:2, exp:'O advogado tem 6 meses para o recebimento da documentação necessária, contados da nomeação. Findo este prazo, o advogado deve recusar a nomeação.' },
+  { cat:'CRIMINAL', q:'Quando é feita a indicação de advogado em processo criminal?', opts:['Apenas após a pronúncia','Para a audiência de custódia (se houver) ou após proposta de ANPP ou após citação válida do acusado','Somente após o oferecimento da denúncia','Apenas em casos de réu preso'], correct:1, exp:'A indicação é feita: para audiência de custódia se houver; ou após proposta/intenção de ANPP; ou após citação válida do acusado.' },
+  { cat:'CRIMINAL', q:'O advogado nomeado desde a audiência de custódia é responsável por:', opts:['Apenas o ato da audiência de custódia','Todos os atos do processo, inclusive eventual ANPP','Apenas até a pronúncia','Os atos até a sentença de 1ª instância'], correct:1, exp:'O advogado nomeado desde a audiência de custódia será responsável por TODOS os atos do processo, inclusive a realização de eventual ANPP.' },
+  { cat:'CRIMINAL', q:'No plantão duplo de dias não úteis consecutivos, como são devidos os honorários?', opts:['50% por dia comparecido','Honorários somente devidos se o advogado participar dos DOIS dias','Pode-se pagar honorários parciais se comparecer apenas em um dia','30% por ausência justificada'], correct:1, exp:'No plantão duplo, os honorários só são devidos se o advogado participar dos DOIS dias não úteis consecutivos. É vedado o pagamento de honorários parciais.' },
+  { cat:'JÚRI', q:'Qual o requisito para inscrição para atuação no Tribunal do Júri?', opts:['Apenas 2 sessões plenárias','4 sessões plenárias OU 1 sessão + conclusão de curso específico','10 anos de experiência criminal','Apenas aprovação em curso específico da OAB'], correct:1, exp:'Comprovação de atuação em 4 sessões plenárias do Tribunal do Júri, ou de 1 sessão plenária cumulada com a conclusão de curso específico.' },
+  { cat:'JÚRI', q:'Qual o percentual de honorários em caso de realização de SEGUNDO Júri?', opts:['100%','70%','60%','30%'], correct:2, exp:'Em caso de realização de um segundo Júri, o advogado faz jus a 60% dos honorários previstos na tabela, pagos após o trânsito em julgado da decisão.' },
+  { cat:'HONORÁRIOS', q:'O valor base para pagamento das certidões é:', opts:['O previsto na tabela à época da nomeação','O arbitrado pelo Juízo','O previsto na tabela vigente na última data processual constante na certidão','O maior valor entre tabela e arbitramento judicial'], correct:2, exp:'O valor pago tomará sempre por base o previsto na TABELA VIGENTE NA ÚLTIMA DATA PROCESSUAL constante na certidão. Para plantões: tabela da época da indicação.' },
+  { cat:'HONORÁRIOS', q:'Em certidão de sentença absolutória criminal sem recurso, qual o percentual?', opts:['70%','100%','60%','80%'], correct:1, exp:'Quando a sentença for absolutória e não houver recurso: 100% do valor previsto na tabela, quando certificado o trânsito em julgado.' },
+  { cat:'HONORÁRIOS', q:'Em caso de sentença condenatória criminal, como são pagos os honorários?', opts:['100% no trânsito em julgado','70% após sentença + 30% após trânsito em julgado do acórdão','60% após sentença + 40% após acórdão','50% em cada fase'], correct:1, exp:'Sentença condenatória: 70% do valor previsto na tabela após a sentença + 30% restantes para serem pagos após o trânsito em julgado do acórdão.' },
+  { cat:'HONORÁRIOS', q:'Se o usuário constitui advogado particular durante o processo, o conveniado recebe:', opts:['Nada — perde o direito a honorários','30% do valor da tabela, desde que tenha atuado','60% do valor da tabela','100% do valor da tabela'], correct:1, exp:'Quando o usuário constitui advogado particular, o conveniado que tenha atuado no processo recebe 30% do valor da tabela.' },
+  { cat:'HONORÁRIOS', q:'Em acordo judicial com um advogado para cada parte, qual o percentual de honorários?', opts:['100% cada advogado','70% para o advogado do autor; 30% para o réu','70% em caso de homologação de acordo','100% apenas se o acordo for cumprido'], correct:2, exp:'Quando houver a participação de um advogado para cada parte, independentemente de ser conveniado: 70% em caso de homologação de acordo.' },
+  { cat:'HONORÁRIOS', q:'O prazo prescricional para cobrança de honorários é:', opts:['1 ano','2 anos','3 anos','5 anos'], correct:3, exp:'As certidões somente serão adimplidas se protocolizadas dentro do prazo prescricional de 5 ANOS, contados do trânsito em julgado ou do fato gerador.' },
+  { cat:'HONORÁRIOS', q:'O Juízo arbitrou honorários em R$ 5.000 mas a tabela prevê R$ 1.597. O que a Defensoria paga?', opts:['R$ 5.000 conforme arbitrado pelo Juízo','R$ 1.597 conforme a tabela do convênio','O valor médio entre ambos','Aguarda decisão da CAD'], correct:1, exp:'Não serão pagos honorários em desacordo com a tabela, AINDA QUE ARBITRADO valor distinto pelo Juízo ou autoridade administrativa.' },
+  { cat:'CERTIDÕES', q:'Até que dia as certidões devem ser enviadas pela OAB/SP à Defensoria?', opts:['Dia 10 de cada mês','Dia 15 de cada mês','Dia 25 de cada mês','Dia 30 de cada mês'], correct:2, exp:'As certidões regularmente expedidas deverão ser encaminhadas pela CAD/OAB-SP à Defensoria até o DIA 25 de cada mês, para pagamento no 1º dia útil do segundo mês subsequente.' },
+  { cat:'CERTIDÕES', q:'Qual o prazo para protocolar uma certidão de honorários?', opts:['6 meses da expedição','1 ano da data de expedição','2 anos da expedição','Não há prazo'], correct:1, exp:'A certidão de honorários deverá ser aceita ou protocolizada eletronicamente em até 1 ANO da data de sua expedição.' },
+  { cat:'INSCRIÇÃO', q:'Com que frequência mínima a Defensoria abre inscrições?', opts:['Duas vezes ao ano','Ao menos uma vez ao ano','A qualquer tempo, sem prazo','A cada 2 anos'], correct:1, exp:'A DEFENSORIA abrirá inscrições ao menos uma vez ao ano, na forma e nos prazos estabelecidos em edital.' },
+  { cat:'INSCRIÇÃO', q:'Qual o período mínimo de abertura de inscrições pelo Edital?', opts:['5 dias úteis','10 dias corridos','Não inferior a 15 dias','20 dias úteis'], correct:2, exp:'O Edital de inscrições deverá prever abertura e encerramento das inscrições em dias úteis, por período não inferior a 15 (quinze) dias.' },
+  { cat:'INSCRIÇÃO', q:'Qual o endereço eletrônico obrigatório para o advogado conveniado?', opts:['@gmail.com ou @hotmail.com','@oab.org.br','@adv.oabsp.org.br','@dpsp.def.br'], correct:2, exp:'O edital de inscrições exigirá: endereço eletrônico fornecido pela OAB-SP com extensão @adv.oabsp.org.br.' },
+  { cat:'INSCRIÇÃO', q:'Pode o advogado se inscrever como pessoa física E como Sociedade Individual ao mesmo tempo?', opts:['Sim, se atuarem em áreas diferentes','Sim, com autorização da OAB/SP','Não. É vedada a participação simultânea em ambas as qualificações','Sim, desde que em Comarcas diferentes'], correct:2, exp:'O advogado poderá se inscrever como pessoa física OU como sociedade individual, sendo VEDADA a participação no convênio com ambas as qualificações, SIMULTANEAMENTE.' },
+  { cat:'INSCRIÇÃO', q:'Para inscrição no Júri, o advogado deve comprovar:', opts:['10 anos de advocacia criminal','4 sessões plenárias OU 1 sessão + curso específico','Apenas aprovação em curso da EDEPE','Aprovação prévia da Defensoria'], correct:1, exp:'A inscrição para o Tribunal do Júri fica condicionada à comprovação de já haver atuado em 4 sessões plenárias do Tribunal do Júri, ou de 1 sessão cumulada com conclusão de curso específico.' },
+  { cat:'DEVERES', q:'O advogado conveniado tem dever de acompanhar o processo:', opts:['Até o trânsito em julgado, mesmo após cancelamento da inscrição','Apenas durante a vigência de sua inscrição','Até a sentença de 1ª instância','Por no máximo 2 anos após a indicação'], correct:0, exp:'O advogado deve acompanhar TODOS os feitos sob seu patrocínio, independentemente de ulterior cancelamento de inscrição, denúncia ou rescisão do presente ajuste.' },
+  { cat:'DEVERES', q:'O advogado conveniado pode cobrar algum valor do usuário?', opts:['Sim, apenas custas processuais','Sim, apenas despesas eventuais','Sim, honorários de êxito','Não. A prestação é TOTALMENTE GRATUITA sob pena de descredenciamento'], correct:3, exp:'A prestação de assistência judiciária ao usuário é TOTALMENTE GRATUITA. Vedada qualquer cobrança a título de honorários, taxas, emolumentos ou despesas de qualquer natureza, sob pena de DESCREDENCIAMENTO.' },
+  { cat:'DEVERES', q:'O substabelecimento pelo advogado conveniado é permitido?', opts:['Somente com autorização judicial','Uma única vez em cada feito, para único ato de audiência, a outro advogado conveniado (sem honorários ao substabelecido)','Ilimitado, a qualquer tempo','Apenas para réus presos'], correct:1, exp:'Substabelecimento permitido UMA ÚNICA VEZ em cada feito, para um único ato de audiência, a outro advogado conveniado, que não fará jus ao recebimento de quaisquer valores.' },
+  { cat:'RECUSA', q:'O que é a RECUSA no contexto do convênio?', opts:['É o mesmo que renúncia','Ato do advogado que rejeita a indicação antes da adoção da medida judicial e previamente ao aceite no MI','Pedido de redistribuição do processo','Abstenção da audiência'], correct:1, exp:'RECUSA é o ato do advogado que rejeita a indicação antes da adoção da medida judicial cabível e previamente à manifestação de aceite no sistema MI.' },
+  { cat:'RECUSA', q:'Com quantos dias de antecedência mínima deve ser feita a recusa de plantão?', opts:['1 dia','2 dias','3 dias','5 dias úteis'], correct:2, exp:'A recusa do plantão deve ser feita exclusivamente via Módulo de Indicação - MI, com, no mínimo, 3 (três) dias de antecedência, sob pena de procedimento fiscalizatório.' },
+  { cat:'RECUSA', q:'Autorizada a RENÚNCIA, o advogado deve:', opts:['Apenas comunicar o sistema da Defensoria','Comunicar o usuário e juntar comprovante à petição judicial de renúncia nos autos','Aguardar nova indicação','Protocolar certidão imediatamente'], correct:1, exp:'Autorizada a renúncia pela DEFENSORIA, o advogado deve comunicar a decisão ao usuário e juntar o documento comprobatório à petição que formalizará o pedido de renúncia judicial nos autos.' },
+  { cat:'SANÇÕES', q:'Quais são as 4 penalidades administrativas do convênio?', opts:['Multa, suspensão, cassação e prisão','Advertência, suspensão (máx. 18 meses), exclusão de área e descredenciamento','Repreensão, afastamento, cassação e exclusão','Advertência, multa, suspensão e demissão'], correct:1, exp:'As penalidades são: (I) Advertência; (II) Suspensão pelo prazo máximo de 18 meses; (III) Exclusão de área de atuação; (IV) Descredenciamento.' },
+  { cat:'SANÇÕES', q:'Quando é aplicada a SUSPENSÃO (não advertência) ao advogado?', opts:['Pela primeira falta leve cometida','Quando a conduta implica prejuízo ao usuário ou em caso de reiteração das condutas geradoras de advertência','Apenas por descumprimento de prazo','Nunca, pois só existe advertência ou descredenciamento'], correct:1, exp:'A suspensão é aplicada quando a conduta implica prejuízo ao usuário, não comparecimento a atos processuais com prejuízo, ou por reiteração/cumulação de condutas geradoras de advertência.' },
+  { cat:'SANÇÕES', q:'Qual o prazo de penalidade de exclusão de área de atuação?', opts:['6 meses','12 meses','24 meses','18 meses'], correct:2, exp:'A exclusão de área de atuação, cumulativa à advertência ou suspensão, é aplicada pelo prazo de 24 (vinte e quatro) meses, para reiterações de condutas atécnicas numa mesma área.' },
+  { cat:'SANÇÕES', q:'Das decisões da Câmara RECURSAL do convênio, cabe recurso?', opts:['Sim, ao Defensor Público Geral','Sim, ao Tribunal de Ética da OAB','Não cabe recurso','Sim, mandado de segurança ao TJ-SP'], correct:2, exp:'Das decisões da Câmara Recursal NÃO CABE RECURSO (art. 32 do Anexo III).' },
+  { cat:'SANÇÕES', q:'Qual o prazo prescricional para punir infração ao convênio?', opts:['1 ano','2 anos','3 anos','5 anos'], correct:3, exp:'A punibilidade por infração aos termos do Convênio prescreve em 5 (cinco) anos da data do conhecimento do fato pela Coordenação Regional ou pela Presidência da Subseção da OAB/SP.' },
+  { cat:'SANÇÕES', q:'O advogado condenado a suspensão recebe honorários dos processos da causa?', opts:['Sim, normalmente','Não — sem honorários; se já recebeu, deve devolver','Recebe 50% do valor','Recebe honorários apenas de outros processos'], correct:1, exp:'Aplicada a penalidade (exceto advertência), o advogado NÃO fará jus à percepção de quaisquer honorários nos processos relacionados à causa da sanção. Se já recebeu, será intimado para restituição.' },
+  { cat:'SANÇÕES', q:'Após descredenciamento, quando pode o advogado pedir nova inscrição?', opts:['Imediatamente após cumprir a pena','Após 1 ano','Após 2 anos da ciência da decisão, desde que cessados os motivos','Após 5 anos'], correct:2, exp:'O advogado descredenciado somente poderá pleitear nova inscrição após 2 (dois) anos contados da ciência da decisão da Comissão Mista, desde que cessados os motivos que ensejaram a aplicação.' },
+  { cat:'SANÇÕES', q:'A Câmara Paritária de Julgamento é composta por:', opts:['4 Defensores Públicos + 4 advogados','2 Defensores Públicos + 2 advogados','1 juiz + 2 DPs + 2 advogados','3 DPs + 3 advogados'], correct:1, exp:'As Câmaras Paritárias de Julgamento são compostas por 2 Defensores Públicos (designados por ato da DPG-E) + 2 advogados (indicados pela OAB/SP).' },
+  { cat:'FISCAL', q:'O advogado sindicado pode fazer sustentação oral por quanto tempo?', opts:['2 minutos','5 minutos improrrogáveis','10 minutos','15 minutos'], correct:1, exp:'O advogado sindicado poderá fazer uso de sustentação oral pelo tempo improrrogável de 5 (cinco) minutos, comunicando a intenção em até 3 dias úteis antes.' },
+  { cat:'FISCAL', q:'As notificações eletrônicas enviadas ao e-mail cadastrado são válidas:', opts:['Apenas com confirmação de leitura','Independentemente de confirmação de recebimento','Somente para atos não urgentes','Com confirmação e AR postal'], correct:1, exp:'Considerar-se-ão válidas para todos os efeitos as notificações eletrônicas encaminhadas ao e-mail de cadastro do advogado, INDEPENDENTEMENTE de confirmação de recebimento.' },
+  { cat:'FISCAL', q:'Os procedimentos fiscalizatórios têm que caráter?', opts:['Público e transparente','Sigiloso, em regra','Semipúblico','Público se a falta for grave'], correct:1, exp:'Os procedimentos de que tratam esse anexo possuem, em regra, CARÁTER SIGILOSO. O acesso ao conteúdo deve ser solicitado ao SIC.' },
+  { cat:'MEDIDAS', q:'A vinculação do advogado nomeado para medida protetiva de vítima de VD é de:', opts:['6 meses','12 meses contados da primeira decisão','24 meses','Até o encerramento do processo principal'], correct:1, exp:'O advogado ficará vinculado às demandas correlatas da mesma beneficiária pelo período de 12 (doze) meses, contado da primeira decisão em medida protetiva.' },
+  { cat:'MEDIDAS', q:'Na Infância e Juventude, NÃO haverá indicação de advogado em:', opts:['Ações de apuração de ato infracional','Execução de medida socioeducativa','Oitiva informal perante o MP e remissão simples sem medida socioeducativa','Medidas cautelares urgentes'], correct:2, exp:'Não haverá indicação de advogado para: (I) oitiva informal perante o Ministério Público; (II) remissão simples desacompanhada de medida socioeducativa ou protetiva.' },
+  { cat:'MEDIDAS', q:'O advogado que atuou na apuração do ato infracional deve atuar na execução da medida socioeducativa?', opts:['Sim, e faz jus a nova certidão','Sim, mas sem direito a nova certidão de honorários','Não, é indicado novo advogado','Apenas se o usuário solicitar'], correct:1, exp:'O advogado que atuou na fase de apuração de ato infracional PERMANECERÁ responsável pela execução da medida socioeducativa aplicada, SEM DIREITO à expedição de nova certidão de honorários.' },
+  { cat:'ANPP', q:'O ANPP abrange desde a proposta de acordo até:', opts:['A sentença condenatória','O ato de homologação e extinção da punibilidade, se realizados no mesmo ato','Apenas a proposta de acordo','A audiência de instrução'], correct:1, exp:'O advogado será indicado para atuar no ANPP, que abrangerá desde a proposta de acordo até o ato de homologação e extinção da punibilidade, se realizada no mesmo ato.' },
+  { cat:'LGPD', q:'O advogado conveniado deve cumprir as leis de proteção de dados:', opts:['Apenas quando solicitado','A todo momento, sob pena de multas','Apenas para processos de família','Somente nos dados do SEI'], correct:1, exp:'O advogado deve cumprir, a todo momento, as leis de proteção de dados, jamais colocando, por seus atos ou omissão, a DEFENSORIA ou a OAB/SP em situação de violação das leis de proteção de dados.' },
+];
+
+// ============================================================
+//  QUIZ ENGINE
+// ============================================================
+let qIdx = 0, qScore = 0, timer = null, timerVal = 45;
+const shuffled = [...quizData].sort(() => Math.random() - 0.5);
+
+function startQuiz() {
+  qIdx = 0; qScore = 0; timerVal = 45;
+  document.getElementById('quiz-start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  document.getElementById('cert-container').classList.remove('show');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (qIdx >= 50) { showCert(); return; }
+  const q = shuffled[qIdx];
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qQuestion').textContent = q.q;
+  document.getElementById('qNum').textContent = (qIdx+1) + '/50';
+  document.getElementById('qProgressFill').style.width = ((qIdx+1)/50*100) + '%';
+  document.getElementById('qScore').textContent = qScore;
+  document.getElementById('qExplanation').classList.remove('show');
+  document.getElementById('qNext').classList.remove('show');
+
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt'; btn.textContent = opt;
+    btn.onclick = () => answerQuestion(i, q.correct, q.exp);
+    opts.appendChild(btn);
+  });
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timer);
+  timerVal = 45;
+  updateTimer();
+  timer = setInterval(() => {
+    timerVal--;
+    updateTimer();
+    if (timerVal <= 0) {
+      clearInterval(timer);
+      timeOut();
     }
+  }, 1000);
+}
+
+function updateTimer() {
+  const el = document.getElementById('qTimer');
+  el.textContent = timerVal;
+  el.classList.toggle('urgent', timerVal <= 10);
+}
+
+function timeOut() {
+  const q = shuffled[qIdx];
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns[q.correct].classList.add('correct');
+  btns.forEach(b => b.disabled = true);
+  document.getElementById('qExplanation').innerHTML = `<strong>⏱ Tempo esgotado!</strong> ${q.exp}`;
+  document.getElementById('qExplanation').classList.add('show');
+  document.getElementById('qNext').classList.add('show');
+}
+
+function answerQuestion(chosen, correct, exp) {
+  clearInterval(timer);
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.disabled = true);
+  btns[chosen].classList.add(chosen === correct ? 'correct' : 'wrong');
+  if (chosen !== correct) btns[correct].classList.add('correct');
+  if (chosen === correct) qScore++;
+  document.getElementById('qScore').textContent = qScore;
+  document.getElementById('qExplanation').innerHTML = `<strong>${chosen === correct ? '✅ Correto!' : '❌ Errado!'}</strong> ${exp}`;
+  document.getElementById('qExplanation').classList.add('show');
+  document.getElementById('qNext').classList.add('show');
+}
+
+function nextQuestion() {
+  qIdx++;
+  renderQuestion();
+}
+
+function showCert() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const cert = document.getElementById('cert-container');
+  cert.classList.add('show');
+
+  const pct = (qScore/50*100).toFixed(0);
+  let level = '', stars = '';
+  if (pct >= 90) { level = '🏆 ESPECIALISTA MÁXIMA — Domínio Total do Convênio'; stars = '⭐⭐⭐⭐⭐'; }
+  else if (pct >= 80) { level = '🥇 ESPECIALISTA AVANÇADA'; stars = '⭐⭐⭐⭐'; }
+  else if (pct >= 70) { level = '🥈 ESPECIALISTA INTERMEDIÁRIA'; stars = '⭐⭐⭐'; }
+  else if (pct >= 60) { level = '🥉 ESPECIALISTA EM FORMAÇÃO'; stars = '⭐⭐'; }
+  else { level = '📚 Continue estudando — você consegue!'; stars = '⭐'; }
+
+  document.getElementById('certScore').textContent = qScore + '/50 (' + pct + '%)';
+  document.getElementById('certStars').textContent = stars;
+  document.getElementById('certLevel').textContent = level;
+  document.getElementById('certDate').textContent = 'Emitido em: ' + new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+}
+
+function printCert() { window.print(); }
+function resetQuiz() {
+  document.getElementById('cert-container').classList.remove('show');
+  document.getElementById('quiz-start-screen').style.display = 'block';
+  document.getElementById('quiz-container').style.display = 'none';
+}
+
+// ============================================================
+//  CHALLENGES
+// ============================================================
+const challenges = [
+  { icon:'📄', title:'Leitura Completa', desc:'Leia todas as 24 folhas do Convênio 001/2026 usando o audiobook integrado.', progress:0, locked:false, badge:'INICIANTE', total:24 },
+  { icon:'🃏', title:'Flashcard Master', desc:'Vire todos os 50 flashcards pelo menos uma vez para dominar os conceitos essenciais.', progress:0, locked:false, badge:'PRATICANTE', total:50 },
+  { icon:'⚡', title:'Regras Gravadas', desc:'Revise as 50 regras mais importantes do convênio e teste sua memorização.', progress:0, locked:false, badge:'ESTUDANTE', total:50 },
+  { icon:'💰', title:'Tabela Decorada', desc:'Memorize os 10 honorários mais comuns da tabela. Quanto é o rito ordinário criminal?', progress:0, locked:false, badge:'FINANCEIRO', total:10 },
+  { icon:'🎯', title:'Quiz Aprovação', desc:'Complete o quiz de 50 perguntas com aproveitamento ≥ 70%. Prove que você domina o convênio!', progress:0, locked:false, badge:'TESTADO', total:50 },
+  { icon:'🏆', title:'Especialista Total', desc:'Atinja nota ≥ 90% no quiz. Torne-se a maior especialista do Convênio 001/2026!', progress:0, locked:true, badge:'ELITE', total:50 },
+  { icon:'⚖️', title:'Mestre em Prazos', desc:'Responda corretamente todos os desafios de prazos do convênio sem errar nenhum.', progress:0, locked:true, badge:'PRAZOS', total:20 },
+  { icon:'🔒', title:'LGPD Expert', desc:'Domínio total das obrigações de proteção de dados pessoais previstas no convênio.', progress:0, locked:true, badge:'LGPD', total:10 },
+  { icon:'🎓', title:'Certificada DPE-OAB', desc:'Conclua todos os módulos e obtenha o certificado de especialização em Convênio DPE-OAB 001/2026.', progress:0, locked:true, badge:'CERTIFICADA', total:8 },
+];
+
+const challContainer = document.getElementById('challengesContainer');
+challenges.forEach(c => {
+  const el = document.createElement('div');
+  el.className = `challenge-card ${c.locked?'ch-locked':''}`;
+  el.innerHTML = `<span class="ch-badge">${c.badge}</span>
+    <div class="ch-icon">${c.icon}</div>
+    <div class="ch-title">${c.title}</div>
+    <div class="ch-desc">${c.desc}</div>
+    <div class="ch-progress"><div class="ch-fill" style="width:${c.progress/c.total*100}%"></div></div>
+    <div class="ch-stats"><span>${c.progress}/${c.total} concluído</span><span>${c.locked?'🔒 Bloqueado':'✅ Disponível'}</span></div>`;
+  challContainer.appendChild(el);
+});
+
 </script>
 </body>
 </html>
