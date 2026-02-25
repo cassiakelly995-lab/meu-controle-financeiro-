@@ -2,144 +2,169 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Plataforma Interativa Convênio 001/2026</title>
+<title>Painel Interativo Convênio</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Segoe UI, sans-serif;
-    display:flex;
-    background:#f4f6f9;
-    transition:.3s;
+:root{
+--bg:#f4f6f9;
+--card:#ffffff;
+--text:#000000;
+--primary:#1a237e;
 }
 
 .dark{
-    background:#121212;
-    color:white;
+--bg:#121212;
+--card:#1f1f1f;
+--text:#ffffff;
+}
+
+body{
+margin:0;
+font-family:Segoe UI, sans-serif;
+display:flex;
+background:var(--bg);
+color:var(--text);
+transition:.3s;
 }
 
 .sidebar{
-    width:260px;
-    background:#1a237e;
-    color:white;
-    height:100vh;
-    padding:20px;
-    position:fixed;
-    overflow:auto;
+width:260px;
+background:var(--primary);
+color:white;
+height:100vh;
+padding:20px;
+position:fixed;
+overflow:auto;
 }
 
 .sidebar a{
-    display:block;
-    color:white;
-    text-decoration:none;
-    margin:8px 0;
+display:block;
+color:white;
+text-decoration:none;
+margin:8px 0;
 }
 
 .sidebar button{
-    margin-top:10px;
+margin-top:15px;
+padding:8px;
+border:none;
+border-radius:6px;
+cursor:pointer;
 }
 
 .content{
-    margin-left:280px;
-    padding:20px;
-    width:100%;
+margin-left:280px;
+padding:20px;
+width:100%;
 }
 
 .card{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-.dark .card{
-    background:#1f1f1f;
+background:var(--card);
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 .accordion{
-    cursor:pointer;
-    padding:10px;
-    background:#3949ab;
-    color:white;
-    border:none;
-    width:100%;
-    text-align:left;
-    border-radius:6px;
-    margin-top:5px;
+cursor:pointer;
+padding:12px;
+background:#3949ab;
+color:white;
+border:none;
+width:100%;
+text-align:left;
+border-radius:6px;
+margin-top:8px;
+font-weight:bold;
 }
 
 .panel{
-    display:none;
-    padding:10px;
-    background:#e8eaf6;
-    border-radius:6px;
-    margin-bottom:5px;
+max-height:0;
+overflow:hidden;
+transition:max-height 0.3s ease;
+background:#e8eaf6;
+padding:0 10px;
+border-radius:6px;
 }
 
 .dark .panel{
-    background:#2c2c2c;
+background:#2c2c2c;
 }
 
-.highlight{
-    background:yellow;
-    font-weight:bold;
+.panel p{
+margin:10px 0;
 }
 
 .progress{
-    width:100%;
-    background:#ccc;
-    height:20px;
-    border-radius:10px;
+width:100%;
+background:#ccc;
+height:20px;
+border-radius:10px;
+margin-top:10px;
 }
 
 .progress-bar{
-    height:100%;
-    width:0%;
-    background:#1a237e;
-    border-radius:10px;
+height:100%;
+width:0%;
+background:var(--primary);
+border-radius:10px;
+transition:.3s;
 }
 
 .flashcard{
-    width:260px;
-    height:150px;
-    perspective:1000px;
-    display:inline-block;
-    margin:10px;
+width:260px;
+height:150px;
+perspective:1000px;
+display:inline-block;
+margin:10px;
 }
 
 .flash-inner{
-    width:100%;
-    height:100%;
-    transition:transform 0.6s;
-    transform-style:preserve-3d;
-    position:relative;
+width:100%;
+height:100%;
+transition:transform 0.6s;
+transform-style:preserve-3d;
+position:relative;
 }
 
 .flashcard:hover .flash-inner{
-    transform:rotateY(180deg);
+transform:rotateY(180deg);
 }
 
 .flash-front, .flash-back{
-    position:absolute;
-    width:100%;
-    height:100%;
-    backface-visibility:hidden;
-    border-radius:10px;
-    padding:15px;
+position:absolute;
+width:100%;
+height:100%;
+backface-visibility:hidden;
+border-radius:10px;
+padding:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
 }
 
 .flash-front{background:#bbdefb;}
 .flash-back{background:#c8e6c9; transform:rotateY(180deg);}
 
 input[type=text]{
-    padding:8px;
-    width:300px;
+padding:8px;
+width:300px;
 }
 
 .timer{
-    font-size:18px;
-    font-weight:bold;
+font-size:18px;
+font-weight:bold;
+}
+
+button{
+background:var(--primary);
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
 }
 </style>
 </head>
@@ -148,23 +173,20 @@ input[type=text]{
 
 <div class="sidebar">
 <h2>Convênio 001/2026</h2>
-<a href="#t1">TÍTULO I</a>
-<a href="#t2">TÍTULO II</a>
-<a href="#t3">TÍTULO III</a>
-<a href="#t4">TÍTULO IV</a>
-<a href="#t5">TÍTULO V</a>
-<a href="#t6">TÍTULO VI</a>
-<a href="#t7">TÍTULO VII</a>
-<a href="#t8">TÍTULO VIII</a>
+<a href="#t1">Disposições</a>
+<a href="#t2">Obrigações</a>
+<a href="#t3">Indicações</a>
+<a href="#t4">Honorários</a>
+<a href="#quiz">Quiz</a>
 <br>
-<button onclick="modoEscuro()">🌙 Modo Escuro</button>
+<button onclick="toggleModo()">🌙 Alternar Modo</button>
 </div>
 
 <div class="content">
 
-<h1>Plataforma Master - Convênio DPESP x OAB/SP</h1>
+<h1>Painel Interativo</h1>
 
-<input type="text" placeholder="Buscar palavra..." onkeyup="buscar(this.value)">
+<input type="text" placeholder="Buscar..." onkeyup="buscar(this.value)">
 
 <div class="card">
 <h3>Progresso de Leitura</h3>
@@ -174,134 +196,51 @@ input[type=text]{
 </div>
 
 <div class="card">
-<h3>Cronômetro de Estudo</h3>
+<h3>Cronômetro</h3>
 <div class="timer" id="timer">00:00</div>
-<button onclick="startTimer()">Iniciar</button>
+<button onclick="iniciarTimer()">Iniciar</button>
+<button onclick="pararTimer()">Parar</button>
 </div>
 
-<!-- TÍTULO I -->
 <div id="t1" class="card">
-<h2>TÍTULO I – Disposições Gerais</h2>
+<h2>Disposições Gerais</h2>
+<button class="accordion">Objeto</button>
+<div class="panel"><p>Assistência judiciária gratuita suplementar à população hipossuficiente.</p></div>
 
-<button class="accordion">Cláusula 1 – Objeto</button>
-<div class="panel">
-Assistência judiciária gratuita suplementar à população <span class="highlight">hipossuficiente</span>.
-Abrange áreas: cível, família, criminal, infância e plantões.
+<button class="accordion">Vedações</button>
+<div class="panel"><p>Vedado revisão criminal, eleitoral, trabalhista e previdenciário.</p></div>
 </div>
 
-<button class="accordion">Cláusula 2 – Vedações</button>
-<div class="panel">
-Vedado atuar em: eleitoral, trabalhista, previdenciário.
-Vedado revisão criminal.
-Vedado representar pessoa jurídica (salvo curadoria especial).
-</div>
-</div>
-
-<!-- TÍTULO II -->
 <div id="t2" class="card">
-<h2>TÍTULO II – Obrigações</h2>
+<h2>Obrigações</h2>
+<button class="accordion">Advogado</button>
+<div class="panel"><p>Cumprir prazos, atuar até trânsito em julgado e respeitar LGPD.</p></div>
 
-<button class="accordion">Obrigações da OAB/SP</button>
-<div class="panel">
-Atendimento inicial, triagem econômica, divulgação, sistemas informatizados, LGPD.
+<button class="accordion">Defensoria</button>
+<div class="panel"><p>Pagamento das certidões e controle do sistema.</p></div>
 </div>
 
-<button class="accordion">Obrigações da Defensoria</button>
-<div class="panel">
-Pagamento das certidões, sistema digital, informes de rendimento, controle de indicações.
-</div>
-
-<button class="accordion">Obrigações do Advogado</button>
-<div class="panel">
-Manter e-mail atualizado, cumprir prazos, acompanhar até trânsito em julgado,
-não usar símbolo da Defensoria, respeitar LGPD.
-</div>
-</div>
-
-<!-- TÍTULO III -->
 <div id="t3" class="card">
-<h2>TÍTULO III – Inscrições</h2>
-<button class="accordion">Requisitos</button>
-<div class="panel">
-Inscrição anual, certificação digital, conta bancária indicada, não exercer cargo incompatível.
-</div>
-</div>
-
-<!-- TÍTULO IV -->
-<div id="t4" class="card">
-<h2>TÍTULO IV – Indicações</h2>
+<h2>Indicações</h2>
 <button class="accordion">Área Cível</button>
-<div class="panel">
-6 meses para receber documentos.
-30 dias para ajuizar.
-Cumulação obrigatória.
-1 advogado no divórcio consensual.
-</div>
+<div class="panel"><p>30 dias para ajuizar após documentos.</p></div>
 
 <button class="accordion">Área Criminal</button>
-<div class="panel">
-Nomeação após custódia ou citação.
-1 advogado por processo.
-Responsável até trânsito.
+<div class="panel"><p>Atuação até trânsito em julgado.</p></div>
 </div>
 
-<button class="accordion">Medidas Protetivas</button>
-<div class="panel">
-Atuação vinculada por 12 meses.
-Nova nomeação apenas se demanda distinta.
-</div>
+<div id="t4" class="card">
+<h2>Honorários</h2>
+<p>Pagos conforme tabela oficial. Sem vínculo empregatício.</p>
 </div>
 
-<!-- TÍTULO V -->
-<div id="t5" class="card">
-<h2>TÍTULO V – Plantões</h2>
-Plantão duplo em dias não úteis consecutivos.
-Sem pagamento parcial.
-ANPP até homologação.
-</div>
+<div id="quiz" class="card">
+<h2>Quiz</h2>
 
-<!-- TÍTULO VI -->
-<div id="t6" class="card">
-<h2>TÍTULO VI – Honorários</h2>
-Pagos conforme tabela.
-Somente via sistema.
-Sem vínculo empregatício.
-Atualização anual IPC-FIPE.
-</div>
-
-<!-- FLASHCARDS -->
-<div class="card">
-<h2>Flashcards</h2>
-
-<div class="flashcard">
-<div class="flash-inner">
-<div class="flash-front">Pode cobrar honorários?</div>
-<div class="flash-back">Não. Totalmente gratuito.</div>
-</div>
-</div>
-
-<div class="flashcard">
-<div class="flash-inner">
-<div class="flash-front">Prazo para ajuizar?</div>
-<div class="flash-back">30 dias após receber docs.</div>
-</div>
-</div>
-
-</div>
-
-<!-- QUIZ -->
-<div class="card">
-<h2>Quiz Avançado</h2>
-
-1) Revisão criminal é:
+1) Prazo para ajuizar:
 <br>
-<input type="radio" name="q1" value="c"> Vedada<br>
-<input type="radio" name="q1" value="e"> Permitida<br><br>
-
-2) Prazo para ajuizar ação:
-<br>
-<input type="radio" name="q2" value="e"> 90 dias<br>
-<input type="radio" name="q2" value="c"> 30 dias<br><br>
+<input type="radio" name="q1" value="c"> 30 dias<br>
+<input type="radio" name="q1" value="e"> 90 dias<br><br>
 
 <button onclick="corrigir()">Corrigir</button>
 <p id="resultado"></p>
@@ -310,32 +249,34 @@ Atualização anual IPC-FIPE.
 </div>
 
 <script>
-let acc=document.getElementsByClassName("accordion");
-let total=acc.length;
+let accordions=document.querySelectorAll(".accordion");
 let abertas=0;
 
-for(let i=0;i<acc.length;i++){
-acc[i].addEventListener("click",function(){
-this.classList.toggle("active");
+accordions.forEach(acc=>{
+acc.addEventListener("click",function(){
 let panel=this.nextElementSibling;
-if(panel.style.display==="block"){
-panel.style.display="none";
+if(panel.style.maxHeight){
+panel.style.maxHeight=null;
 abertas--;
 }else{
-panel.style.display="block";
+panel.style.maxHeight=panel.scrollHeight+"px";
 abertas++;
 }
-document.getElementById("barra").style.width=(abertas/total)*100+"%";
+document.getElementById("barra").style.width=(abertas/accordions.length)*100+"%";
 });
+});
+
+function toggleModo(){
+document.body.classList.toggle("dark");
 }
 
 function buscar(texto){
 let cards=document.querySelectorAll(".card");
-cards.forEach(c=>{
-if(c.innerText.toLowerCase().includes(texto.toLowerCase())){
-c.style.display="block";
+cards.forEach(card=>{
+if(card.innerText.toLowerCase().includes(texto.toLowerCase())){
+card.style.display="block";
 }else{
-c.style.display="none";
+card.style.display="none";
 }
 });
 }
@@ -343,18 +284,28 @@ c.style.display="none";
 function corrigir(){
 let pontos=0;
 if(document.querySelector('input[name="q1"]:checked')?.value=="c") pontos++;
-if(document.querySelector('input[name="q2"]:checked')?.value=="c") pontos++;
-document.getElementById("resultado").innerText="Pontuação: "+pontos+"/2";
+document.getElementById("resultado").innerText="Pontuação: "+pontos+"/1";
 }
 
-function modoEscuro(){
-document.body.classList.toggle("dark");
-}
-
+let intervalo=null;
 let segundos=0;
-function startTimer(){
-setInterval(()=>{
+
+function iniciarTimer(){
+if(intervalo) return;
+intervalo=setInterval(()=>{
 segundos++;
 let min=Math.floor(segundos/60);
 let seg=segundos%60;
 document.getElementById("timer").innerText=
+(min<10?"0":"")+min+":"+(seg<10?"0":"")+seg;
+},1000);
+}
+
+function pararTimer(){
+clearInterval(intervalo);
+intervalo=null;
+}
+</script>
+
+</body>
+</html>
