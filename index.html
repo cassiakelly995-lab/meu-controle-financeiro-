@@ -2,7 +2,10 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#060810">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CONVÊNIO DPE-OAB 001/2026 | PAINEL ELITE - CÁSSIA KELLY</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -23,13 +26,17 @@
   --border: rgba(201,168,76,0.2);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
 body {
   background: var(--obsidian);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* PARTICLE BG */
@@ -90,6 +97,7 @@ header {
   text-align:center;
   font-size:11px; color: var(--text-muted);
 }
+@media(max-width:479px) { .hstat-hide-sm { display:none; } }
 .hstat strong {
   display:block;
   font-size:18px; font-weight:700;
@@ -126,7 +134,7 @@ nav {
 .tab-icon { font-size:14px; }
 
 /* MAIN */
-main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index:1; }
+main { max-width:1400px; margin:0 auto; padding:clamp(12px, 3vw, 24px); position:relative; z-index:1; }
 .panel { display:none; }
 .panel.active { display:block; }
 
@@ -136,7 +144,7 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 }
 .section-title {
   font-family:'Playfair Display',serif;
-  font-size:2rem; font-weight:900;
+  font-size:clamp(1.4rem, 4vw, 2rem); font-weight:900;
   color: var(--gold);
   line-height:1.1;
 }
@@ -152,9 +160,10 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 /* ========== ABA 1: DOCUMENTO 24 FOLHAS ========== */
 .doc-toolbar {
   background:var(--surface); border:1px solid var(--border);
-  border-radius:12px; padding:16px 20px;
-  display:flex; align-items:center; gap:12px;
-  margin-bottom:24px; flex-wrap:wrap;
+  border-radius:12px; padding:14px 16px;
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:16px; flex-wrap:wrap;
+  justify-content: space-between;
 }
 .audio-controls { display:flex; gap:8px; align-items:center; }
 .audio-btn {
@@ -215,8 +224,9 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
   padding:3px 12px; border-radius:20px;
   font-size:11px; font-weight:700;
 }
+.doc-page .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:16px 0; }
 .doc-page table {
-  width:100%; border-collapse:collapse; margin:16px 0; font-size:12px;
+  width:100%; border-collapse:collapse; font-size:12px; min-width:400px;
 }
 .doc-page th {
   background:#C9A84C; color:#000; padding:8px;
@@ -229,7 +239,13 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 
 /* ========== ABA 2: FLASHCARDS ========== */
 .flash-controls {
-  display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; align-items:center;
+  display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; align-items:center;
+  overflow-x: visible;
+}
+.cat-filter {
+  display:flex; gap:6px; flex-wrap:wrap;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px; max-width: 100%;
 }
 .fc-stat {
   background:var(--surface); border:1px solid var(--border);
@@ -237,9 +253,7 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
   font-size:12px; color:var(--text-muted);
 }
 .fc-stat strong { display:block; font-size:20px; font-weight:700; color:var(--gold); }
-.cat-filter {
-  display:flex; gap:8px; flex-wrap:wrap;
-}
+/* cat-filter moved above */
 .cat-btn {
   background:var(--surface); border:1px solid var(--border);
   color:var(--text-muted); padding:6px 14px; border-radius:20px;
@@ -321,7 +335,7 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 
 /* QUIZ */
 .quiz-start {
-  text-align:center; padding:60px 20px;
+  text-align:center; padding:clamp(24px,5vw,60px) clamp(16px,4vw,40px);
 }
 .quiz-start h2 {
   font-family:'Playfair Display',serif;
@@ -396,8 +410,9 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
   margin-bottom:28px; color:var(--text);
 }
 .quiz-options {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:12px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:10px;
 }
 .quiz-opt {
   background:var(--surface2); border:1px solid var(--border);
@@ -429,7 +444,7 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 .cert-box {
   background: linear-gradient(135deg, #0C1120, #1C2536);
   border:2px solid var(--gold);
-  border-radius:16px; padding:60px;
+  border-radius:16px; padding:clamp(24px, 5vw, 60px);
   max-width:800px; margin:0 auto;
   position:relative; overflow:hidden;
 }
@@ -456,12 +471,13 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
   margin-bottom:6px;
 }
 .cert-subtitle {
-  font-family:'Playfair Display',serif; font-size:2.2rem;
+  font-family:'Playfair Display',serif; font-size:clamp(1.2rem, 4vw, 2.2rem);
   color:var(--text); margin-bottom:8px; font-weight:700;
 }
 .cert-name {
-  font-family:'Playfair Display',serif; font-size:2.8rem;
-  color:var(--gold); font-weight:900; margin:20px 0;
+  font-family:'Playfair Display',serif; font-size:clamp(1.4rem, 5vw, 2.8rem);
+  color:var(--gold); font-weight:900; margin:16px 0;
+  word-break: break-word;
 }
 .cert-text { color:var(--text-muted); font-size:.95rem; line-height:1.7; margin-bottom:24px; }
 .cert-score {
@@ -494,7 +510,7 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 .challenge-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(201,168,76,.15); }
 .ch-icon { font-size:36px; margin-bottom:12px; }
 .ch-title { font-weight:700; font-size:1rem; margin-bottom:8px; color:var(--text); }
-.ch-desc { font-size:.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:16px; }
+.ch-desc { font-size:.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:12px; }
 .ch-progress {
   background:var(--surface2); border-radius:4px;
   height:6px; overflow:hidden; margin-bottom:8px;
@@ -523,7 +539,9 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 }
 .hon-table {
   width:100%; border-collapse:collapse; font-size:12px; margin-bottom:8px;
+  min-width:460px;
 }
+.hon-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:8px; border-radius:8px; }
 .hon-table th {
   background:var(--surface2); padding:10px 12px;
   text-align:left; color:var(--gold); font-weight:700;
@@ -653,9 +671,10 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 
 /* FOOTER */
 footer {
-  text-align:center; padding:20px; font-size:11px;
+  text-align:center; padding:clamp(16px,3vw,20px); font-size:11px;
   color:var(--text-muted); border-top:1px solid var(--border);
-  margin-top:40px; position:relative; z-index:1;
+  margin-top:clamp(24px,4vw,40px); position:relative; z-index:1;
+  padding-bottom:max(20px, env(safe-area-inset-bottom, 20px));
 }
 
 /* MODAL */
@@ -686,14 +705,174 @@ footer {
 }
 
 /* RESPONSIVE */
-@media(max-width:600px) {
-  .nav-inner { gap:0; }
-  .tab { padding:12px 12px; font-size:10px; }
-  main { padding:16px; }
-  .quiz-options { grid-template-columns:1fr; }
-  .cert-name { font-size:2rem; }
-  .doc-page { padding:30px 20px; }
+
+/* =====================================================
+   RESPONSIVE — MOBILE FIRST
+   Breakpoints: 480px (sm), 768px (md), 1024px (lg)
+===================================================== */
+
+/* ---- BASE MOBILE (< 480px) ---- */
+@media (max-width: 479px) {
+  /* Header */
+  header { padding: 0 12px; }
+  .header-inner { height: 56px; }
+  .logo { font-size: .85rem; gap: 6px; }
+  .logo-icon { width: 26px; height: 26px; font-size: 12px; }
+  .badge { display: none; }
+  .header-stats { gap: 10px; }
+  .hstat { display: none; }
+  .hstat:first-child { display: block; }
+
+  /* Nav — horizontal scroll, botões menores */
+  nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-inner { padding: 0 4px; gap: 0; }
+  .tab { padding: 10px 10px; font-size: 10px; gap: 4px; white-space: nowrap; flex-shrink: 0; }
+  .tab-icon { font-size: 13px; }
+
+  /* Main */
+  main { padding: 12px; }
+  .section-title { font-size: 1.4rem; }
+  .section-subtitle { font-size: .8rem; }
+
+  /* Documento */
+  .doc-toolbar { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
+  .audio-controls { justify-content: center; }
+  .speed-control { justify-content: center; }
+  #audio-status { text-align: center; font-size: 10px; }
+  .page-nav { justify-content: center; }
+  .doc-page { padding: 20px 14px; min-height: auto; font-size: 13px; }
+  .doc-page h1 { font-size: 1rem; }
+  .doc-page h3 { font-size: .9rem; }
+  .doc-page table { font-size: 10px; }
+  .doc-search-bar { flex-direction: column; }
+  .doc-search-input { max-width: 100%; }
+
+  /* Flashcards — 1 coluna */
+  .cards-grid { grid-template-columns: 1fr; }
+  .flashcard { height: 220px; }
+  .flash-controls { gap: 8px; }
+  .fc-stat { padding: 8px 12px; }
+  .fc-stat strong { font-size: 16px; }
+  .cat-filter { gap: 6px; }
+  .cat-btn { padding: 5px 10px; font-size: 10px; }
+
+  /* Regras — 1 coluna */
+  .rules-grid { grid-template-columns: 1fr; }
+
+  /* Quiz */
+  .quiz-options { grid-template-columns: 1fr; gap: 8px; }
+  .quiz-card { padding: 20px 14px; }
+  .quiz-question { font-size: 1rem; }
+  .quiz-opt { padding: 12px 14px; font-size: .85rem; }
+  .quiz-header { gap: 8px; padding: 10px 14px; flex-wrap: wrap; }
+  .quiz-start .stats-row { gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .quiz-start .stat-box { padding: 12px 16px; }
+  .quiz-start .stat-box strong { font-size: 1.4rem; }
+
+  /* Certificado */
+  .cert-box { padding: 28px 16px; }
+  .cert-name { font-size: 1.5rem; }
+  .cert-subtitle { font-size: 1.4rem; }
+  .cert-title { font-size: .8rem; letter-spacing: 1px; }
+  .cert-score { font-size: 1.1rem; padding: 10px 20px; }
+  .cert-actions { flex-direction: column; align-items: center; }
+  .cert-actions button { width: 100%; max-width: 280px; }
+
+  /* Desafios — 1 coluna */
+  .challenges-grid { grid-template-columns: 1fr; }
+
+  /* Honorários */
+  .hon-table { font-size: 10px; }
+  .hon-table th, .hon-table td { padding: 6px 6px; }
+
+  /* Histórico */
+  .history-item { flex-wrap: wrap; gap: 4px; }
+  .history-item .h-name { max-width: 100%; font-size: 11px; }
+
+  /* Input nome quiz */
+  #input-nome-quiz { font-size: .9rem; padding: 12px 14px; }
+
+  /* Breakdown cats */
+  .cat-row-label { min-width: 70px; font-size: 9px; }
+
+  /* Header stats */
+  .header-stats { gap: 8px; }
 }
+
+/* ---- SMALL MOBILE (480px – 767px) ---- */
+@media (min-width: 480px) and (max-width: 767px) {
+  .header-stats .hstat:last-child { display: none; }
+  .badge { display: none; }
+
+  nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  nav::-webkit-scrollbar { display: none; }
+  .tab { padding: 12px 14px; font-size: 11px; white-space: nowrap; flex-shrink: 0; }
+
+  main { padding: 16px; }
+  .section-title { font-size: 1.6rem; }
+
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .flashcard { height: 200px; }
+
+  .rules-grid { grid-template-columns: 1fr; }
+
+  .quiz-options { grid-template-columns: 1fr; gap: 10px; }
+  .quiz-card { padding: 24px 18px; }
+
+  .doc-toolbar { flex-wrap: wrap; gap: 10px; }
+  .doc-page { padding: 28px 20px; font-size: 13px; }
+
+  .cert-box { padding: 40px 24px; }
+  .cert-name { font-size: 2rem; }
+
+  .challenges-grid { grid-template-columns: 1fr; }
+  .hon-table { font-size: 11px; }
+}
+
+/* ---- TABLET (768px – 1023px) ---- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .header-inner { height: 60px; }
+
+  .tab { padding: 13px 16px; font-size: 11px; }
+
+  main { padding: 20px; }
+  .section-title { font-size: 1.8rem; }
+
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .flashcard { height: 200px; }
+
+  .rules-grid { grid-template-columns: repeat(2, 1fr); }
+  .challenges-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .quiz-options { grid-template-columns: 1fr 1fr; }
+  .doc-page { padding: 40px 40px; }
+
+  .cert-box { padding: 50px 40px; }
+  .cert-name { font-size: 2.4rem; }
+
+  .hon-table { font-size: 12px; }
+}
+
+/* ---- DESKTOP (1024px+) ---- */
+@media (min-width: 1024px) {
+  .cards-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .rules-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  .challenges-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .quiz-options { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- TOUCH IMPROVEMENTS (all mobile) ---- */
+@media (hover: none) {
+  .quiz-opt:hover:not(:disabled) { border-color: var(--border); background: var(--surface2); }
+  .cat-btn:hover { color: var(--text-muted); background: var(--surface); border-color: var(--border); }
+  .audio-btn { width: 44px; height: 44px; }
+  .page-btn { padding: 10px 16px; }
+  .btn-gold { min-height: 44px; }
+  .btn-outline { min-height: 44px; }
+  .fc-fav-btn { font-size: 20px; }
+}
+
 </style>
 </head>
 <body>
@@ -710,10 +889,10 @@ footer {
       <span class="badge">Elite</span>
     </div>
     <div class="header-stats">
-      <div class="hstat"><strong id="stat-flash">50</strong>Flashcards</div>
-      <div class="hstat"><strong id="stat-quiz">50</strong>Quiz Q.</div>
-      <div class="hstat"><strong id="stat-rules">50</strong>Regras</div>
-      <div class="hstat"><strong id="stat-pages">24</strong>Folhas</div>
+      <div class="hstat"><strong id="stat-flash">50</strong>Cards</div>
+      <div class="hstat"><strong id="stat-quiz">50</strong>Quiz</div>
+      <div class="hstat hstat-hide-sm"><strong id="stat-rules">50</strong>Regras</div>
+      <div class="hstat hstat-hide-sm"><strong id="stat-pages">24</strong>Folhas</div>
     </div>
   </div>
 </header>
@@ -746,18 +925,16 @@ footer {
   <div class="reading-progress-bar">
     <div class="reading-progress-fill" id="readProgressFill" style="width:0%"></div>
   </div>
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
-    <div class="doc-search-bar" style="flex:1">
-      <input class="doc-search-input" id="docSearchInput" type="text" placeholder="🔍 Buscar palavra no documento..." oninput="searchDoc(this.value)" />
-      <span class="search-status" id="searchStatus"></span>
-    </div>
-    <span class="reading-summary" id="readingSummary">0 / 24 páginas lidas</span>
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+    <input class="doc-search-input" id="docSearchInput" type="text" placeholder="🔍 Buscar no documento..." oninput="searchDoc(this.value)" style="flex:1; min-width:180px;" />
+    <span class="search-status" id="searchStatus" style="font-size:10px;"></span>
+    <span class="reading-summary" id="readingSummary" style="white-space:nowrap;">0 / 24 lidas</span>
   </div>
   <div class="doc-toolbar">
     <div class="audio-controls">
-      <button class="audio-btn" id="btnPlay" onclick="audioPlay()" title="Reproduzir">▶</button>
-      <button class="audio-btn" onclick="audioPause()" title="Pausar">⏸</button>
-      <button class="audio-btn" onclick="audioStop()" title="Parar">⏹</button>
+      <button class="audio-btn" id="btnPlay" onclick="audioPlay()" title="Reproduzir" style="min-width:44px;min-height:44px;">▶</button>
+      <button class="audio-btn" onclick="audioPause()" title="Pausar" style="min-width:44px;min-height:44px;">⏸</button>
+      <button class="audio-btn" onclick="audioStop()" title="Parar" style="min-width:44px;min-height:44px;">⏹</button>
     </div>
     <div class="speed-control">
       <span>Velocidade:</span>
@@ -770,10 +947,10 @@ footer {
       </select>
     </div>
     <div id="audio-status" style="font-size:11px;color:var(--text-muted);">Clique ▶ para iniciar o audiobook desta página</div>
-    <div class="page-nav">
-      <button class="page-btn" onclick="changePage(-1)">◀ Anterior</button>
+    <div class="page-nav" style="gap:8px;">
+      <button class="page-btn" onclick="changePage(-1)" style="min-height:40px; min-width:80px;">◀ Ant.</button>
       <span class="page-progress" id="pageProgress">1 / 24</span>
-      <button class="page-btn" onclick="changePage(1)">Próxima ▶</button>
+      <button class="page-btn" onclick="changePage(1)" style="min-height:40px; min-width:80px;">Próx. ▶</button>
     </div>
   </div>
 
@@ -1404,9 +1581,9 @@ footer {
     <div class="gold-line"></div>
     <div class="section-subtitle">Vigente a partir de 01/05/2026 — Reajuste anual pelo IPC/FIPE</div>
   </div>
-  <div class="honorarios-section">
+  <div class="honorarios-section" style="overflow-x:auto;">
     <h3>⚖️ Área Cível</h3>
-    <table class="hon-table">
+    <div class="hon-table-wrap"><table class="hon-table">
       <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
       <tr><td class="code">101</td><td>Procedimento Ordinário/Comum</td><td class="value">1.597,69</td><td class="pct70">1.118,38</td><td>958,61</td><td>479,31</td></tr>
       <tr><td class="code">102</td><td>Procedimento Sumário (até 18/03/2016)</td><td class="value">1.080,42</td><td class="pct70">756,29</td><td>648,25</td><td>324,13</td></tr>
@@ -1420,10 +1597,10 @@ footer {
       <tr><td class="code">116</td><td>Juizado Especial Cível e Fazenda Pública</td><td class="value">436,66</td><td class="pct70">305,66</td><td>262,00</td><td>131,00</td></tr>
       <tr><td class="code">117</td><td>Medida Protetiva à Mulher Vítima VD</td><td colspan="4" class="value">219,55 (valor fixo)</td></tr>
       <tr><td class="code">118</td><td>Defesa em Medida Protetiva Autônoma</td><td colspan="4" class="value">190,92 (valor fixo)</td></tr>
-    </table>
+    </table></div>
 
     <h3>👨‍👩‍👧 Família e Sucessões</h3>
-    <table class="hon-table">
+    <div class="hon-table-wrap"><table class="hon-table">
       <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
       <tr><td class="code">200</td><td>Cumprimento de Sentença - Alimentos</td><td class="value">523,22</td><td class="pct70">366,25</td><td>313,93</td><td>156,97</td></tr>
       <tr><td class="code">201</td><td>Inventários e Arrolamentos</td><td class="value">1.312,73</td><td class="pct70">918,91</td><td>787,64</td><td>393,82</td></tr>
@@ -1432,10 +1609,10 @@ footer {
       <tr><td class="code">207</td><td>Tutela e Curatela</td><td class="value">872,06</td><td class="pct70">610,44</td><td>523,24</td><td>261,62</td></tr>
       <tr><td class="code">210</td><td>Modificação/Regulamentação Guarda/Visitas</td><td class="value">1.147,53</td><td class="pct70">803,27</td><td>688,52</td><td>344,26</td></tr>
       <tr><td class="code">211</td><td>Separação/Divórcio/União Estável</td><td class="value">1.106,28</td><td class="pct70">774,40</td><td>663,77</td><td>331,88</td></tr>
-    </table>
+    </table></div>
 
     <h3>⚖️ Área Criminal</h3>
-    <table class="hon-table">
+    <div class="hon-table-wrap"><table class="hon-table">
       <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
       <tr><td class="code">301</td><td>Rito Ordinário</td><td class="value">1.597,69</td><td class="pct70">1.118,38</td><td>958,61</td><td>479,31</td></tr>
       <tr><td class="code">302</td><td>Rito Sumário</td><td class="value">1.472,42</td><td class="pct70">1.030,69</td><td>883,45</td><td>441,73</td></tr>
@@ -1446,10 +1623,10 @@ footer {
       <tr><td class="code">316</td><td>Violência Doméstica</td><td class="value">900,75</td><td class="pct70">630,53</td><td>540,45</td><td>270,23</td></tr>
       <tr><td class="code">317</td><td>Depoimento Especial / Oitiva Racismo</td><td colspan="4" class="value">218,47 (valor fixo)</td></tr>
       <tr><td class="code">318</td><td>Acordo de Não Persecução Penal</td><td colspan="4" class="value">265,09 (valor fixo)</td></tr>
-    </table>
+    </table></div>
 
     <h3>👶 Infância e Juventude / Plantões</h3>
-    <table class="hon-table">
+    <div class="hon-table-wrap"><table class="hon-table">
       <tr><th>Cód.</th><th>Natureza da Ação</th><th>100%</th><th>70%</th><th>60%</th><th>30%</th></tr>
       <tr><td class="code">501</td><td>Qualquer Proc. Cível (IJ)</td><td class="value">841,34</td><td class="pct70">588,94</td><td>504,80</td><td>252,40</td></tr>
       <tr><td class="code">502</td><td>Qualquer Proc. Criminal (IJ)</td><td class="value">794,96</td><td class="pct70">556,47</td><td>476,98</td><td>238,49</td></tr>
@@ -1457,7 +1634,7 @@ footer {
       <tr><td class="code">701</td><td>Plantão (Juizados)</td><td colspan="4" class="value">871,96 (100%)</td></tr>
       <tr><td class="code">801</td><td>Plantão — 1 Dia Não Útil</td><td colspan="4" class="value">706,45 (100%)</td></tr>
       <tr><td class="code">802</td><td>Plantão — 2 Dias Não Úteis Consecutivos</td><td colspan="4" class="value">941,92 (100%)</td></tr>
-    </table>
+    </table></div>
   </div>
 </div>
 
@@ -1472,11 +1649,11 @@ footer {
       <div class="gold-line" style="margin:10px auto;"></div>
       <div class="section-subtitle">Prove seu domínio sobre o Convênio DPE-OAB 001/2026</div>
     </div>
-    <div class="stats-row">
+    <div class="stats-row" style="flex-wrap:wrap; gap:12px;">
       <div class="stat-box"><strong>50</strong><span>Perguntas</span></div>
       <div class="stat-box"><strong>45s</strong><span>Por Questão</span></div>
-      <div class="stat-box"><strong>5</strong><span>Categorias</span></div>
-      <div class="stat-box"><strong>🏆</strong><span>Certificado Final</span></div>
+      <div class="stat-box"><strong>17</strong><span>Categorias</span></div>
+      <div class="stat-box"><strong>🏆</strong><span>Certificado</span></div>
     </div>
     <p style="margin-bottom:16px;">Responda todas as 50 perguntas sobre o Convênio.<br>Ao final, receba seu certificado personalizado com seu nome.</p>
     <div style="margin-bottom:24px;">
@@ -1572,7 +1749,8 @@ footer {
 // ============================================================
 (function createParticles() {
   const container = document.getElementById('particles');
-  for (let i = 0; i < 30; i++) {
+  const isMobile = window.innerWidth < 768;
+  for (let i = 0; i < (isMobile ? 10 : 30); i++) {
     const p = document.createElement('div');
     p.className = 'particle';
     p.style.cssText = `left:${Math.random()*100}%;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;animation-duration:${Math.random()*20+10}s;animation-delay:${Math.random()*20}s;opacity:${Math.random()*0.5}`;
@@ -2214,6 +2392,22 @@ function renderHistory() {
 }
 
 function printCert() { window.print(); }
+
+// Add print styles dynamically
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+@media print {
+  #particles, header, nav, footer, .cert-actions, .cert-cat-breakdown, .history-section { display:none!important; }
+  body { background:white!important; color:black!important; }
+  main { padding:0!important; }
+  .panel { display:block!important; }
+  .panel:not(#panel-quiz) { display:none!important; }
+  .cert-container { display:block!important; }
+  .cert-box { border:2px solid #C9A84C!important; background:white!important; box-shadow:none!important; }
+  .cert-name, .cert-title, .cert-subtitle { color:#8B6914!important; }
+  .cert-text, .cert-date, .cert-issued { color:#333!important; }
+}`;
+document.head.appendChild(printStyle);
 function resetQuiz() {
   document.getElementById('cert-container').classList.remove('show');
   document.getElementById('quiz-start-screen').style.display = 'block';
