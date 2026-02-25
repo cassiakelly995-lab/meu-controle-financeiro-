@@ -1359,7 +1359,14 @@ footer {
       <div class="stat-box"><strong>5</strong><span>Categorias</span></div>
       <div class="stat-box"><strong>🏆</strong><span>Certificado Final</span></div>
     </div>
-    <p>Responda todas as 50 perguntas sobre o Convênio.<br>Ao final, receba seu certificado personalizado de Cássia Kelly Lins Reis.</p>
+    <p style="margin-bottom:16px;">Responda todas as 50 perguntas sobre o Convênio.<br>Ao final, receba seu certificado personalizado com seu nome.</p>
+    <div style="margin-bottom:24px;">
+      <label style="display:block; color:var(--gold); font-family:'Playfair Display',serif; font-size:0.95rem; margin-bottom:8px; letter-spacing:1px;">✍️ SEU NOME COMPLETO (para o certificado)</label>
+      <input id="input-nome-quiz" type="text" placeholder="Digite seu nome completo..." 
+        style="width:100%; max-width:420px; padding:14px 20px; border-radius:8px; border:2px solid var(--gold); background:#0d1020; color:#fff; font-size:1rem; font-family:'DM Sans',sans-serif; outline:none; text-align:center; letter-spacing:0.5px;"
+        onkeydown="if(event.key==='Enter') startQuiz()"
+      />
+    </div>
     <button class="btn-gold" onclick="startQuiz()" style="font-size:1.1rem; padding:16px 48px;">
       🎯 INICIAR QUIZ
     </button>
@@ -1394,7 +1401,7 @@ footer {
       <div class="cert-subtitle">Convênio DPE-OAB/SP 001/2026</div>
       <hr class="cert-line">
       <p class="cert-text">Certificamos que</p>
-      <div class="cert-name">CÁSSIA KELLY LINS REIS</div>
+      <div class="cert-name" id="cert-nome-display">—</div>
       <p class="cert-text">concluiu com êxito o programa intensivo de domínio completo do<br><strong style="color:var(--gold);">Convênio Nº 001/2026 — Defensoria Pública do Estado de São Paulo / OAB-SP</strong><br>demonstrando conhecimento especializado em assistência judiciária gratuita suplementar,<br>regras de honorários, prazos processuais, indicações e regime disciplinar.</p>
       <div class="cert-score" id="certScore">0/50</div>
       <div class="cert-stars" id="certStars">⭐⭐⭐⭐⭐</div>
@@ -1749,7 +1756,17 @@ const quizData = [
 let qIdx = 0, qScore = 0, timer = null, timerVal = 45;
 const shuffled = [...quizData].sort(() => Math.random() - 0.5);
 
+let nomeQuiz = '';
+
 function startQuiz() {
+  const inputNome = document.getElementById('input-nome-quiz');
+  nomeQuiz = inputNome ? inputNome.value.trim() : '';
+  if (!nomeQuiz) {
+    inputNome.style.border = '2px solid #e74c3c';
+    inputNome.placeholder = 'Por favor, digite seu nome para continuar...';
+    inputNome.focus();
+    return;
+  }
   qIdx = 0; qScore = 0; timerVal = 45;
   document.getElementById('quiz-start-screen').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'block';
@@ -1840,6 +1857,7 @@ function showCert() {
   else if (pct >= 60) { level = '🥉 ESPECIALISTA EM FORMAÇÃO'; stars = '⭐⭐'; }
   else { level = '📚 Continue estudando — você consegue!'; stars = '⭐'; }
 
+  document.getElementById('cert-nome-display').textContent = nomeQuiz ? nomeQuiz.toUpperCase() : 'PARTICIPANTE';
   document.getElementById('certScore').textContent = qScore + '/50 (' + pct + '%)';
   document.getElementById('certStars').textContent = stars;
   document.getElementById('certLevel').textContent = level;
