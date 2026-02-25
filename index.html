@@ -568,6 +568,60 @@ main { max-width:1400px; margin:0 auto; padding:24px; position:relative; z-index
 .ia-send:disabled { opacity:.5; transform:none; cursor:default; }
 @media(max-width:600px) { .ia-sug-grid { grid-template-columns:1fr; } .ia-chat { max-height:320px; } }
 
+
+/* ===== MAPA MENTAL ===== */
+.mapa-wrap {
+  position:relative; width:100%; border-radius:16px;
+  border:1px solid var(--border); background:var(--surface);
+  overflow:hidden; cursor:grab; user-select:none;
+}
+.mapa-wrap:active { cursor:grabbing; }
+#mapaCanvas { display:block; width:100%; touch-action:none; }
+.mapa-tip {
+  display:none; position:absolute;
+  background:var(--surface2); border:1px solid var(--gold);
+  border-radius:10px; padding:14px 16px; max-width:260px;
+  z-index:10; pointer-events:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.mapa-tip-title {
+  color:var(--gold); font-weight:700;
+  font-family:'Playfair Display',serif;
+  font-size:.9rem; margin-bottom:6px;
+}
+.mapa-tip-body { color:var(--text-muted); font-size:.78rem; line-height:1.6; }
+.mapa-hint {
+  text-align:center; margin-top:10px;
+  font-size:11px; color:var(--text-muted);
+}
+
+
+/* ===== QUIZ POR FASES ===== */
+.fases-preview {
+  display:flex; gap:12px; justify-content:center;
+  flex-wrap:wrap; margin-bottom:8px;
+}
+.fase-prev {
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  background:var(--surface); border:2px solid var(--border);
+  border-radius:12px; padding:14px 16px; min-width:80px;
+  transition:all .2s; cursor:default;
+}
+.fase-prev.done {
+  border-color:var(--gold);
+  background:rgba(201,168,76,.08);
+}
+.fase-prev.done .fase-medal { filter:none; }
+.fase-medal { font-size:2rem; filter:grayscale(.6) opacity(.5); transition:.3s; }
+.fase-prev.done .fase-medal { filter:none; }
+.fase-nome { font-size:.75rem; color:var(--text-muted); text-align:center; line-height:1.4; }
+.fase-qtd { font-size:.7rem; color:var(--text-muted); font-family:'DM Mono',monospace; }
+.fase-prev.done .fase-qtd { color:var(--gold); }
+.fase-prev.done .fase-nome { color:var(--gold); font-weight:700; }
+
+/* Print — não usar @media print pois gera página em branco */
+/* A impressão é feita via JS abrindo nova janela com o certificado */
+
 /* SCROLLBAR */
 ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-track { background:var(--obsidian); }
@@ -651,6 +705,7 @@ footer {
     <button class="tab" onclick="openTab('quiz')"><span class="tab-icon">🎯</span>Quiz</button>
     <button class="tab" onclick="openTab('desafios')"><span class="tab-icon">🏆</span>Desafios</button>
     <button class="tab" onclick="openTab('ia')"><span class="tab-icon">🤖</span>Assistente IA</button>
+    <button class="tab" onclick="openTab('mapa')"><span class="tab-icon">🗺️</span>Mapa Mental</button>
   </div>
 </nav>
 
@@ -1377,35 +1432,41 @@ footer {
      ABA 5: QUIZ
 ============================= -->
 <div id="panel-quiz" class="panel">
+
+  <!-- TELA INICIAL -->
   <div id="quiz-start-screen" class="quiz-start">
     <div class="section-header" style="margin-bottom:24px;">
-      <div class="section-title">Quiz — 50 Perguntas</div>
+      <div class="section-title">Quiz por Fases</div>
       <div class="gold-line" style="margin:10px auto;"></div>
-      <div class="section-subtitle">Prove seu domínio sobre o Convênio DPE-OAB 001/2026</div>
+      <div class="section-subtitle">5 fases · 10 perguntas cada · Certificado por fase</div>
     </div>
-    <div class="stats-row">
-      <div class="stat-box"><strong>50</strong><span>Perguntas</span></div>
-      <div class="stat-box"><strong>45s</strong><span>Por Questão</span></div>
-      <div class="stat-box"><strong>5</strong><span>Categorias</span></div>
-      <div class="stat-box"><strong>🏆</strong><span>Certificado Final</span></div>
+    <div class="fases-preview">
+      <div class="fase-prev" id="fprev0"><span class="fase-medal">🥉</span><span class="fase-nome">Fase 1<br>Bronze</span><span class="fase-qtd">10 q.</span></div>
+      <div class="fase-prev" id="fprev1"><span class="fase-medal">🥈</span><span class="fase-nome">Fase 2<br>Prata</span><span class="fase-qtd">10 q.</span></div>
+      <div class="fase-prev" id="fprev2"><span class="fase-medal">🥇</span><span class="fase-nome">Fase 3<br>Ouro</span><span class="fase-qtd">15 q.</span></div>
+      <div class="fase-prev" id="fprev3"><span class="fase-medal">👑</span><span class="fase-nome">Fase 4<br>Lendária</span><span class="fase-qtd">15 q.</span></div>
     </div>
-    <p style="margin-bottom:16px;">Responda todas as 50 perguntas sobre o Convênio.<br>Ao final, receba seu certificado personalizado com seu nome.</p>
-    <div style="margin-bottom:24px;">
-      <label style="display:block; color:var(--gold); font-family:'Playfair Display',serif; font-size:0.95rem; margin-bottom:8px; letter-spacing:1px;">✍️ SEU NOME COMPLETO (para o certificado)</label>
-      <input id="input-nome-quiz" type="text" placeholder="Digite seu nome completo..." 
-        style="width:100%; max-width:420px; padding:14px 20px; border-radius:8px; border:2px solid var(--gold); background:#0d1020; color:#fff; font-size:1rem; font-family:'DM Sans',sans-serif; outline:none; text-align:center; letter-spacing:0.5px;"
+    <div style="margin-bottom:24px;margin-top:24px;">
+      <label style="display:block;color:var(--gold);font-family:'Playfair Display',serif;font-size:0.95rem;margin-bottom:8px;letter-spacing:1px;">✍️ SEU NOME COMPLETO (para o certificado)</label>
+      <input id="input-nome-quiz" type="text" placeholder="Digite seu nome completo..."
+        style="width:100%;max-width:420px;padding:14px 20px;border-radius:8px;border:2px solid var(--gold);background:#0d1020;color:#fff;font-size:1rem;font-family:'DM Sans',sans-serif;outline:none;text-align:center;letter-spacing:0.5px;"
         onkeydown="if(event.key==='Enter') startQuiz()"
       />
     </div>
-    <button class="btn-gold" onclick="startQuiz()" style="font-size:1.1rem; padding:16px 48px;">
-      🎯 INICIAR QUIZ
+    <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:16px;">Total: 50 perguntas · Certificado por fase + Certificado Geral ao final</p>
+    <button class="btn-gold" onclick="startQuiz()" style="font-size:1.1rem;padding:16px 48px;">
+      🎯 INICIAR FASE 1 — BRONZE
     </button>
   </div>
 
-  <div id="quiz-container" class="quiz-container">
+  <!-- QUIZ EM ANDAMENTO -->
+  <div id="quiz-container" class="quiz-container" style="display:none;">
     <div class="quiz-header">
-      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="qProgressFill" style="width:2%"></div></div>
-      <span class="quiz-num" id="qNum">1/50</span>
+      <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+        <span id="qFaseBadge" style="font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap;">🥉 FASE 1</span>
+        <div class="quiz-progress-bar" style="flex:1;"><div class="quiz-progress-fill" id="qProgressFill" style="width:10%"></div></div>
+      </div>
+      <span class="quiz-num" id="qNum">1/10</span>
       <span class="quiz-timer" id="qTimer">45</span>
       <span class="quiz-score-live">Acertos: <span id="qScore">0</span></span>
     </div>
@@ -1420,31 +1481,28 @@ footer {
     </div>
   </div>
 
-  <div id="cert-container" class="cert-container">
-    <div class="cert-box">
-      <div class="cert-corner tl"></div>
-      <div class="cert-corner tr"></div>
-      <div class="cert-corner bl"></div>
-      <div class="cert-corner br"></div>
-      <div class="cert-seal">🏛️</div>
-      <div class="cert-title">CERTIFICADO DE ESPECIALIZAÇÃO</div>
-      <div class="cert-subtitle">Convênio DPE-OAB/SP 001/2026</div>
+  <!-- CERTIFICADO POR FASE -->
+  <div id="cert-container" class="cert-container" style="display:none;">
+    <div class="cert-box" id="certBox">
+      <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
+      <div class="cert-corner bl"></div><div class="cert-corner br"></div>
+      <div class="cert-seal" id="certSeal">🏛️</div>
+      <div class="cert-title" id="certTitle">CERTIFICADO DE CONCLUSÃO</div>
+      <div class="cert-subtitle" id="certSubtitle">Convênio DPE-OAB/SP 001/2026</div>
       <hr class="cert-line">
       <p class="cert-text">Certificamos que</p>
       <div class="cert-name" id="cert-nome-display">—</div>
-      <p class="cert-text">concluiu com êxito o programa intensivo de domínio completo do<br><strong style="color:var(--gold);">Convênio Nº 001/2026 — Defensoria Pública do Estado de São Paulo / OAB-SP</strong><br>demonstrando conhecimento especializado em assistência judiciária gratuita suplementar,<br>regras de honorários, prazos processuais, indicações e regime disciplinar.</p>
-      <div class="cert-score" id="certScore">0/50</div>
+      <p class="cert-text" id="certTexto"></p>
+      <div class="cert-score" id="certScore">0/10</div>
       <div class="cert-stars" id="certStars">⭐⭐⭐⭐⭐</div>
       <p class="cert-text" id="certLevel"></p>
       <hr class="cert-line">
       <p class="cert-date" id="certDate"></p>
-      <p class="cert-issued">Emitido pelo Painel Elite de Domínio Jurídico DPE-OAB 001/2026</p>
+      <p class="cert-issued">Emitido pelo Painel Lendário · Convênio DPE-OAB 001/2026</p>
     </div>
-    <div class="cert-actions">
-      <button class="btn-gold" onclick="printCert()">🖨️ Imprimir Certificado</button>
-      <button class="btn-outline" onclick="resetQuiz()">🔄 Refazer Quiz</button>
-    </div>
+    <div class="cert-actions" id="certActions"></div>
   </div>
+
 </div>
 
 
@@ -1490,6 +1548,23 @@ footer {
       <button class="ia-send" onclick="sendIA()" id="iaSendBtn">➤</button>
     </div>
   </div>
+</div>
+
+<!-- ABA 8: MAPA MENTAL -->
+<div id="panel-mapa" class="panel">
+  <div class="section-header">
+    <div class="section-title">Mapa Mental — Convênio 001/2026</div>
+    <div class="gold-line"></div>
+    <div class="section-subtitle">Clique nos nós para ver os detalhes de cada tema</div>
+  </div>
+  <div class="mapa-wrap">
+    <canvas id="mapaCanvas"></canvas>
+    <div class="mapa-tip" id="mapaTip">
+      <div class="mapa-tip-title" id="mapaTipTitle"></div>
+      <div class="mapa-tip-body" id="mapaTipBody"></div>
+    </div>
+  </div>
+  <p class="mapa-hint">🖱️ Clique num nó para detalhes &nbsp;|&nbsp; Arraste para mover &nbsp;|&nbsp; Scroll para zoom</p>
 </div>
 
 </main>
@@ -1816,9 +1891,23 @@ const quizData = [
 //  QUIZ ENGINE
 // ============================================================
 let qIdx = 0, qScore = 0, timer = null, timerVal = 45;
+// ============================================================
+//  QUIZ POR FASES
+// ============================================================
+const faseConfig = [
+  { num:1, label:'🥉 FASE 1 — Bronze',   medal:'🥉', nome:'Bronze',   qtd:10, tema:'Fundamentos e Objeto do Convênio' },
+  { num:2, label:'🥈 FASE 2 — Prata',    medal:'🥈', nome:'Prata',    qtd:10, tema:'Prazos, Certidões e Pagamentos' },
+  { num:3, label:'🥇 FASE 3 — Ouro',     medal:'🥇', nome:'Ouro',     qtd:15, tema:'Honorários e Áreas de Atuação' },
+  { num:4, label:'👑 FASE 4 — Lendária', medal:'👑', nome:'Lendária', qtd:15, tema:'Disciplina, Sanções e Casos Especiais' },
+];
+
 const shuffled = [...quizData].sort(() => Math.random() - 0.5);
 
 let nomeQuiz = '';
+let qIdx = 0, qScore = 0, timerVal = 45, timer = null;
+let faseAtual = 0;       // 0-4
+let faseScores = [];     // acertos por fase
+let qIdxFase = 0;        // pergunta dentro da fase (0-9)
 
 function startQuiz() {
   const inputNome = document.getElementById('input-nome-quiz');
@@ -1829,30 +1918,44 @@ function startQuiz() {
     inputNome.focus();
     return;
   }
-  qIdx = 0; qScore = 0; timerVal = 45;
+  faseAtual = 0;
+  faseScores = [];
+  qIdx = 0;
+  qScore = 0;
+  qIdxFase = 0;
   document.getElementById('quiz-start-screen').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'block';
-  document.getElementById('cert-container').classList.remove('show');
+  document.getElementById('cert-container').style.display = 'none';
   renderQuestion();
 }
 
 function renderQuestion() {
-  if (qIdx >= 50) { showCert(); return; }
-  const q = shuffled[qIdx];
+  const fase = faseConfig[faseAtual];
+  const fase = faseConfig[faseAtual];
+  const qGlobal = faseConfig.slice(0, faseAtual).reduce(function(a,f){ return a+f.qtd; }, 0) + qIdxFase;
+
+  if (qIdxFase >= fase.qtd) {
+    showCertFase();
+    return;
+  }
+
+  const q = shuffled[qGlobal];
+  document.getElementById('qFaseBadge').textContent = fase.label;
   document.getElementById('qCat').textContent = q.cat;
   document.getElementById('qQuestion').textContent = q.q;
-  document.getElementById('qNum').textContent = (qIdx+1) + '/50';
-  document.getElementById('qProgressFill').style.width = ((qIdx+1)/50*100) + '%';
+  document.getElementById('qNum').textContent = (qIdxFase + 1) + '/' + fase.qtd;
+  document.getElementById('qProgressFill').style.width = ((qIdxFase + 1) / fase.qtd * 100) + '%';
   document.getElementById('qScore').textContent = qScore;
   document.getElementById('qExplanation').classList.remove('show');
   document.getElementById('qNext').classList.remove('show');
 
   const opts = document.getElementById('qOptions');
   opts.innerHTML = '';
-  q.opts.forEach((opt, i) => {
+  q.opts.forEach(function(opt, i) {
     const btn = document.createElement('button');
-    btn.className = 'quiz-opt'; btn.textContent = opt;
-    btn.onclick = () => answerQuestion(i, q.correct, q.exp);
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = function() { answerQuestion(i, q.correct, q.exp); };
     opts.appendChild(btn);
   });
   startTimer();
@@ -1862,13 +1965,10 @@ function startTimer() {
   clearInterval(timer);
   timerVal = 45;
   updateTimer();
-  timer = setInterval(() => {
+  timer = setInterval(function() {
     timerVal--;
     updateTimer();
-    if (timerVal <= 0) {
-      clearInterval(timer);
-      timeOut();
-    }
+    if (timerVal <= 0) { clearInterval(timer); timeOut(); }
   }, 1000);
 }
 
@@ -1879,11 +1979,12 @@ function updateTimer() {
 }
 
 function timeOut() {
-  const q = shuffled[qIdx];
+  const qGlobal = faseAtual * faseQtd + qIdxFase;
+  const q = shuffled[qGlobal];
   const btns = document.querySelectorAll('.quiz-opt');
   btns[q.correct].classList.add('correct');
-  btns.forEach(b => b.disabled = true);
-  document.getElementById('qExplanation').innerHTML = `<strong>⏱ Tempo esgotado!</strong> ${q.exp}`;
+  btns.forEach(function(b) { b.disabled = true; });
+  document.getElementById('qExplanation').innerHTML = '<strong>⏱ Tempo esgotado!</strong> ' + q.exp;
   document.getElementById('qExplanation').classList.add('show');
   document.getElementById('qNext').classList.add('show');
 }
@@ -1891,46 +1992,175 @@ function timeOut() {
 function answerQuestion(chosen, correct, exp) {
   clearInterval(timer);
   const btns = document.querySelectorAll('.quiz-opt');
-  btns.forEach(b => b.disabled = true);
+  btns.forEach(function(b) { b.disabled = true; });
   btns[chosen].classList.add(chosen === correct ? 'correct' : 'wrong');
   if (chosen !== correct) btns[correct].classList.add('correct');
-  if (chosen === correct) qScore++;
+  if (chosen === correct) { qScore++; }
   document.getElementById('qScore').textContent = qScore;
-  document.getElementById('qExplanation').innerHTML = `<strong>${chosen === correct ? '✅ Correto!' : '❌ Errado!'}</strong> ${exp}`;
+  document.getElementById('qExplanation').innerHTML = '<strong>' + (chosen === correct ? '✅ Correto!' : '❌ Errado!') + '</strong> ' + exp;
   document.getElementById('qExplanation').classList.add('show');
   document.getElementById('qNext').classList.add('show');
 }
 
 function nextQuestion() {
-  qIdx++;
+  qIdxFase++;
   renderQuestion();
 }
 
-function showCert() {
+function showCertFase() {
+  clearInterval(timer);
+  const fase = faseConfig[faseAtual];
+  faseScores.push(qScore);
+
+  // Mark fase done on start screen
+  const fprev = document.getElementById('fprev' + faseAtual);
+  if (fprev) fprev.classList.add('done');
+
   document.getElementById('quiz-container').style.display = 'none';
-  const cert = document.getElementById('cert-container');
-  cert.classList.add('show');
+  document.getElementById('cert-container').style.display = 'block';
 
-  const pct = (qScore/50*100).toFixed(0);
-  let level = '', stars = '';
-  if (pct >= 90) { level = '🏆 ESPECIALISTA MÁXIMA — Domínio Total do Convênio'; stars = '⭐⭐⭐⭐⭐'; }
-  else if (pct >= 80) { level = '🥇 ESPECIALISTA AVANÇADA'; stars = '⭐⭐⭐⭐'; }
-  else if (pct >= 70) { level = '🥈 ESPECIALISTA INTERMEDIÁRIA'; stars = '⭐⭐⭐'; }
-  else if (pct >= 60) { level = '🥉 ESPECIALISTA EM FORMAÇÃO'; stars = '⭐⭐'; }
-  else { level = '📚 Continue estudando — você consegue!'; stars = '⭐'; }
+  const faseCfg = faseConfig[faseAtual];
+  const pct = Math.round(qScore / faseCfg.qtd * 100);
+  const ehUltima = faseAtual === faseConfig.length - 1;
 
-  document.getElementById('cert-nome-display').textContent = nomeQuiz ? nomeQuiz.toUpperCase() : 'PARTICIPANTE';
-  document.getElementById('certScore').textContent = qScore + '/50 (' + pct + '%)';
+  // Nível dentro da fase
+  let nivel = '', stars = '';
+  if (pct >= 90) { nivel = '🌟 Excelente domínio!'; stars = '⭐⭐⭐⭐⭐'; }
+  else if (pct >= 70) { nivel = '✅ Bom desempenho!'; stars = '⭐⭐⭐⭐'; }
+  else if (pct >= 50) { nivel = '📖 Continue praticando!'; stars = '⭐⭐⭐'; }
+  else { nivel = '💪 Revise e tente novamente!'; stars = '⭐⭐'; }
+
+  // Texto do certificado
+  let titulo, texto;
+  if (ehUltima) {
+    titulo = '🏆 CERTIFICADO LENDÁRIO';
+    const totalScore = faseScores.reduce(function(a,b){ return a+b; }, 0);
+    const totalMax = faseConfig.reduce(function(a,f){ return a+f.qtd; }, 0);
+    const totalPct = Math.round(totalScore / totalMax * 100);
+    texto = 'concluiu com êxito TODAS AS 5 FASES do programa intensivo do<br><strong style="color:var(--gold);">Convênio Nº 001/2026 — DPE-SP / OAB-SP</strong><br>com aproveitamento total de ' + totalScore + '/' + totalMax + ' (' + totalPct + '%)';
+    stars = totalPct >= 90 ? '⭐⭐⭐⭐⭐' : totalPct >= 70 ? '⭐⭐⭐⭐' : '⭐⭐⭐';
+    nivel = totalPct >= 90 ? '👑 CÁSSIA KELLY — LENDÁRIA & IMBATÍVEL' : '🏆 Especialista no Convênio DPE-OAB 001/2026';
+  } else {
+    titulo = 'CERTIFICADO — ' + fase.nome.toUpperCase();
+    texto = 'concluiu com êxito a <strong>' + fase.label + '</strong> do programa de domínio do<br><strong style="color:var(--gold);">Convênio Nº 001/2026 — DPE-SP / OAB-SP</strong>';
+  }
+
+  document.getElementById('certSeal').textContent = fase.medal;
+  document.getElementById('certTitle').textContent = titulo;
+  document.getElementById('cert-nome-display').textContent = nomeQuiz.toUpperCase();
+  document.getElementById('certTexto').innerHTML = texto;
+  document.getElementById('certScore').textContent = qScore + '/' + faseCfg.qtd + ' (' + pct + '%)';
   document.getElementById('certStars').textContent = stars;
-  document.getElementById('certLevel').textContent = level;
-  document.getElementById('certDate').textContent = 'Emitido em: ' + new Date().toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('certLevel').textContent = nivel;
+  document.getElementById('certDate').textContent = 'Emitido em: ' + new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+
+  // Botões de ação
+  const actions = document.getElementById('certActions');
+  actions.innerHTML = '';
+
+  const btnPrint = document.createElement('button');
+  btnPrint.className = 'btn-gold';
+  btnPrint.textContent = '🖨️ Imprimir Certificado';
+  btnPrint.onclick = printCert;
+  actions.appendChild(btnPrint);
+
+  if (!ehUltima) {
+    const btnNext = document.createElement('button');
+    btnNext.className = 'btn-outline';
+    btnNext.textContent = 'Próxima Fase ▶';
+    btnNext.onclick = nextFase;
+    actions.appendChild(btnNext);
+  }
+
+  const btnReset = document.createElement('button');
+  btnReset.className = 'btn-outline';
+  btnReset.textContent = '🔄 Recomeçar';
+  btnReset.onclick = resetQuiz;
+  actions.appendChild(btnReset);
 }
 
-function printCert() { window.print(); }
+function nextFase() {
+  faseAtual++;
+  qScore = 0;
+  qIdxFase = 0;
+  document.getElementById('cert-container').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  renderQuestion();
+}
+
+function printCert() {
+  var box = document.getElementById('certBox');
+  if (!box) return;
+
+  var nome = document.getElementById('cert-nome-display').textContent;
+  var titulo = document.getElementById('certTitle').textContent;
+  var subtitulo = document.getElementById('certSubtitle').textContent;
+  var texto = document.getElementById('certTexto').innerHTML;
+  var score = document.getElementById('certScore').textContent;
+  var stars = document.getElementById('certStars').textContent;
+  var level = document.getElementById('certLevel').textContent;
+  var data = document.getElementById('certDate').textContent;
+  var seal = document.getElementById('certSeal').textContent;
+
+  var w = window.open('', '_blank', 'width=800,height=650');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">');
+  w.document.write('<title>Certificado — ' + nome + '</title>');
+  w.document.write('<style>');
+  w.document.write('* { margin:0; padding:0; box-sizing:border-box; }');
+  w.document.write('body { background:#f5f0e8; display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:Georgia,serif; }');
+  w.document.write('.cert { background:white; border:4px double #C9A84C; border-radius:12px; padding:48px 56px; max-width:680px; width:95%; text-align:center; position:relative; box-shadow:0 0 0 8px rgba(201,168,76,.1); }');
+  w.document.write('.seal { font-size:3.5rem; margin-bottom:8px; display:block; }');
+  w.document.write('.titulo { font-size:1.1rem; font-weight:700; letter-spacing:3px; color:#8B6914; text-transform:uppercase; margin-bottom:4px; }');
+  w.document.write('.subtitulo { font-size:.9rem; color:#666; letter-spacing:1px; margin-bottom:20px; }');
+  w.document.write('hr { border:none; border-top:1px solid #C9A84C; margin:16px 0; }');
+  w.document.write('.label { font-size:.85rem; color:#888; margin-bottom:6px; }');
+  w.document.write('.nome { font-size:2rem; font-weight:700; color:#8B6914; margin:8px 0 16px; font-style:italic; }');
+  w.document.write('.texto { font-size:.9rem; color:#444; line-height:1.7; margin-bottom:16px; }');
+  w.document.write('.score { font-size:1.5rem; font-weight:700; color:#8B6914; border:2px solid #C9A84C; border-radius:8px; padding:8px 24px; display:inline-block; margin:8px 0; }');
+  w.document.write('.stars { font-size:1.6rem; margin:8px 0; display:block; }');
+  w.document.write('.level { font-size:.9rem; color:#555; font-style:italic; margin-bottom:8px; }');
+  w.document.write('.data { font-size:.8rem; color:#888; margin-top:4px; }');
+  w.document.write('.emitido { font-size:.75rem; color:#aaa; margin-top:4px; }');
+  w.document.write('.corner { position:absolute; width:24px; height:24px; border-color:#C9A84C; border-style:solid; }');
+  w.document.write('.tl { top:12px; left:12px; border-width:2px 0 0 2px; }');
+  w.document.write('.tr { top:12px; right:12px; border-width:2px 2px 0 0; }');
+  w.document.write('.bl { bottom:12px; left:12px; border-width:0 0 2px 2px; }');
+  w.document.write('.br { bottom:12px; right:12px; border-width:0 2px 2px 0; }');
+  w.document.write('@media print { body { background:white; } .cert { box-shadow:none; border:3px solid #C9A84C; } }');
+  w.document.write('</style></head><body>');
+  w.document.write('<div class="cert">');
+  w.document.write('<div class="corner tl"></div><div class="corner tr"></div>');
+  w.document.write('<div class="corner bl"></div><div class="corner br"></div>');
+  w.document.write('<span class="seal">' + seal + '</span>');
+  w.document.write('<div class="titulo">' + titulo + '</div>');
+  w.document.write('<div class="subtitulo">' + subtitulo + '</div>');
+  w.document.write('<hr>');
+  w.document.write('<div class="label">Certificamos que</div>');
+  w.document.write('<div class="nome">' + nome + '</div>');
+  w.document.write('<div class="texto">' + texto + '</div>');
+  w.document.write('<div class="score">' + score + '</div>');
+  w.document.write('<span class="stars">' + stars + '</span>');
+  w.document.write('<div class="level">' + level + '</div>');
+  w.document.write('<hr>');
+  w.document.write('<div class="data">' + data + '</div>');
+  w.document.write('<div class="emitido">Emitido pelo Painel Lendário · Convênio DPE-OAB 001/2026</div>');
+  w.document.write('</div></body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function() { w.print(); }, 600);
+}
+
 function resetQuiz() {
-  document.getElementById('cert-container').classList.remove('show');
-  document.getElementById('quiz-start-screen').style.display = 'block';
+  clearInterval(timer);
+  faseAtual = 0; faseScores = []; qScore = 0; qIdxFase = 0;
+  document.getElementById('cert-container').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'none';
+  document.getElementById('quiz-start-screen').style.display = 'block';
+  // Reset fase previews
+  for (var i = 0; i < 4; i++) {
+    var fp = document.getElementById('fprev' + i);
+    if (fp) fp.classList.remove('done');
+  }
 }
 
 // ============================================================
@@ -2017,6 +2247,232 @@ function sendIA() {
     document.getElementById('iaSendBtn').disabled = false;
   });
 }
+
+// ============================================================
+//  MAPA MENTAL
+// ============================================================
+var mapaReady = false;
+
+var mapaNodes = [
+  { id:0, label:'CONVÊNIO\n001/2026', x:.5, y:.46, r:50, bg:'#C9A84C', fg:'#060810', main:true,
+    title:'Convênio 001/2026', body:'Assistência judiciária gratuita suplementar. Vigência: 15 meses a partir de 01/05/2026. Valor: R$ 250.000.000.' },
+  { id:1, label:'ÁREAS\nCOBERTAS', x:.22, y:.18, r:36, bg:'#1C6B3A', fg:'#fff',
+    title:'Áreas Cobertas', body:'Cível • Família e Sucessões • Criminal • Infância e Juventude • Plantões e Cartas Precatórias.' },
+  { id:2, label:'EXCLUSÕES', x:.5, y:.1, r:34, bg:'#8B1A1A', fg:'#fff',
+    title:'Áreas Excluídas', body:'Eleitoral • Administrativa • Trabalhista • Previdenciária. (Mesmo em competência delegada à Justiça Estadual.)' },
+  { id:3, label:'HONORÁRIOS', x:.78, y:.18, r:38, bg:'#1A4E8B', fg:'#fff',
+    title:'Honorários', body:'100% vitória s/recurso • 70%+30% c/recurso • 60% parcial • 30% suspensão/parcial. Reajuste anual: IPC/FIPE.' },
+  { id:4, label:'PRAZOS', x:.88, y:.46, r:34, bg:'#6B3A1A', fg:'#fff',
+    title:'Prazos Críticos', body:'Certidões: até dia 25/mês • Ajuizamento cível: 30 dias • Coleta docs: 6 meses • Protocolo certidão: 1 ano • Prescrição: 5 anos.' },
+  { id:5, label:'SANÇÕES', x:.78, y:.74, r:36, bg:'#5B1A7A', fg:'#fff',
+    title:'Penalidades', body:'Advertência • Suspensão máx. 18 meses • Exclusão de área: 24 meses • Descredenciamento. Nova inscrição: 2 anos após descred.' },
+  { id:6, label:'INSCRIÇÃO', x:.5, y:.82, r:34, bg:'#1A6B6B', fg:'#fff',
+    title:'Inscrições', body:'Mínimo 1x/ano • Período: 15 dias • E-mail: @adv.oabsp.org.br • Júri: 4 sessões ou 1+curso • VD e IJ: curso específico.' },
+  { id:7, label:'DEVERES', x:.22, y:.74, r:34, bg:'#3A1A6B', fg:'#fff',
+    title:'Deveres do Advogado', body:'Atuar até trânsito em julgado • Assistência GRATUITA • Substab.: 1x por feito • Ausência: 60 dias/ano.' },
+  { id:8, label:'CRIMINAL', x:.12, y:.46, r:34, bg:'#2A5A1A', fg:'#fff',
+    title:'Área Criminal', body:'Indicação: custódia, ANPP ou citação • Réu preso: adotar TODAS medidas de liberdade • Execução penal: apenas hipóteses excepcionais.' },
+];
+
+var mapaEdges = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8]];
+var mapaScale = 1, mapaOX = 0, mapaOY = 0;
+var mapaDrag = false, mapaDX = 0, mapaDY = 0;
+var mapaHover = -1;
+var mapaCanvas, mapaCtx, mapaW, mapaH;
+
+function initMapa() {
+  if (mapaReady) { drawMapa(); return; }
+  mapaCanvas = document.getElementById('mapaCanvas');
+  if (!mapaCanvas) return;
+  mapaCtx = mapaCanvas.getContext('2d');
+  sizeMapa();
+  window.addEventListener('resize', sizeMapa);
+
+  mapaCanvas.addEventListener('mousedown', function(e) {
+    mapaDrag = true;
+    mapaDX = e.clientX - mapaOX;
+    mapaDY = e.clientY - mapaOY;
+  });
+  mapaCanvas.addEventListener('mousemove', function(e) {
+    if (mapaDrag) {
+      mapaOX = e.clientX - mapaDX;
+      mapaOY = e.clientY - mapaDY;
+      drawMapa(); return;
+    }
+    var pos = canvasPos(e.clientX, e.clientY);
+    var h = nodeAt(pos.x, pos.y);
+    if (h !== mapaHover) { mapaHover = h; drawMapa(); }
+    if (h >= 0) showTip(e.clientX, e.clientY, mapaNodes[h]);
+    else hideTip();
+    mapaCanvas.style.cursor = h >= 0 ? 'pointer' : 'grab';
+  });
+  mapaCanvas.addEventListener('mouseup', function(e) {
+    var moved = Math.abs(e.clientX - mapaDX - mapaOX) < 4;
+    mapaDrag = false;
+    if (moved) {
+      var pos = canvasPos(e.clientX, e.clientY);
+      var h = nodeAt(pos.x, pos.y);
+      if (h >= 0) { showTip(e.clientX, e.clientY, mapaNodes[h]); }
+    }
+  });
+  mapaCanvas.addEventListener('mouseleave', function() { mapaDrag = false; hideTip(); });
+  mapaCanvas.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    mapaScale = Math.max(.4, Math.min(2.5, mapaScale - e.deltaY * .001));
+    drawMapa();
+  }, { passive: false });
+
+  // Touch
+  var lastDist = 0;
+  mapaCanvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      mapaDrag = true;
+      mapaDX = e.touches[0].clientX - mapaOX;
+      mapaDY = e.touches[0].clientY - mapaOY;
+    } else {
+      lastDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    }
+  }, { passive: true });
+  mapaCanvas.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    if (e.touches.length === 1 && mapaDrag) {
+      mapaOX = e.touches[0].clientX - mapaDX;
+      mapaOY = e.touches[0].clientY - mapaDY;
+      drawMapa();
+    } else if (e.touches.length === 2) {
+      var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      mapaScale = Math.max(.4, Math.min(2.5, mapaScale * (d / lastDist)));
+      lastDist = d; drawMapa();
+    }
+  }, { passive: false });
+  mapaCanvas.addEventListener('touchend', function(e) {
+    mapaDrag = false;
+    if (e.changedTouches.length) {
+      var t = e.changedTouches[0];
+      var pos = canvasPos(t.clientX, t.clientY);
+      var h = nodeAt(pos.x, pos.y);
+      if (h >= 0) showTip(t.clientX, t.clientY, mapaNodes[h]);
+    }
+  });
+
+  mapaReady = true;
+  drawMapa();
+}
+
+function sizeMapa() {
+  mapaW = mapaCanvas.parentElement.clientWidth;
+  mapaH = window.innerWidth < 480 ? 360 : 520;
+  mapaCanvas.width = mapaW;
+  mapaCanvas.height = mapaH;
+  mapaCanvas.style.height = mapaH + 'px';
+  drawMapa();
+}
+
+function canvasPos(cx, cy) {
+  var rect = mapaCanvas.getBoundingClientRect();
+  return {
+    x: (cx - rect.left - mapaOX) / mapaScale,
+    y: (cy - rect.top  - mapaOY) / mapaScale
+  };
+}
+
+function nodeAt(x, y) {
+  for (var i = mapaNodes.length - 1; i >= 0; i--) {
+    var n = mapaNodes[i];
+    if (Math.hypot(x - n.x * mapaW, y - n.y * mapaH) <= n.r) return i;
+  }
+  return -1;
+}
+
+function showTip(cx, cy, node) {
+  var tip = document.getElementById('mapaTip');
+  var rect = mapaCanvas.getBoundingClientRect();
+  document.getElementById('mapaTipTitle').textContent = node.title;
+  document.getElementById('mapaTipBody').textContent = node.body;
+  var x = cx - rect.left + 14;
+  var y = cy - rect.top - 10;
+  if (x + 270 > mapaW) x = mapaW - 275;
+  if (y + 160 > mapaH) y = mapaH - 165;
+  if (y < 4) y = 4;
+  tip.style.left = x + 'px';
+  tip.style.top  = y + 'px';
+  tip.style.display = 'block';
+}
+
+function hideTip() {
+  document.getElementById('mapaTip').style.display = 'none';
+}
+
+function drawMapa() {
+  if (!mapaCtx) return;
+  mapaCtx.clearRect(0, 0, mapaW, mapaH);
+  mapaCtx.save();
+  mapaCtx.translate(mapaOX, mapaOY);
+  mapaCtx.scale(mapaScale, mapaScale);
+
+  // Edges
+  mapaEdges.forEach(function(e) {
+    var a = mapaNodes[e[0]], b = mapaNodes[e[1]];
+    mapaCtx.beginPath();
+    mapaCtx.moveTo(a.x * mapaW, a.y * mapaH);
+    mapaCtx.lineTo(b.x * mapaW, b.y * mapaH);
+    mapaCtx.strokeStyle = 'rgba(201,168,76,0.2)';
+    mapaCtx.lineWidth = 1.5;
+    mapaCtx.stroke();
+  });
+
+  // Nodes
+  mapaNodes.forEach(function(n, i) {
+    var nx = n.x * mapaW, ny = n.y * mapaH;
+    var hov = mapaHover === i;
+    var r = hov ? n.r + 5 : n.r;
+
+    // Glow
+    if (hov || n.main) {
+      var g = mapaCtx.createRadialGradient(nx, ny, 0, nx, ny, r * 1.8);
+      g.addColorStop(0, n.bg + '55');
+      g.addColorStop(1, 'transparent');
+      mapaCtx.beginPath();
+      mapaCtx.arc(nx, ny, r * 1.8, 0, Math.PI * 2);
+      mapaCtx.fillStyle = g;
+      mapaCtx.fill();
+    }
+
+    // Fill
+    mapaCtx.beginPath();
+    mapaCtx.arc(nx, ny, r, 0, Math.PI * 2);
+    mapaCtx.fillStyle = n.bg;
+    mapaCtx.fill();
+
+    // Border
+    mapaCtx.beginPath();
+    mapaCtx.arc(nx, ny, r, 0, Math.PI * 2);
+    mapaCtx.strokeStyle = hov ? '#F0C860' : 'rgba(255,255,255,0.2)';
+    mapaCtx.lineWidth = hov ? 2.5 : 1.5;
+    mapaCtx.stroke();
+
+    // Label
+    var lines = n.label.split('\n');
+    mapaCtx.fillStyle = n.fg;
+    mapaCtx.textAlign = 'center';
+    mapaCtx.textBaseline = 'middle';
+    var fs = n.main ? 12 : 10;
+    mapaCtx.font = 'bold ' + fs + 'px sans-serif';
+    var lh = fs + 3;
+    lines.forEach(function(line, li) {
+      mapaCtx.fillText(line, nx, ny + (li - (lines.length - 1) / 2) * lh);
+    });
+  });
+
+  mapaCtx.restore();
+}
+
+// Patch openTab to init mapa when tab opens
+var _openTabOrig = openTab;
+openTab = function(id) {
+  _openTabOrig(id);
+  if (id === 'mapa') setTimeout(initMapa, 60);
+};
 
 </script>
 </body>
