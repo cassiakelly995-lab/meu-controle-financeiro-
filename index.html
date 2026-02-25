@@ -2594,10 +2594,37 @@ footer {
 //  TAB NAVIGATION
 // ============================================================
 function openTab(id) {
+  // Remove active from all panels and tabs
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  event.currentTarget.classList.add('active');
+
+  // Show the panel
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+
+  // Activate matching tab button
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.getAttribute('onclick') === "openTab('" + id + "')") t.classList.add('active');
+  });
+
+  // Panel-specific init
+  if (id === 'mapa') setTimeout(initMapa, 80);
+  if (id === 'conquistas') { checkBadges(true); renderConquistas(); }
+  if (id === 'plano') { if (typeof renderPlano === 'function') renderPlano(); }
+  if (id === 'analise') { if (typeof renderAnalise === 'function') renderAnalise(); }
+  if (id === 'streak') { if (typeof renderStreak === 'function') renderStreak(); }
+  if (id === 'batalha') { if (typeof updateBatalhaStats === 'function') updateBatalhaStats(); }
+
+  // Smooth fade-in
+  if (panel) {
+    panel.style.opacity = '0';
+    panel.style.transform = 'translateY(8px)';
+    requestAnimationFrame(() => {
+      panel.style.transition = 'opacity .25s ease, transform .25s ease';
+      panel.style.opacity = '1';
+      panel.style.transform = 'translateY(0)';
+    });
+  }
 }
 
 // ============================================================
@@ -3717,18 +3744,503 @@ function drawMapa() {
   mapaCtx.restore();
 }
 
-// Init mapa when tab opens
-const _origOpenTab = openTab;
-function openTab(id) {
-  _origOpenTab(id);
-  if (id === 'mapa') setTimeout(initMapa, 50);
-  if (id === 'conquistas') { checkBadges(true); renderConquistas(); }
+// Init on load
+renderConquistas();
+setTimeout(() => checkBadges(true), 500);
+
+
+// ============================================================
+//  THEME SYSTEM
+// ============================================================
+const themes = ['', 'theme-silver', 'theme-bronze', 'theme-light'];
+const themeLabels = ['🌑 Obsidian Gold', '🌕 Prata Elite', '🟤 Bronze Imperial', '☀️ Modo Claro'];
+let currentTheme = 0;
+
+function cycleTheme() {
+  document.body.classList.remove(themes[currentTheme]);
+  currentTheme = (currentTheme + 1) % themes.length;
+  if (themes[currentTheme]) document.body.classList.add(themes[currentTheme]);
+  localStorage.setItem('dpe_theme', currentTheme);
+  showToast('🎨 Tema: ' + themeLabels[currentTheme]);
 }
 
-// Init conquistas
-renderConquistas();
-// Check badges silently on load
-setTimeout(() => checkBadges(true), 500);
+// Restore theme on load
+(function() {
+  const saved = parseInt(localStorage.getItem('dpe_theme') || '0');
+  if (saved && themes[saved]) {
+    currentTheme = saved;
+    document.body.classList.add(themes[saved]);
+  }
+})();
+
+
+// ============================================================
+//  MODO BATALHA
+// ============================================================
+//  MODO BATALHA
+// ============================================================
+const batalhaData = [...quizData].sort(() => Math.random() - 0.5);
+let bIdx = 0, bScore = 0, bLives = 3, bTimer = null, bCombo = 0, bMaxCombo = 0;
+let bRunning = false;
+
+function updateBatalhaStats() {
+  const rec = parseInt(localStorage.getItem('dpe_batalha_record') || '0');
+  const played = parseInt(localStorage.getItem('dpe_batalha_played') || '0');
+  const el1 = document.getElementById('bt-record');
+  const el2 = document.getElementById('bt-played');
+  if (el1) el1.textContent = rec;
+  if (el2) el2.textContent = played;
+}
+
+function startBatalha() {
+  bIdx = 0; bScore = 0; bLives = 3; bCombo = 0; bMaxCombo = 0; bRunning = true;
+  batalhaData.sort(() => Math.random() - 0.5);
+  document.getElementById('batalha-start-screen').style.display = 'none';
+  document.getElementById('batalha-over').style.display = 'none';
+  document.getElementById('batalha-game').style.display = 'block';
+  renderBatalhaQuestion();
+}
+
+function renderBatalhaQuestion() {
+  if (!bRunning) return;
+  if (bIdx >= batalhaData.length) { endBatalha(true); return; }
+  const q = batalhaData[bIdx];
+  document.getElementById('bCat').textContent = q.cat;
+  document.getElementById('bQuestion').textContent = q.q;
+  updateBLives();
+  
+  const opts = document.getElementById('bOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'b-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerBatalha(i, q.correct);
+    opts.appendChild(btn);
+  });
+  startBTimer();
+}
+
+function startBTimer() {
+  clearInterval(bTimer);
+  let t = 20;
+  document.getElementById('bTimerFill').style.width = '100%';
+  document.getElementById('bTimerNum').textContent = t;
+  document.getElementById('bTimerNum').classList.remove('urgent');
+  bTimer = setInterval(() => {
+    t--;
+    const pct = (t / 20 * 100);
+    document.getElementById('bTimerFill').style.width = pct + '%';
+    document.getElementById('bTimerNum').textContent = t;
+    if (t <= 5) document.getElementById('bTimerNum').classList.add('urgent');
+    if (t <= 0) {
+      clearInterval(bTimer);
+      bCombo = 0;
+      bLives--;
+      updateBLives();
+      playSound('wrong');
+      if (bLives <= 0) { endBatalha(false); return; }
+      bIdx++;
+      setTimeout(renderBatalhaQuestion, 800);
+    }
+  }, 1000);
+}
+
+function answerBatalha(chosen, correct) {
+  clearInterval(bTimer);
+  const btns = document.querySelectorAll('.b-opt');
+  btns.forEach(b => b.disabled = true);
+  btns[chosen].classList.add(chosen === correct ? 'correct' : 'wrong');
+  if (chosen !== correct) btns[correct].classList.add('correct');
+  
+  if (chosen === correct) {
+    bCombo++;
+    bMaxCombo = Math.max(bMaxCombo, bCombo);
+    const pts = 10 + (bCombo > 1 ? bCombo * 3 : 0);
+    bScore += pts;
+    playSound('correct');
+    document.getElementById('bScore').textContent = bScore;
+    showToast(bCombo > 2 ? '🔥 COMBO x' + bCombo + '! +' + pts + ' pts' : '✅ +' + pts + ' pts');
+  } else {
+    bCombo = 0;
+    bLives--;
+    updateBLives();
+    playSound('wrong');
+    if (bLives <= 0) { setTimeout(() => endBatalha(false), 700); return; }
+  }
+  bIdx++;
+  setTimeout(renderBatalhaQuestion, 700);
+}
+
+function updateBLives() {
+  const icons = ['❤️','❤️','❤️'];
+  for (let i = 0; i < 3; i++) {
+    if (i >= bLives) icons[i] = '🖤';
+  }
+  document.getElementById('bLives').textContent = icons.join(' ');
+}
+
+function endBatalha(completed) {
+  bRunning = false;
+  clearInterval(bTimer);
+  const record = parseInt(localStorage.getItem('dpe_batalha_record') || '0');
+  const isRecord = bScore > record;
+  if (isRecord) localStorage.setItem('dpe_batalha_record', bScore);
+  const played = parseInt(localStorage.getItem('dpe_batalha_played') || '0') + 1;
+  localStorage.setItem('dpe_batalha_played', played);
+  
+  document.getElementById('batalha-game').style.display = 'none';
+  document.getElementById('batalha-over').style.display = 'block';
+  document.getElementById('bOverIcon').textContent = completed ? '🏆' : bScore > record ? '⭐' : '💀';
+  document.getElementById('bOverTitle').textContent = completed ? 'Completou Tudo!' : bScore > record ? 'Novo Recorde!' : 'Fim de Jogo!';
+  document.getElementById('bOverScore').textContent = bScore + ' pontos';
+  document.getElementById('bOverRecord').textContent = isRecord ? '🏆 NOVO RECORDE PESSOAL!' : 'Recorde: ' + record + ' pts';
+  document.getElementById('bOverCombo').textContent = bMaxCombo > 2 ? '🔥 Maior combo: x' + bMaxCombo : '';
+  
+  // Save to batalha history for analise
+  const bHist = JSON.parse(localStorage.getItem('dpe_batalha_history') || '[]');
+  bHist.unshift({ score: bScore, combo: bMaxCombo, correct: Math.floor(bScore/10), date: new Date().toLocaleDateString('pt-BR') });
+  if (bHist.length > 20) bHist.pop();
+  localStorage.setItem('dpe_batalha_history', JSON.stringify(bHist));
+  
+  if (isRecord) showToast('🏆 NOVO RECORDE: ' + bScore + ' pontos!');
+  checkBadges();
+}
+
+// ============================================================
+//  PLANO DE ESTUDO 30 DIAS
+// ============================================================
+const planoDays = [
+  { week:1, day:1, title:'Visão Geral do Convênio', desc:'Leia as páginas 1-3: objeto, vigência, partes convenentes e áreas abrangidas.', tab:'doc' },
+  { week:1, day:2, title:'Áreas Excluídas e Exceções', desc:'Página 2: entenda o que NÃO está coberto e as vedações específicas.', tab:'doc' },
+  { week:1, day:3, title:'Obrigações da OAB/SP', desc:'Páginas 2-3: obrigações, atendimento inicial e proteção de dados (LGPD).', tab:'doc' },
+  { week:1, day:4, title:'Obrigações da Defensoria', desc:'Página 4: o que a Defensoria deve fazer, prazos de pagamento e certidões.', tab:'doc' },
+  { week:1, day:5, title:'Deveres dos Advogados I', desc:'Páginas 5-6: obrigações do advogado conveniado, itens I a XIV.', tab:'doc' },
+  { week:1, day:6, title:'Deveres dos Advogados II', desc:'Página 6: deveres XV a XXX, gratuidade e atendimento ao usuário.', tab:'doc' },
+  { week:1, day:7, title:'Revisão Semana 1 — Flashcards', desc:'Filtre os cards de GERAL e revise com foco em objeto, partes e deveres.', tab:'flash' },
+  { week:2, day:8, title:'Inscrições e Requisitos', desc:'Páginas 7-8: edital, periodicidade, requisitos e documentação exigida.', tab:'doc' },
+  { week:2, day:9, title:'Júri, VD e Infância', desc:'Página 8: requisitos especiais para Tribunal do Júri, violência doméstica e IJ.', tab:'doc' },
+  { week:2, day:10, title:'Indicações na Área Cível', desc:'Páginas 9-10: prazos de 6 meses e 30 dias, separação e cumulação de pedidos.', tab:'doc' },
+  { week:2, day:11, title:'Indicações na Área Criminal', desc:'Página 10: quando ocorre a indicação, audiência de custódia e ANPP.', tab:'doc' },
+  { week:2, day:12, title:'Tribunal do Júri e VD', desc:'Páginas 11: regras do Júri, medidas protetivas e vinculação de 12 meses.', tab:'doc' },
+  { week:2, day:13, title:'Infância e Recusa/Renúncia', desc:'Páginas 12-13: IJ, aceite, recusa e renúncia — diferenças e prazos.', tab:'doc' },
+  { week:2, day:14, title:'Revisão Semana 2 — Flashcards', desc:'Filtre CÍVEL e CRIMINAL. Foque nos prazos de 30 dias, 6 meses e 12 meses.', tab:'flash' },
+  { week:3, day:15, title:'Plantões e Atividades Especiais', desc:'Página 14: plantões duplos, cartas precatórias e JEC. Regra dos 2 dias.', tab:'doc' },
+  { week:3, day:16, title:'Pagamentos e Certidões I', desc:'Página 15: tabela de honorários, prazo de protocolo e reajuste IPC/FIPE.', tab:'doc' },
+  { week:3, day:17, title:'Honorários Criminais Detalhados', desc:'Páginas 16-17: percentuais por tipo de sentença, Júri e execução penal.', tab:'doc' },
+  { week:3, day:18, title:'Honorários Cíveis Detalhados', desc:'Páginas 17-18: procedência, improcedência, acordo e certidões parciais.', tab:'doc' },
+  { week:3, day:19, title:'Tabela de Honorários', desc:'Aba Honorários: memorize os valores das 10 principais ações.', tab:'honorarios' },
+  { week:3, day:20, title:'Revisão Semana 3 — Honorários', desc:'Filtre HONORÁRIOS nos flashcards. Foque em percentuais e prescrição de 5 anos.', tab:'flash' },
+  { week:3, day:21, title:'Simulado Parcial — 25 Questões', desc:'Faça metade do quiz. Anote as categorias onde errou mais.', tab:'quiz' },
+  { week:4, day:22, title:'Fiscalização e Câmaras', desc:'Páginas 20-21: instauração, câmaras paritárias e recursal, prazos.', tab:'doc' },
+  { week:4, day:23, title:'Sanções e Penalidades', desc:'Páginas 21-22: tipos de sanção, descredenciamento obrigatório, suspensão cautelar.', tab:'doc' },
+  { week:4, day:24, title:'Prescrição e Disposições Finais', desc:'Páginas 22-23: prescrição de infração (5 anos), execução da pena, sigilo.', tab:'doc' },
+  { week:4, day:25, title:'50 Regras Críticas', desc:'Aba 50 Regras: leia todas as regras e identifique as que não domina ainda.', tab:'rules' },
+  { week:4, day:26, title:'Revisão com IA — Pontos Fracos', desc:'Use o Assistente IA para aprofundar nos temas onde errou mais.', tab:'ia' },
+  { week:4, day:27, title:'Modo Batalha — 3 Partidas', desc:'Jogue 3 partidas no Modo Batalha. Meta: superar 150 pontos em ao menos 1.', tab:'batalha' },
+  { week:4, day:28, title:'Revisão Total — Todos Flashcards', desc:'Vire todos os 50 flashcards. Marque favoritos nos que ainda tem dúvida.', tab:'flash' },
+  { week:4, day:29, title:'Quiz Completo — 50 Questões', desc:'Faça o quiz completo. Meta: 70%+. Analise o breakdown por categoria.', tab:'quiz' },
+  { week:4, day:30, title:'Análise Final e Certificado', desc:'Veja sua análise de desempenho, conquistas desbloqueadas e imprima seu certificado!', tab:'conquistas' },
+];
+
+function renderPlano() {
+  const grid = document.getElementById('planoGrid');
+  const done = JSON.parse(localStorage.getItem('dpe_plano_done') || '[]');
+  const total = planoDays.length;
+  const completed = done.length;
+  
+  document.getElementById('planoPropFill').style.width = (completed/total*100) + '%';
+  document.getElementById('planoProgText').textContent = completed + ' / ' + total + ' dias concluídos';
+  document.getElementById('planoPercent').textContent = Math.round(completed/total*100) + '%';
+  
+  grid.innerHTML = '';
+  let lastWeek = 0;
+  planoDays.forEach((d, i) => {
+    if (d.week !== lastWeek) {
+      lastWeek = d.week;
+      const wh = document.createElement('div');
+      wh.className = 'plano-week-header';
+      wh.textContent = '📅 Semana ' + d.week;
+      grid.appendChild(wh);
+    }
+    const isDone = done.includes(i);
+    const card = document.createElement('div');
+    card.className = 'plano-card' + (isDone ? ' done' : '');
+    card.innerHTML = `
+      <div class="plano-day">Dia ${d.day}</div>
+      <div class="plano-title">${d.title}</div>
+      <div class="plano-desc">${d.desc}</div>
+      <div class="plano-check">${isDone ? '✅' : '⭕'}</div>
+    `;
+    card.onclick = () => {
+      const idx = done.indexOf(i);
+      if (idx === -1) { done.push(i); showToast('✅ Dia ' + d.day + ' marcado como concluído!'); }
+      else { done.splice(idx, 1); }
+      localStorage.setItem('dpe_plano_done', JSON.stringify(done));
+      renderPlano();
+      checkBadges();
+    };
+    // Button to go to the tab
+    if (d.tab) {
+      const btn = document.createElement('button');
+      btn.textContent = '▶ Ir para ' + d.tab;
+      btn.style.cssText = 'margin-top:10px;background:none;border:1px solid var(--border);color:var(--gold);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;';
+      btn.onclick = (e) => { e.stopPropagation(); document.querySelector('[onclick="openTab('' + d.tab + '')"]')?.click(); };
+      card.appendChild(btn);
+    }
+    grid.appendChild(card);
+  });
+}
+
+// ============================================================
+//  ANÁLISE DE DESEMPENHO (IA-powered)
+// ============================================================
+function renderAnalise() {
+  const history = JSON.parse(localStorage.getItem('dpe_quiz_history') || '[]');
+  const bHistory = JSON.parse(localStorage.getItem('dpe_batalha_history') || '[]');
+  const planoDone = JSON.parse(localStorage.getItem('dpe_plano_done') || '[]');
+  
+  const cards = document.getElementById('analiseCards');
+  const bestQuiz = history.length ? Math.max(...history.map(h => parseInt(h.pct))) : 0;
+  const quizAttempts = history.length;
+  const bRecord = parseInt(localStorage.getItem('dpe_batalha_record') || '0');
+  const iaCount = parseInt(localStorage.getItem('dpe_ia_count') || '0');
+  
+  cards.innerHTML = `
+    <div class="analise-card"><div class="ac-icon">🎯</div><div class="ac-val">${bestQuiz}%</div><div class="ac-label">Melhor Quiz</div></div>
+    <div class="analise-card"><div class="ac-icon">📝</div><div class="ac-val">${quizAttempts}</div><div class="ac-label">Tentativas</div></div>
+    <div class="analise-card"><div class="ac-icon">⚔️</div><div class="ac-val">${bRecord}</div><div class="ac-label">Recorde Batalha</div></div>
+    <div class="analise-card"><div class="ac-icon">📅</div><div class="ac-val">${planoDone.length}/30</div><div class="ac-label">Plano 30 Dias</div></div>
+    <div class="analise-card"><div class="ac-icon">🃏</div><div class="ac-val">${flippedCount}</div><div class="ac-label">Cards Virados</div></div>
+    <div class="analise-card"><div class="ac-icon">🤖</div><div class="ac-val">${iaCount}</div><div class="ac-label">Consultas IA</div></div>
+  `;
+  
+  // Category analysis from quiz history + answerLog
+  if (answerLog.length > 0) {
+    const catMap = {};
+    answerLog.forEach(e => {
+      if (!catMap[e.cat]) catMap[e.cat] = { c:0, t:0 };
+      catMap[e.cat].t++;
+      if (e.correct) catMap[e.cat].c++;
+    });
+    const sorted = Object.entries(catMap).sort((a,b) => (a[1].c/a[1].t) - (b[1].c/b[1].t));
+    const weakDiv = document.getElementById('analiseWeakList');
+    weakDiv.innerHTML = sorted.map(([cat, d]) => {
+      const p = Math.round(d.c/d.t*100);
+      const cls = p >= 70 ? 'ok' : p >= 50 ? 'mid' : '';
+      return `<div class="weak-item">
+        <span class="wi-cat">${cat}</span>
+        <div class="wi-bar"><div class="wi-fill ${cls}" style="width:${p}%"></div></div>
+        <span class="wi-pct" style="color:${p>=70?'var(--gold)':p>=50?'#F39C12':'#E74C3C'}">${p}%</span>
+      </div>`;
+    }).join('');
+    document.getElementById('analiseWeak').style.display = 'block';
+  }
+}
+
+async function runAnaliseIA() {
+  const history = JSON.parse(localStorage.getItem('dpe_quiz_history') || '[]');
+  const planoDone = JSON.parse(localStorage.getItem('dpe_plano_done') || '[]');
+  const bRecord = parseInt(localStorage.getItem('dpe_batalha_record') || '0');
+  const streakData = JSON.parse(localStorage.getItem('dpe_streak') || '{"streak":0,"studiedDays":[]}');
+  
+  const box = document.getElementById('analiseIaContent');
+  box.innerHTML = '<div class="ia-typing" style="padding:20px 0;justify-content:center;"><span></span><span></span><span></span></div>';
+  
+  // Build performance summary
+  const catSummary = {};
+  answerLog.forEach(e => {
+    if (!catSummary[e.cat]) catSummary[e.cat] = { c:0, t:0 };
+    catSummary[e.cat].t++;
+    if (e.correct) catSummary[e.cat].c++;
+  });
+  const catText = Object.entries(catSummary).map(([cat, d]) => `${cat}: ${Math.round(d.c/d.t*100)}%`).join(', ');
+  const bestQuiz = history.length ? Math.max(...history.map(h => parseInt(h.pct))) : 0;
+  
+  const prompt = `Você é um tutor especialista no Convênio DPE-OAB/SP 001/2026.
+
+Analise o desempenho desta estudante e crie um plano de estudo personalizado:
+
+DADOS:
+- Melhor resultado no quiz: ${bestQuiz}%
+- Tentativas no quiz: ${history.length}
+- Desempenho por categoria: ${catText || 'ainda sem dados'}
+- Recorde no Modo Batalha: ${bRecord} pontos
+- Dias do plano 30 dias concluídos: ${planoDone.length}/30
+- Streak atual: ${streakData.streak || 0} dias
+
+TAREFA:
+1. Identifique os 3 pontos mais fracos
+2. Recomende 3 ações práticas e específicas para melhorar
+3. Dê uma mensagem motivacional personalizada
+4. Estime quando ela pode atingir 90%+ no quiz
+
+Seja direto, prático e encorajador. Use emojis. Responda em português.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const reply = (data.content?.[0]?.text || 'Erro ao gerar análise.')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/
+/g, '<br>');
+    box.innerHTML = '<div class="analise-ia-response">' + reply + '</div><button class="btn-outline" onclick="runAnaliseIA()" style="margin-top:16px;">🔄 Regenerar Análise</button>';
+  } catch(e) {
+    box.innerHTML = '<p style="color:var(--red);">❌ Erro ao conectar com a IA.</p><button class="btn-gold" onclick="runAnaliseIA()">Tentar novamente</button>';
+  }
+  
+  const c = parseInt(localStorage.getItem('dpe_ia_count')||'0') + 1;
+  localStorage.setItem('dpe_ia_count', c);
+  checkBadges();
+}
+
+// ============================================================
+//  STREAK DIÁRIO
+// ============================================================
+const STREAK_KEY = 'dpe_streak';
+
+function getStreakData() {
+  return JSON.parse(localStorage.getItem(STREAK_KEY) || '{"streak":0,"lastDate":null,"studiedDays":[],"longestStreak":0}');
+}
+
+function markStudyToday() {
+  const data = getStreakData();
+  const today = new Date().toISOString().slice(0, 10);
+  
+  if (data.studiedDays.includes(today)) {
+    showToast('✅ Você já marcou o estudo de hoje!');
+    return;
+  }
+  
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (data.lastDate === yesterday) {
+    data.streak++;
+  } else if (data.lastDate !== today) {
+    data.streak = 1;
+  }
+  
+  data.longestStreak = Math.max(data.longestStreak || 0, data.streak);
+  data.lastDate = today;
+  data.studiedDays.push(today);
+  if (data.studiedDays.length > 90) data.studiedDays = data.studiedDays.slice(-90);
+  
+  localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+  
+  const msgs = ['🔥 Incrível! Mais um dia de estudo!', '⚡ Você está imparável!', '🏆 Consistência é a chave do sucesso!', '🌟 Mais um passo rumo à especialização!'];
+  showToast(msgs[Math.floor(Math.random() * msgs.length)] + ' Streak: ' + data.streak + ' dias!');
+  
+  updateStreakHeader();
+  renderStreak();
+  checkBadges();
+}
+
+function updateStreakHeader() {
+  const data = getStreakData();
+  const btn = document.getElementById('streakHeaderBtn');
+  if (btn) btn.textContent = '🔥 ' + data.streak;
+}
+
+function renderStreak() {
+  const data = getStreakData();
+  const el = document.getElementById('streakNumber');
+  const msg = document.getElementById('streakMsg');
+  const fire = document.getElementById('streakFireIcon');
+  
+  if (el) el.textContent = data.streak;
+  
+  if (data.streak === 0) {
+    if (msg) msg.textContent = 'Comece hoje seu streak!';
+    if (fire) fire.textContent = '🔥';
+  } else if (data.streak < 3) {
+    if (msg) msg.textContent = 'Ótimo começo! Continue assim!';
+    if (fire) fire.textContent = '🔥';
+  } else if (data.streak < 7) {
+    if (msg) msg.textContent = data.streak + ' dias! Você está pegando fogo!';
+    if (fire) fire.textContent = '🔥';
+  } else if (data.streak < 15) {
+    if (msg) msg.textContent = 'Semana completa! Você é imparável! 🚀';
+    if (fire) fire.textContent = '🔥🔥';
+  } else if (data.streak < 30) {
+    if (msg) msg.textContent = 'Especialista em formação — ' + data.streak + ' dias seguidos! 🏆';
+    if (fire) fire.textContent = '🔥🔥🔥';
+  } else {
+    if (msg) msg.textContent = '🌟 LENDA! ' + data.streak + ' dias consecutivos de estudo!';
+    if (fire) fire.textContent = '👑';
+  }
+  
+  // Check if already studied today
+  const today = new Date().toISOString().slice(0, 10);
+  const alreadyDone = data.studiedDays.includes(today);
+  const btn = document.getElementById('streakCheckBtn');
+  if (btn) {
+    btn.textContent = alreadyDone ? '✅ Estudo de Hoje Marcado!' : '✅ Marcar Estudo de Hoje';
+    btn.disabled = alreadyDone;
+    btn.style.opacity = alreadyDone ? '.6' : '1';
+  }
+  
+  // Calendar — last 35 days
+  const cal = document.getElementById('streakCalendar');
+  if (cal) {
+    const days35 = [];
+    for (let i = 34; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 86400000);
+      days35.push(d.toISOString().slice(0, 10));
+    }
+    cal.innerHTML = `<div class="streak-cal-title">📅 Últimos 35 Dias</div>
+      <div class="streak-cal-grid">` +
+      days35.map(d => {
+        const isStudied = data.studiedDays.includes(d);
+        const isToday = d === today;
+        const day = parseInt(d.slice(8));
+        return `<div class="streak-cal-day ${isStudied?'studied':''} ${isToday?'today':''}" title="${d}">${day}</div>`;
+      }).join('') + '</div>';
+  }
+  
+  // Milestones
+  const miles = [
+    { days:1, icon:'🌱', label:'Primeira Semente' },
+    { days:3, icon:'🔥', label:'Fogo Inicial' },
+    { days:7, icon:'⚡', label:'Semana Completa' },
+    { days:14, icon:'🌟', label:'Duas Semanas' },
+    { days:21, icon:'💪', label:'Hábito Formado' },
+    { days:30, icon:'🏆', label:'Mês Completo' },
+    { days:60, icon:'💎', label:'Dois Meses' },
+    { days:100, icon:'👑', label:'Centenária' },
+  ];
+  const mg = document.getElementById('streakMilesGrid');
+  if (mg) {
+    mg.innerHTML = miles.map(m => {
+      const reached = (data.longestStreak || data.streak) >= m.days;
+      return `<div class="streak-mile ${reached?'reached':''}">
+        <span class="sm-icon">${reached ? m.icon : '🔒'}</span>
+        <div class="sm-days">${m.days}d</div>
+        <div class="sm-label">${m.label}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// Add streak badges
+badgesDef.push(
+  { id:'streak3',   icon:'🔥', name:'Chama Acesa',       desc:'3 dias consecutivos de estudo',              check: () => (getStreakData().streak||0) >= 3 },
+  { id:'streak7',   icon:'⚡', name:'Semana de Fogo',    desc:'7 dias consecutivos de estudo',              check: () => (getStreakData().longestStreak||0) >= 7 },
+  { id:'streak30',  icon:'👑', name:'Mês de Ouro',       desc:'30 dias consecutivos de estudo',             check: () => (getStreakData().longestStreak||0) >= 30 },
+  { id:'plano15',   icon:'📅', name:'Meio Caminho',      desc:'Completou 15 dias do plano de 30 dias',      check: () => JSON.parse(localStorage.getItem('dpe_plano_done')||'[]').length >= 15 },
+  { id:'plano30',   icon:'🎓', name:'Plano Completo',    desc:'Completou todos os 30 dias do plano',        check: () => JSON.parse(localStorage.getItem('dpe_plano_done')||'[]').length >= 30 },
+  { id:'batalha100',icon:'⚔️', name:'Combatente',        desc:'Atingiu 100 pontos no Modo Batalha',         check: () => parseInt(localStorage.getItem('dpe_batalha_record')||'0') >= 100 },
+  { id:'batalha300',icon:'🏅', name:'Guerreira da Lei',  desc:'Atingiu 300 pontos no Modo Batalha',         check: () => parseInt(localStorage.getItem('dpe_batalha_record')||'0') >= 300 }
+);
+
+// Init
+updateStreakHeader();
 
 </script>
 </body>
