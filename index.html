@@ -1593,8 +1593,12 @@ footer {
 function openTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  event.currentTarget.classList.add('active');
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.getAttribute('onclick') === "openTab('" + id + "')") t.classList.add('active');
+  });
+  if (id === 'mapa') setTimeout(function(){ if(typeof initMapa==='function') initMapa(); }, 60);
 }
 
 // ============================================================
@@ -2462,12 +2466,7 @@ function drawMapa() {
   mapaCtx.restore();
 }
 
-// Patch openTab to init mapa when tab opens
-var _openTabOrig = openTab;
-openTab = function(id) {
-  _openTabOrig(id);
-  if (id === 'mapa') setTimeout(initMapa, 60);
-};
+
 
 </script>
 </body>
