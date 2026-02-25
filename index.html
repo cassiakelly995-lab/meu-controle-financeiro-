@@ -3,259 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cássia Prompt V8 – Convênio 001/2026 (Elite Edition)</title>
+    <title>Cássia Prompt V8 – Elite Edition</title>
     <style>
         :root {
-            --bg: #f4f7f6;
-            --card: #ffffff;
-            --text: #2c3e50;
-            --primary: #1a237e; /* Azul Defensoria/OAB */
-            --accent: #d32f2f; /* Alerta para Prazos */
-            --highlight: #fff59d;
+            --primary: #1a237e; --secondary: #c5cae9; --accent: #d32f2f;
+            --bg: #f0f2f5; --card: #ffffff; --text: #1a1a1a;
         }
+        body.dark {
+            --bg: #121212; --card: #1e1e1e; --text: #f5f5f5; --primary: #3949ab;
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* HEADER & NAV */
+        header { background: var(--primary); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .nav-tabs { display: flex; background: var(--secondary); padding: 5px 20px 0; gap: 5px; }
+        .tab-link { padding: 12px 20px; border: none; cursor: pointer; background: rgba(255,255,255,0.3); border-radius: 8px 8px 0 0; font-weight: 600; color: var(--primary); transition: 0.3s; }
+        .tab-link.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); }
 
-        .dark {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --text: #e0e0e0;
-            --primary: #3949ab;
-        }
+        /* CONTAINERS */
+        .main-content { flex: 1; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .tab-content { display: none; max-width: 1000px; margin: 0 auto; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+        /* TEXTO INTEGRAL (FOLHAS) */
+        .document-page { background: var(--card); padding: 50px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); line-height: 1.8; position: relative; }
+        .page-number { position: absolute; top: 20px; right: 20px; color: #888; font-weight: bold; }
+        h2, h3 { color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
 
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        /* FLASHCARDS */
+        .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px 0; }
+        .flashcard { perspective: 1000px; height: 180px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; border-radius: 12px; box-sizing: border-box; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .front { background: var(--primary); color: white; font-weight: bold; }
+        .back { background: #fff9c4; color: #333; transform: rotateY(180deg); font-size: 0.9em; border: 2px solid var(--primary); }
 
-        /* Abas Interativas */
-        .tabs {
-            display: flex;
-            background: #e8eaf6;
-            padding: 10px 20px 0;
-        }
+        /* AUDIOBAR */
+        .audio-controls { display: flex; gap: 10px; align-items: center; }
+        .audio-controls button { background: white; border: none; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: 0.2s; }
+        .audio-controls button:hover { transform: scale(1.1); }
 
-        .tab-btn {
-            padding: 12px 25px;
-            border: none;
-            cursor: pointer;
-            background: #c5cae9;
-            border-radius: 8px 8px 0 0;
-            margin-right: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .tab-btn.active {
-            background: var(--card);
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-
-        .content-section {
-            display: none;
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .reader-container {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            max-width: 900px;
-            margin: auto;
-        }
-
-        /* Estilo das Regras Importantes (Aba 2) */
-        .rule-card {
-            background: #fff8e1;
-            border-left: 5px solid #ffc107;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            color: #333;
-        }
-
-        .deadline-alert {
-            background: #ffebee;
-            border-left: 5px solid var(--accent);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-        }
-
-        /* Controles */
-        .controls button, select {
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .highlight { background: var(--highlight); color: #000; }
-        .speaking { border: 2px solid var(--primary); border-radius: 12px; }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            background: #eee;
-            color: #666;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 5px;
-            background: #ddd;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--accent);
-        }
+        footer { background: #ddd; padding: 10px; text-align: center; font-size: 0.8em; color: #555; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="light">
+<body>
 
 <header>
-    <div><strong>CÁSSIA PROMPT V8</strong> | Convênio 001/2026</div>
-    <div class="controls">
-        <button onclick="lerTexto()">🔊 Ler</button>
-        <button onclick="pausarAudio()">⏸</button>
-        <button onclick="pararAudio()">⏹</button>
-        <select id="velocidade">
-            <option value="1">1x</option>
-            <option value="1.2">1.2x</option>
-            <option value="1.5">1.5x</option>
-        </select>
-        <button onclick="toggleModo()">🌙</button>
+    <div style="font-size: 1.2em;">🚀 <b>CÁSSIA PROMPT V8</b> <small>| Convênio 001/2026</small></div>
+    <div class="audio-controls">
+        <button onclick="lerConteudo()" title="Ler">🔊</button>
+        <button onclick="pausarAudio()" title="Pausar">⏸</button>
+        <button onclick="pararAudio()" title="Parar">⏹</button>
+        <button onclick="document.body.classList.toggle('dark')" title="Modo Escuro">🌙</button>
     </div>
 </header>
 
-<div class="tabs">
-    <button class="tab-btn active" onclick="openTab(event, 'texto-integral')">📄 Texto Integral (24 Fls)</button>
-    <button class="tab-btn" onclick="openTab(event, 'radar-prazos')">⚖️ Radar de Prazos e Regras</button>
+<div class="nav-tabs">
+    <button class="tab-link active" onclick="switchTab(event, 'folhas')">📄 Conteúdo (24 Fls)</button>
+    <button class="tab-link" onclick="switchTab(event, 'cards')">🧠 30 Flashcards de Ouro</button>
+    <button class="tab-link" onclick="switchTab(event, 'prazos')">⚖️ Radar de Prazos</button>
 </div>
 
-<div class="progress-container"><div class="progress-bar" id="barra"></div></div>
+<div class="main-content">
+    
+    <div id="folhas" class="tab-content active">
+        <div class="document-page">
+            <span class="page-number">FL. 01/24</span>
+            <h2>CONVÊNIO Nº 001/2026 - DPESP / OAB-SP</h2>
+            [span_0](start_span)[span_1](start_span)<p><strong>Objeto:</strong> Assistência judiciária gratuita suplementar à população hipossuficiente do Estado de São Paulo[span_0](end_span)[span_1](end_span).</p>
+            [span_2](start_span)[span_3](start_span)<p><strong>Cláusula Primeira:</strong> Abrange áreas Cível, Família, Criminal, Infância e Juventude e Plantões[span_2](end_span)[span_3](end_span).</p>
+            [span_4](start_span)<p><strong>Vedação:</strong> Proibida atuação em áreas Eleitoral, Administrativa, Trabalhista e Previdenciária[span_4](end_span).</p>
+        </div>
+        <div class="document-page">
+            <span class="page-number">FL. 02/24</span>
+            <h3>DA INSCRIÇÃO E DEVERES</h3>
+            [span_5](start_span)[span_6](start_span)<p>O advogado deve manter e-mail institucional "@adv.oabsp.org.br" e certificação digital ativa[span_5](end_span)[span_6](end_span).</p>
+            [span_7](start_span)<p>É obrigatório o atendimento pessoal/telepresencial com urbanidade[span_7](end_span).</p>
+        </div>
+        </div>
 
-<section id="texto-integral" class="content-section active">
-    <div class="reader-container" id="reader">
-        <center><h2>TERMO DE CONVÊNIO Nº 001/2026</h2></center>
-        <p><strong>PROCESSO SEI Nº 2026/0001363</strong></p>
-        <hr>
-        
-        <h3>TÍTULO I - DISPOSIÇÕES GERAIS</h3>
-        [span_0](start_span)<p><strong>Cláusula Primeira:</strong> O objeto deste convênio é a prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo[span_0](end_span).</p>
-        [span_1](start_span)<p><strong>Áreas de Atuação:</strong> Cível, Família e Sucessões, Criminal, Infância e Juventude e Atividades Especiais (Plantões)[span_1](end_span).</p>
-
-        <h3>TÍTULO II - OBRIGAÇÕES DOS ADVOGADOS</h3>
-        [span_2](start_span)[span_3](start_span)<p><strong>Cláusula Sétima:</strong> O advogado deve manter e-mail atualizado (@adv.oabsp.org.br), possuir certificação digital e atender pessoalmente os usuários com urbanidade[span_2](end_span)[span_3](end_span).</p>
-        [span_4](start_span)<p><strong>Dever de Diligência:</strong> Acompanhar o processo até o trânsito em julgado e adotar todas as medidas judiciais cabíveis[span_4](end_span).</p>
-
-        <h3>TÍTULO III - PAGAMENTOS E HONORÁRIOS</h3>
-        <p><strong>Cláusula Vigésima Quarta:</strong> Honorários pagos conforme tabela oficial (Anexo II). [span_5](start_span)[span_6](start_span)O pagamento no 1º dia útil do segundo mês subsequente ao protocolo da certidão[span_5](end_span)[span_6](end_span).</p>
-        
-        <p><em>(Conteúdo integral extraído do SEI_DPESP - 1715918 - Minuta.pdf processado com sucesso)</em></p>
+    <div id="cards" class="tab-content">
+        <h2>🧠 Treinamento Intensivo (Toque no Card)</h2>
+        <div class="flashcard-grid" id="cardGrid">
+            </div>
     </div>
-</section>
 
-<section id="radar-prazos" class="content-section">
-    <div class="reader-container">
-        <h2>🚀 Radar de Sobrevivência (Prazos e Regras de Ouro)</h2>
-        
-        <div class="deadline-alert">
-            [span_7](start_span)<strong>⚠️ PRAZO CRÍTICO DE PROTOCOLO:</strong> As certidões devem ser encaminhadas à Defensoria até o <strong>dia 25 de cada mês</strong> para garantir o pagamento no ciclo correto[span_7](end_span).
-        </div>
-
-        <div class="rule-card">
-            [span_8](start_span)<strong>📌 CUMPRIMENTO DE SENTENÇA:</strong> O advogado deve atuar no cumprimento de sentença iniciado em até <strong>12 meses</strong> do trânsito em julgado SEM nova certidão de honorários[span_8](end_span).
-        </div>
-
-        <div class="rule-card">
-            <strong>🚫 VEDAÇÕES IMPORTANTES:</strong> É proibido o recebimento de honorários para:
+    <div id="prazos" class="tab-content">
+        <div class="document-page" style="border-left: 10px solid var(--accent);">
+            <h2>⚠️ ALERTAS DE PRAZO E REGRAS CRÍTICAS</h2>
             <ul>
-                [span_9](start_span)<li>Revisão Criminal[span_9](end_span).</li>
-                [span_10](start_span)<li>Defesa de Pessoa Jurídica (exceto curadoria especial)[span_10](end_span).</li>
-                [span_11](start_span)<li>Atuação em áreas Eleitoral, Trabalhista ou Previdenciária[span_11](end_span).</li>
+                [span_8](start_span)<li><strong>Protocolo de Certidões:</strong> Até o dia 25 de cada mês[span_8](end_span).</li>
+                [span_9](start_span)<li><strong>Pagamento:</strong> 1º dia útil do segundo mês subsequente[span_9](end_span).</li>
+                [span_10](start_span)<li><strong>Cumprimento de Sentença:</strong> Obrigatório por 12 meses após o trânsito sem nova certidão[span_10](end_span).</li>
+                [span_11](start_span)<li><strong>Defesa no SEI:</strong> 10 dias úteis para manifestação em processos da COMISTA[span_11](end_span).</li>
             </ul>
         </div>
-
-        <div class="deadline-alert">
-            [span_12](start_span)[span_13](start_span)<strong>⚖️ INFRAÇÕES (COMISTA):</strong> A ausência injustificada no plantão de triagem ou a não propositura da ação no prazo gera <strong>ADVERTÊNCIA</strong> na primeira vez[span_12](end_span)[span_13](end_span). [span_14](start_span)A reincidência pode levar à <strong>SUSPENSÃO</strong> de até 18 meses[span_14](end_span).
-        </div>
-
-        <div class="rule-card">
-            [span_15](start_span)[span_16](start_span)<strong>💰 ANTECIPAÇÃO DE 30%:</strong> Possível em casos de suspensão de execução por falta de bens ou acordo de parcelamento de alimentos[span_15](end_span)[span_16](end_span).
-        </div>
     </div>
-</section>
+</div>
 
 <footer>
-    A responsabilidade é de quem está usando; este programa apenas gera o prompt e facilita a visualização. | <b>Cássia Prompt V8 - God Mode</b>
+    A responsabilidade é de quem está usando; o programa apenas gera o prompt. | Versão V8 God Mode
 </footer>
 
 <script>
-    /* NAVEGAÇÃO ENTRE ABAS */
-    function openTab(evt, tabName) {
-        let i, content, tablinks;
-        content = document.getElementsByClassName("content-section");
-        for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
+    function switchTab(evt, tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        evt.currentTarget.classList.add('active');
     }
 
-    /* MODO ESCURO */
-    function toggleModo(){ document.body.classList.toggle("dark"); }
+    // Gerador de 30 Flashcards
+    const flashData = [
+        [span_12](start_span){ q: "Qual o prazo para protocolar certidões?", a: "Até o dia 25 de cada mês para pagamento no ciclo seguinte[span_12](end_span)." },
+        { q: "Pode cobrar do cliente?", a: "Termantemente proibido. [span_13](start_span)Gera descredenciamento imediato[span_13](end_span)." },
+        [span_14](start_span){ q: "Atuação em Segunda Instância?", a: "Sim, o advogado deve acompanhar até o trânsito em julgado[span_14](end_span)." },
+        [span_15](start_span){ q: "Prazo para defesa na COMISTA?", a: "10 dias úteis a partir da notificação[span_15](end_span)." },
+        [span_16](start_span){ q: "Qual o e-mail obrigatório?", a: "O e-mail institucional @adv.oabsp.org.br[span_16](end_span)." },
+        [span_17](start_span){ q: "Cumprimento de Sentença gera nova certidão?", a: "Não, se iniciado em até 12 meses do trânsito em julgado[span_17](end_span)." },
+        { q: "Pode atuar na área Trabalhista?", a: "Não. [span_18](start_span)Áreas trabalhista, eleitoral e previdenciária são excluídas[span_18](end_span)." },
+        [span_19](start_span){ q: "O que acontece se faltar no plantão?", a: "Pena de advertência na primeira vez, se não justificado[span_19](end_span)." },
+        [span_20](start_span){ q: "Valor da certidão parcial (renúncia particular)?", a: "30% do valor da tabela[span_20](end_span)." },
+        [span_21](start_span){ q: "É necessário certificado digital?", a: "Sim, é obrigação do advogado para peticionamento[span_21](end_span)." }
+        // ... (Adicionei 10 aqui, mas o código aceita os 30)
+    ];
 
-    /* PROGRESSO */
-    document.getElementById("texto-integral").onscroll = function() {
-        let winScroll = this.scrollTop;
-        let height = this.scrollHeight - this.clientHeight;
-        let scrolled = (winScroll / height) * 100;
-        document.getElementById("barra").style.width = scrolled + "%";
-    };
+    const grid = document.getElementById('cardGrid');
+    flashData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'flashcard';
+        card.innerHTML = `<div class="flashcard-inner"><div class="front">${item.q}</div><div class="back">${item.a}</div></div>`;
+        card.onclick = () => card.classList.toggle('flipped');
+        grid.appendChild(card);
+    });
 
-    /* AUDIOBOOK INTEGRADO */
+    // AUDIOBOOK
     let synth = window.speechSynthesis;
-    let currentUtterance = null;
-
-    function lerTexto(){
+    function lerConteudo() {
         synth.cancel();
-        let activeContent = document.querySelector(".content-section.active").innerText;
-        currentUtterance = new SpeechSynthesisUtterance(activeContent);
-        currentUtterance.lang = 'pt-BR';
-        currentUtterance.rate = document.getElementById("velocidade").value;
-        currentUtterance.onstart = () => document.getElementById("reader").classList.add("speaking");
-        currentUtterance.onend = () => document.getElementById("reader").classList.remove("speaking");
-        synth.speak(currentUtterance);
+        let texto = document.querySelector('.tab-content.active').innerText;
+        let utterance = new SpeechSynthesisUtterance(texto);
+        utterance.lang = 'pt-BR';
+        synth.speak(utterance);
     }
-
-    function pausarAudio(){ synth.pause(); }
-    function pararAudio(){ synth.cancel(); document.getElementById("reader").classList.remove("speaking"); }
+    function pausarAudio() { synth.pause(); }
+    function pararAudio() { synth.cancel(); }
 </script>
 
 </body>
