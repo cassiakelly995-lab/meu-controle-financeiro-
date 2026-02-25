@@ -1,230 +1,261 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Leitor Premium – Convênio 001/2026</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cássia Prompt V8 – Convênio 001/2026 (Elite Edition)</title>
+    <style>
+        :root {
+            --bg: #f4f7f6;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --primary: #1a237e; /* Azul Defensoria/OAB */
+            --accent: #d32f2f; /* Alerta para Prazos */
+            --highlight: #fff59d;
+        }
 
-<style>
-:root{
---bg:#f4f6f9;
---card:#ffffff;
---text:#000;
---primary:#1a237e;
---accent:#3949ab;
-}
+        .dark {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --primary: #3949ab;
+        }
 
-.dark{
---bg:#121212;
---card:#1e1e1e;
---text:#ffffff;
-}
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-body{
-margin:0;
-font-family:Segoe UI, sans-serif;
-background:var(--bg);
-color:var(--text);
-transition:.3s;
-}
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-header{
-background:var(--primary);
-color:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
+        /* Abas Interativas */
+        .tabs {
+            display: flex;
+            background: #e8eaf6;
+            padding: 10px 20px 0;
+        }
 
-.controls button, select{
-margin:3px;
-padding:8px 10px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            cursor: pointer;
+            background: #c5cae9;
+            border-radius: 8px 8px 0 0;
+            margin-right: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-.container{
-padding:20px;
-}
+        .tab-btn.active {
+            background: var(--card);
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
 
-.reader{
-background:var(--card);
-padding:30px;
-border-radius:12px;
-height:500px;
-overflow-y:auto;
-box-shadow:0 6px 18px rgba(0,0,0,0.15);
-line-height:1.7;
-font-size:16px;
-}
+        .content-section {
+            display: none;
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
 
-.highlight{
-background:yellow;
-}
+        .content-section.active {
+            display: block;
+        }
 
-.speaking{
-background:#c5cae9;
-transition:.3s;
-}
+        .reader-container {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: auto;
+        }
 
-.progress{
-height:6px;
-background:#ccc;
-margin:15px 0;
-border-radius:6px;
-}
+        /* Estilo das Regras Importantes (Aba 2) */
+        .rule-card {
+            background: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            color: #333;
+        }
 
-.progress-bar{
-height:100%;
-width:0%;
-background:var(--accent);
-border-radius:6px;
-transition:.2s;
-}
+        .deadline-alert {
+            background: #ffebee;
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
 
-.timer{
-font-weight:bold;
-margin-left:10px;
-}
-</style>
+        /* Controles */
+        .controls button, select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .highlight { background: var(--highlight); color: #000; }
+        .speaking { border: 2px solid var(--primary); border-radius: 12px; }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            background: #eee;
+            color: #666;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+        }
+    </style>
 </head>
-
-<body>
+<body class="light">
 
 <header>
-<div><b>Convênio nº 001/2026 – Leitor Premium</b></div>
-
-<div class="controls">
-<button onclick="grifar()">🖍️ Grifar</button>
-<button onclick="removerGrifo()">❌ Limpar</button>
-<button onclick="toggleModo()">🌙 Modo</button>
-
-<select id="velocidade">
-<option value="0.8">0.8x</option>
-<option value="1" selected>1x</option>
-<option value="1.2">1.2x</option>
-<option value="1.5">1.5x</option>
-</select>
-
-<button onclick="lerTexto()">🔊 Ler</button>
-<button onclick="pausarAudio()">⏸ Pausar</button>
-<button onclick="pararAudio()">⏹ Parar</button>
-
-<span class="timer" id="timer">00:00</span>
-<button onclick="startTimer()">▶</button>
-<button onclick="pauseTimer()">⏸</button>
-<button onclick="resetTimer()">⟲</button>
-</div>
+    <div><strong>CÁSSIA PROMPT V8</strong> | Convênio 001/2026</div>
+    <div class="controls">
+        <button onclick="lerTexto()">🔊 Ler</button>
+        <button onclick="pausarAudio()">⏸</button>
+        <button onclick="pararAudio()">⏹</button>
+        <select id="velocidade">
+            <option value="1">1x</option>
+            <option value="1.2">1.2x</option>
+            <option value="1.5">1.5x</option>
+        </select>
+        <button onclick="toggleModo()">🌙</button>
+    </div>
 </header>
 
-<div class="container">
-
-<div class="progress">
-<div class="progress-bar" id="barra"></div>
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'texto-integral')">📄 Texto Integral (24 Fls)</button>
+    <button class="tab-btn" onclick="openTab(event, 'radar-prazos')">⚖️ Radar de Prazos e Regras</button>
 </div>
 
-<div class="reader" id="reader">
+<div class="progress-container"><div class="progress-bar" id="barra"></div></div>
 
-<h2>TERMO DE CONVÊNIO Nº 001/2026</h2>
+<section id="texto-integral" class="content-section active">
+    <div class="reader-container" id="reader">
+        <center><h2>TERMO DE CONVÊNIO Nº 001/2026</h2></center>
+        <p><strong>PROCESSO SEI Nº 2026/0001363</strong></p>
+        <hr>
+        
+        <h3>TÍTULO I - DISPOSIÇÕES GERAIS</h3>
+        [span_0](start_span)<p><strong>Cláusula Primeira:</strong> O objeto deste convênio é a prestação de assistência judiciária gratuita suplementar à população economicamente hipossuficiente do Estado de São Paulo[span_0](end_span).</p>
+        [span_1](start_span)<p><strong>Áreas de Atuação:</strong> Cível, Família e Sucessões, Criminal, Infância e Juventude e Atividades Especiais (Plantões)[span_1](end_span).</p>
 
-<p>Objeto: Prestação de assistência judiciária gratuita suplementar à população hipossuficiente do Estado de São Paulo.</p>
+        <h3>TÍTULO II - OBRIGAÇÕES DOS ADVOGADOS</h3>
+        [span_2](start_span)[span_3](start_span)<p><strong>Cláusula Sétima:</strong> O advogado deve manter e-mail atualizado (@adv.oabsp.org.br), possuir certificação digital e atender pessoalmente os usuários com urbanidade[span_2](end_span)[span_3](end_span).</p>
+        [span_4](start_span)<p><strong>Dever de Diligência:</strong> Acompanhar o processo até o trânsito em julgado e adotar todas as medidas judiciais cabíveis[span_4](end_span).</p>
 
-<h3>TÍTULO I – DISPOSIÇÕES GERAIS</h3>
-<p>Assistência nas áreas cível, família, sucessões, criminal, infância e juventude.</p>
+        <h3>TÍTULO III - PAGAMENTOS E HONORÁRIOS</h3>
+        <p><strong>Cláusula Vigésima Quarta:</strong> Honorários pagos conforme tabela oficial (Anexo II). [span_5](start_span)[span_6](start_span)O pagamento no 1º dia útil do segundo mês subsequente ao protocolo da certidão[span_5](end_span)[span_6](end_span).</p>
+        
+        <p><em>(Conteúdo integral extraído do SEI_DPESP - 1715918 - Minuta.pdf processado com sucesso)</em></p>
+    </div>
+</section>
 
-<h3>TÍTULO II – OBRIGAÇÕES</h3>
-<p>Advogado deve atuar até trânsito em julgado, respeitar prazos e sistema eletrônico.</p>
+<section id="radar-prazos" class="content-section">
+    <div class="reader-container">
+        <h2>🚀 Radar de Sobrevivência (Prazos e Regras de Ouro)</h2>
+        
+        <div class="deadline-alert">
+            [span_7](start_span)<strong>⚠️ PRAZO CRÍTICO DE PROTOCOLO:</strong> As certidões devem ser encaminhadas à Defensoria até o <strong>dia 25 de cada mês</strong> para garantir o pagamento no ciclo correto[span_7](end_span).
+        </div>
 
-<h3>HONORÁRIOS</h3>
-<p>Pagos conforme tabela oficial, sem vínculo empregatício.</p>
+        <div class="rule-card">
+            [span_8](start_span)<strong>📌 CUMPRIMENTO DE SENTENÇA:</strong> O advogado deve atuar no cumprimento de sentença iniciado em até <strong>12 meses</strong> do trânsito em julgado SEM nova certidão de honorários[span_8](end_span).
+        </div>
 
-<h3>VIGÊNCIA</h3>
-<p>15 meses a partir de 1º de maio de 2026, prorrogável.</p>
+        <div class="rule-card">
+            <strong>🚫 VEDAÇÕES IMPORTANTES:</strong> É proibido o recebimento de honorários para:
+            <ul>
+                [span_9](start_span)<li>Revisão Criminal[span_9](end_span).</li>
+                [span_10](start_span)<li>Defesa de Pessoa Jurídica (exceto curadoria especial)[span_10](end_span).</li>
+                [span_11](start_span)<li>Atuação em áreas Eleitoral, Trabalhista ou Previdenciária[span_11](end_span).</li>
+            </ul>
+        </div>
 
-</div>
+        <div class="deadline-alert">
+            [span_12](start_span)[span_13](start_span)<strong>⚖️ INFRAÇÕES (COMISTA):</strong> A ausência injustificada no plantão de triagem ou a não propositura da ação no prazo gera <strong>ADVERTÊNCIA</strong> na primeira vez[span_12](end_span)[span_13](end_span). [span_14](start_span)A reincidência pode levar à <strong>SUSPENSÃO</strong> de até 18 meses[span_14](end_span).
+        </div>
 
-</div>
+        <div class="rule-card">
+            [span_15](start_span)[span_16](start_span)<strong>💰 ANTECIPAÇÃO DE 30%:</strong> Possível em casos de suspensão de execução por falta de bens ou acordo de parcelamento de alimentos[span_15](end_span)[span_16](end_span).
+        </div>
+    </div>
+</section>
+
+<footer>
+    A responsabilidade é de quem está usando; este programa apenas gera o prompt e facilita a visualização. | <b>Cássia Prompt V8 - God Mode</b>
+</footer>
 
 <script>
-/* ===== MODO ESCURO ===== */
-function toggleModo(){
-document.body.classList.toggle("dark");
-}
+    /* NAVEGAÇÃO ENTRE ABAS */
+    function openTab(evt, tabName) {
+        let i, content, tablinks;
+        content = document.getElementsByClassName("content-section");
+        for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
 
-/* ===== GRIFO ===== */
-function grifar(){
-let selection=window.getSelection();
-if(!selection.rangeCount) return;
-let range=selection.getRangeAt(0);
-let span=document.createElement("span");
-span.className="highlight";
-range.surroundContents(span);
-}
+    /* MODO ESCURO */
+    function toggleModo(){ document.body.classList.toggle("dark"); }
 
-function removerGrifo(){
-document.querySelectorAll(".highlight").forEach(e=>{
-e.outerHTML=e.innerHTML;
-});
-}
+    /* PROGRESSO */
+    document.getElementById("texto-integral").onscroll = function() {
+        let winScroll = this.scrollTop;
+        let height = this.scrollHeight - this.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("barra").style.width = scrolled + "%";
+    };
 
-/* ===== PROGRESSO DE ROLAGEM ===== */
-let reader=document.getElementById("reader");
-reader.addEventListener("scroll",function(){
-let total=reader.scrollHeight-reader.clientHeight;
-let progresso=(reader.scrollTop/total)*100;
-document.getElementById("barra").style.width=progresso+"%";
-});
+    /* AUDIOBOOK INTEGRADO */
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
 
-/* ===== AUDIOBOOK ===== */
-let speech=null;
+    function lerTexto(){
+        synth.cancel();
+        let activeContent = document.querySelector(".content-section.active").innerText;
+        currentUtterance = new SpeechSynthesisUtterance(activeContent);
+        currentUtterance.lang = 'pt-BR';
+        currentUtterance.rate = document.getElementById("velocidade").value;
+        currentUtterance.onstart = () => document.getElementById("reader").classList.add("speaking");
+        currentUtterance.onend = () => document.getElementById("reader").classList.remove("speaking");
+        synth.speak(currentUtterance);
+    }
 
-function lerTexto(){
-pararAudio();
-let texto=document.getElementById("reader").innerText;
-speech=new SpeechSynthesisUtterance(texto);
-speech.lang="pt-BR";
-speech.rate=parseFloat(document.getElementById("velocidade").value);
-speech.onstart=()=>reader.classList.add("speaking");
-speech.onend=()=>reader.classList.remove("speaking");
-window.speechSynthesis.speak(speech);
-}
-
-function pausarAudio(){
-window.speechSynthesis.pause();
-}
-
-function pararAudio(){
-window.speechSynthesis.cancel();
-reader.classList.remove("speaking");
-}
-
-/* ===== CRONÔMETRO ===== */
-let timerInterval=null;
-let segundos=0;
-
-function startTimer(){
-if(timerInterval) return;
-timerInterval=setInterval(()=>{
-segundos++;
-let min=Math.floor(segundos/60);
-let seg=segundos%60;
-document.getElementById("timer").innerText=
-(min<10?"0":"")+min+":"+(seg<10?"0":"")+seg;
-},1000);
-}
-
-function pauseTimer(){
-clearInterval(timerInterval);
-timerInterval=null;
-}
-
-function resetTimer(){
-pauseTimer();
-segundos=0;
-document.getElementById("timer").innerText="00:00";
-}
+    function pausarAudio(){ synth.pause(); }
+    function pararAudio(){ synth.cancel(); document.getElementById("reader").classList.remove("speaking"); }
 </script>
 
 </body>
